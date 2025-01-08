@@ -14,7 +14,7 @@ contract EnterpriseRegistry {
     struct Enterprise {
         string name;
         string environmentalImpactHash;
-        uint256 certificationiStatus; // 0=Uncertified 1=Certified
+        uint256 certificationStatus; // 0=Uncertified 1=Certified
         address certifyingBody;
     }
 
@@ -31,8 +31,19 @@ contract EnterpriseRegistry {
         _;
     }
 
+    // events to log to the blockchain
+
     function registerEnterprise(address enterpriseAddress, string memory name, string memory reportHash) public onlyAdmin {
         enterprises[enterpriseAddress] = Enterprise(name, reportHash, 0, address(0));
+    }
+
+    function certifyEnterprise(address enterpriseAddress, address certifier) public onlyAdmin {
+        enterprises[enterpriseAddress].certificationStatus = 1;
+        enterprises[enterpriseAddress].certifyingBody = certifier;
+    }
+
+    function revokeCertification(address enterpriseAddress) public onlyAdmin {
+        enterprises[enterpriseAddress].certificationStatus = 0;
     }
 
 }
