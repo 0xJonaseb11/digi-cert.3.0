@@ -11,7 +11,7 @@ pragma solidity ^0.8.20;
 
  import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
- contract CertificateTokenization is ERC721 {
+ abstract contract CertificateTokenization is ERC721 {
     
     
  }
