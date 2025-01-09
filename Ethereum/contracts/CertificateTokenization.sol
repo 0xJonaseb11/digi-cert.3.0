@@ -9,7 +9,7 @@ pragma solidity ^0.8.20;
 * @notice It uses ERC-721 token standard to handle tokenization 
  */
 
- import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+ import { ERC721 } from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
  import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
  import { ERC721URIStorage } from "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 
@@ -34,6 +34,7 @@ contract CertificateTokenization is ERC721URIStorage, AccessControl {
 
     constructor() ERC721("CertificateToken", "CERT") {
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _setupRole(CERTIFIER_ROLE, msg.sender);
     }
 
     /**
@@ -108,6 +109,23 @@ contract CertificateTokenization is ERC721URIStorage, AccessControl {
         revokeRole(CERTIFIER_ROLE, certifier);
     }
 
+    /**
+    * @dev checks if a token certificate already exists or new
+    * @return boolean - true | false
+     */
+
+     function _exists(uint256 tokenId) internal view returns (bool) {
+        return certificates[tokenId].isRevoked == true;
+     }
+
+    /**
+     * @dev Override the supportsInterface function to resolve the ambiguity.
+     * This function allows the contract to support interfaces from both ERC721 and AccessControl.
+    */
+
+    function supportsInterface(bytes4 interfaceId) public view virtual override(ERC721URIStorage, AccessControl) returns(bool) {
+        return super.supportsInterface(interfaceId);
+    }
     
     
  }
