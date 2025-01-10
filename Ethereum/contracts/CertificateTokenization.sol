@@ -2,7 +2,7 @@
 pragma solidity ^0.8.20;
 
 /**
-* CertificateTokenization
+* @title CertificateTokenization Contract
 * @author @0xJonaseb11
 *
 * @dev Assigns a certificate to a valid Enterprise
