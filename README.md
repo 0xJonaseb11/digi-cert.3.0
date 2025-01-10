@@ -1,11 +1,10 @@
 # digital_certification.3.0
 (A Digital certification platform for Enterprises)
 
-## About
+## TASKS
+
 - INITIAL implemenation on Ethereum blockchain with Solidity
 - FINAL Implementation on Hyperledger Fabric 
-
-
 
 ## About
 
