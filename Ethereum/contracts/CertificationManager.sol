@@ -13,6 +13,14 @@ import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 
 contract CertificationManager is ERC721 {
 
+
+        /*//////////////////////////////////////////////////////////////
+                            ECOSYSTEM ROLES
+        //////////////////////////////////////////////////////////////*/
+        bytes32 public constant CERTIFIER_ROLE = keccak256("CERTIFIER_ROLE");
+        bytes32 public constant INSPECTOR_ROLE = keccak256("INSPECTOR_ROLE");
+        bytes32 public constant ENTERPRISE_ROLE = keccak256("ENTERPRISE_ROLE")
+
     uint256 public nextTokenId;
     address public admin;
 
@@ -26,6 +34,7 @@ contract CertificationManager is ERC721 {
     mapping(uint256 => Certification) public certifications;
 
     constructor () ERC721("EcoCertificateNFT", "ECN") {
+        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
         admin = msg.sender;
     }
 
