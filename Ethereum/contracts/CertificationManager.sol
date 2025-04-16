@@ -19,7 +19,8 @@ contract CertificationManager is ERC721 {
         //////////////////////////////////////////////////////////////*/
         bytes32 public constant CERTIFIER_ROLE = keccak256("CERTIFIER_ROLE");
         bytes32 public constant INSPECTOR_ROLE = keccak256("INSPECTOR_ROLE");
-        bytes32 public constant ENTERPRISE_ROLE = keccak256("ENTERPRISE_ROLE")
+        bytes32 public constant ENTERPRISE_ROLE = keccak256("ENTERPRISE_ROLE");
+        bytes32 public constant DEFAULT_ADMIN_ROLE = keccak256("DEFAULT_ADMIN_ROLE");
 
     uint256 public nextTokenId;
     address public admin;
@@ -34,7 +35,7 @@ contract CertificationManager is ERC721 {
     mapping(uint256 => Certification) public certifications;
 
     constructor () ERC721("EcoCertificateNFT", "ECN") {
-        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        // _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
         admin = msg.sender;
     }
 
@@ -58,3 +59,4 @@ contract CertificationManager is ERC721 {
     }
     
 }
+
