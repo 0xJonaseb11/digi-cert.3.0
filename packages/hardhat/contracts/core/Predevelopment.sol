@@ -1,69 +1,64 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "@openzeppelin/contracts/access/AccessControl.sol";
+import "../utils/DataTypes.sol";
+import "../utils/Events.sol";
+import "../core/RolesManager.sol";
 
-contract RolesManager is AccessControl {
-    bytes32 public constant CERTIFIER_ROLE = keccak256("CERTIFIER_ROLE");
-    bytes32 public constant INSPECTOR_ROLE = keccak256("INSPECTOR_ROLE");
-    bytes32 public constant AUDITOR_ROLE = keccak256("AUDITOR_ROLE");
-    bytes32 public constant ENTERPRISE_ROLE = keccak256("ENTERPRISE_ROLE");
+contract EnterpriseRegistry {
+    RolesManager public rolesManager;
 
-    constructor(address admin) {
-        _setupRole(DEFAULT_ADMIN_ROLE, admin);
+    mapping(address => DataTypes.Enterprise) private enterprises;
+    address[] public allEnterprises;
+
+    constructor(address _rolesManager) {
+        rolesManager = RolesManager(_rolesManager);
     }
 
-    // Grant Roles
-
-    function grantCertifier(address account) external onlyRole(DEFAULT_ADMIN_ROLE) {
-        grantRole(CERTIFIER_ROLE, account);
+    modifier onlyEnterprise() {
+        require(rolesManager.hasEnterpriseRole(msg.sender), "EnterpriseRegistry: Not an authorized enterprise");
+        _;
     }
 
-    function grantInspector(address account) external onlyRole(DEFAULT_ADMIN_ROLE) {
-        grantRole(INSPECTOR_ROLE, account);
+    modifier onlyCertifier() {
+        require(rolesManager.hasCertifierRole(msg.sender), "EnterpriseRegistry: Not an authorized certifier");
+        _;
     }
 
-    function grantAuditor(address account) external onlyRole(DEFAULT_ADMIN_ROLE) {
-        grantRole(AUDITOR_ROLE, account);
+    function registerEnterprise(
+        address enterpriseAddress,
+        string memory name,
+        string memory industry,
+        string memory metadataURI
+    ) external onlyCertifier {
+        require(!enterprises[enterpriseAddress].isRegistered, "EnterpriseRegistry: Already registered");
+
+        enterprises[enterpriseAddress] = DataTypes.Enterprise({
+            enterpriseAddress: enterpriseAddress,
+            name: name,
+            industry: industry,
+            metadataURI: metadataURI,
+            isRegistered: true
+        });
+
+        allEnterprises.push(enterpriseAddress);
+
+        emit Events.EnterpriseRegistered(enterpriseAddress, name, industry, metadataURI);
     }
 
-    function grantEnterprise(address account) external onlyRole(DEFAULT_ADMIN_ROLE) {
-        grantRole(ENTERPRISE_ROLE, account);
+    function updateEnterpriseMetadata(string memory newMetadataURI) external onlyEnterprise {
+        require(enterprises[msg.sender].isRegistered, "EnterpriseRegistry: Not registered");
+
+        enterprises[msg.sender].metadataURI = newMetadataURI;
+
+        emit Events.EnterpriseUpdated(msg.sender, newMetadataURI);
     }
 
-    // Revoke Roles
-
-    function revokeCertifier(address account) external onlyRole(DEFAULT_ADMIN_ROLE) {
-        revokeRole(CERTIFIER_ROLE, account);
+    function getEnterprise(address enterpriseAddress) external view returns (DataTypes.Enterprise memory) {
+        return enterprises[enterpriseAddress];
     }
 
-    function revokeInspector(address account) external onlyRole(DEFAULT_ADMIN_ROLE) {
-        revokeRole(INSPECTOR_ROLE, account);
-    }
-
-    function revokeAuditor(address account) external onlyRole(DEFAULT_ADMIN_ROLE) {
-        revokeRole(AUDITOR_ROLE, account);
-    }
-
-    function revokeEnterprise(address account) external onlyRole(DEFAULT_ADMIN_ROLE) {
-        revokeRole(ENTERPRISE_ROLE, account);
-    }
-
-    // Public view functions
-
-    function hasCertifierRole(address account) external view returns (bool) {
-        return hasRole(CERTIFIER_ROLE, account);
-    }
-
-    function hasInspectorRole(address account) external view returns (bool) {
-        return hasRole(INSPECTOR_ROLE, account);
-    }
-
-    function hasAuditorRole(address account) external view returns (bool) {
-        return hasRole(AUDITOR_ROLE, account);
-    }
-
-    function hasEnterpriseRole(address account) external view returns (bool) {
-        return hasRole(ENTERPRISE_ROLE, account);
+    function listEnterprises() external view returns (address[] memory) {
+        return allEnterprises;
     }
 }
