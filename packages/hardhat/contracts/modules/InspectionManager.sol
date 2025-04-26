@@ -27,6 +27,8 @@ contract InspectionManager {|
 
         enterpriseInspectors[enterprise].push(inspector);
         inspectorEnterprises[inspector].push(enterprise);
+
+        emit InspectorAssigned(enterprise, inspector);   
     }
 
     function getInspectorsForEnterprise(address enterprise) external view returns (address[] memory) {

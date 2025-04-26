@@ -8,7 +8,9 @@ library Events {
 
     event EnterpriseRegistered(address indexed enterprise, string name, string industry, string metadataURI);
     event EnterpriseUpdated(address indexed enterprise, string newMetadataURI);
-
-    event InspectionReportSubmitted(address indexed inspector, address indexed enterprise, bool passed, string reportURI);
     
+    event InspectorAssigned(address indexed enterprise, address indexed inspector);
+    event InspectionReportSubmitted(address indexed inspector, address indexed enterprise, bool passed, string reportURI);
+
+
 }

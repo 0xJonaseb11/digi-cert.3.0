@@ -2,34 +2,52 @@
 pragma solidity ^0.8.20;
 
 import "../core/RolesManager.sol";
+import "../utils/DataTypes.sol";
+import "../utils/Events.sol";
 
-contract InspectorManager {
+contract InspectionReport {
     RolesManager public rolesManager;
 
-    mapping(address => address[]) private enterpriseInspectors;   // enterprise => list of inspectors
-    mapping(address => address[]) private inspectorEnterprises;   // inspector => list of enterprises
+    struct Report {
+        address inspector;
+        address enterprise;
+        bool passed;
+        string remarks;
+        uint256 timestamp;
+    }
+
+    mapping(address => Report[]) private enterpriseReports; // enterprise => list of reports
 
     constructor(address _rolesManager) {
         rolesManager = RolesManager(_rolesManager);
     }
 
-    modifier onlyCertifier() {
-        require(rolesManager.hasCertifierRole(msg.sender), "InspectorManager: Not an authorized certifier");
+    modifier onlyInspector() {
+        require(rolesManager.hasInspectorRole(msg.sender), "InspectionReport: Caller is not a registered inspector");
         _;
     }
 
-    function assignInspector(address enterprise, address inspector) external onlyCertifier {
-        require(rolesManager.hasInspectorRole(inspector), "InspectorManager: Address is not a registered inspector");
+    function submitReport(
+        address enterprise,
+        bool passed,
+        string memory remarks
+    ) external onlyInspector {
+        require(enterprise != address(0), "InspectionReport: Invalid enterprise address");
 
-        enterpriseInspectors[enterprise].push(inspector);
-        inspectorEnterprises[inspector].push(enterprise);
+        Report memory report = Report({
+            inspector: msg.sender,
+            enterprise: enterprise,
+            passed: passed,
+            remarks: remarks,
+            timestamp: block.timestamp
+        });
+
+        enterpriseReports[enterprise].push(report);
+
+        emit Events.InspectionSubmitted(msg.sender, enterprise, passed, remarks, block.timestamp);
     }
 
-    function getInspectorsForEnterprise(address enterprise) external view returns (address[] memory) {
-        return enterpriseInspectors[enterprise];
-    }
-
-    function getEnterprisesForInspector(address inspector) external view returns (address[] memory) {
-        return inspectorEnterprises[inspector];
+    function getReports(address enterprise) external view returns (Report[] memory) {
+        return enterpriseReports[enterprise];
     }
 }
