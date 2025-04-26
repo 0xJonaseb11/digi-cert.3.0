@@ -2,19 +2,22 @@ import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
 import { Contract } from "ethers";
 
-const deployCertificationAuthority: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
+const deployEnterpriseRegistry: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
+
+  const certificationAuthority = await hre.deployments.get("CertificationAuthority");
+
   await deploy("EnterpriseRegistry", {
     from: deployer,
-    args: [],
+    args: [certificationAuthority.address],
     log: true,
     autoMine: true,
   });
 
-  const certificationAuthority = await hre.ethers.getContract<Contract>("EnterpriseRegistry", deployer);
-  console.log("EnterpriseRegistry contract deployed at:", certificationAuthority.address);
+  const enterpriseRegistry = await hre.ethers.getContract<Contract>("EnterpriseRegistry", deployer);
+  console.log("✅ EnterpriseRegistry deployed at:", enterpriseRegistry.address);
 };
 
-export default deployCertificationAuthority;
-deployCertificationAuthority.tags = ["EnterpriseRegistry"];
+export default deployEnterpriseRegistry;
+deployEnterpriseRegistry.tags = ["EnterpriseRegistry"];
