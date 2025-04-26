@@ -1,64 +1,35 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import "../utils/DataTypes.sol";
-import "../utils/Events.sol";
 import "../core/RolesManager.sol";
 
-contract EnterpriseRegistry {
+contract InspectorManager {
     RolesManager public rolesManager;
 
-    mapping(address => DataTypes.Enterprise) private enterprises;
-    address[] public allEnterprises;
+    mapping(address => address[]) private enterpriseInspectors;   // enterprise => list of inspectors
+    mapping(address => address[]) private inspectorEnterprises;   // inspector => list of enterprises
 
     constructor(address _rolesManager) {
         rolesManager = RolesManager(_rolesManager);
     }
 
-    modifier onlyEnterprise() {
-        require(rolesManager.hasEnterpriseRole(msg.sender), "EnterpriseRegistry: Not an authorized enterprise");
-        _;
-    }
-
     modifier onlyCertifier() {
-        require(rolesManager.hasCertifierRole(msg.sender), "EnterpriseRegistry: Not an authorized certifier");
+        require(rolesManager.hasCertifierRole(msg.sender), "InspectorManager: Not an authorized certifier");
         _;
     }
 
-    function registerEnterprise(
-        address enterpriseAddress,
-        string memory name,
-        string memory industry,
-        string memory metadataURI
-    ) external onlyCertifier {
-        require(!enterprises[enterpriseAddress].isRegistered, "EnterpriseRegistry: Already registered");
+    function assignInspector(address enterprise, address inspector) external onlyCertifier {
+        require(rolesManager.hasInspectorRole(inspector), "InspectorManager: Address is not a registered inspector");
 
-        enterprises[enterpriseAddress] = DataTypes.Enterprise({
-            enterpriseAddress: enterpriseAddress,
-            name: name,
-            industry: industry,
-            metadataURI: metadataURI,
-            isRegistered: true
-        });
-
-        allEnterprises.push(enterpriseAddress);
-
-        emit Events.EnterpriseRegistered(enterpriseAddress, name, industry, metadataURI);
+        enterpriseInspectors[enterprise].push(inspector);
+        inspectorEnterprises[inspector].push(enterprise);
     }
 
-    function updateEnterpriseMetadata(string memory newMetadataURI) external onlyEnterprise {
-        require(enterprises[msg.sender].isRegistered, "EnterpriseRegistry: Not registered");
-
-        enterprises[msg.sender].metadataURI = newMetadataURI;
-
-        emit Events.EnterpriseUpdated(msg.sender, newMetadataURI);
+    function getInspectorsForEnterprise(address enterprise) external view returns (address[] memory) {
+        return enterpriseInspectors[enterprise];
     }
 
-    function getEnterprise(address enterpriseAddress) external view returns (DataTypes.Enterprise memory) {
-        return enterprises[enterpriseAddress];
-    }
-
-    function listEnterprises() external view returns (address[] memory) {
-        return allEnterprises;
+    function getEnterprisesForInspector(address inspector) external view returns (address[] memory) {
+        return inspectorEnterprises[inspector];
     }
 }
