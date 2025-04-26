@@ -5,7 +5,7 @@ import { RolesManager } from "../core/RolesManager.sol";
 import { Events } from "../utils/Events.sol";
 import { DataTypes } from "../utils/DataTypes.sol";
 
-contract InspectionManager {|
+contract InspectionManager {
     RolesManager public rolesManager;
 
     mapping(address => address[]) private enterpriseInspectors;
@@ -30,7 +30,7 @@ contract InspectionManager {|
         enterpriseInspectors[enterprise].push(inspector);
         inspectorEnterprises[inspector].push(enterprise);
 
-        emit InspectorAssigned(enterprise, inspector);   
+        emit Events.InspectorAssigned(enterprise, inspector);   
     }
 
     function getInspectorsForEnterprise(address enterprise) external view returns (address[] memory) {

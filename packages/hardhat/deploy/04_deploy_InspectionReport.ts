@@ -2,19 +2,22 @@ import { HardhatRuntimeEnvironment } from "hardhat/types";
 import { DeployFunction } from "hardhat-deploy/types";
 import { Contract } from "ethers";
 
-const deployCertificationAuthority: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
+const deployInspectionReport: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await hre.getNamedAccounts();
-  const { deploy } = hre.deployments;
+  const { deploy, get } = hre.deployments;
+
+  const certificationAuthority = await get("CertificationAuthority");
+
   await deploy("InspectionReport", {
     from: deployer,
-    args: [],
+    args: [certificationAuthority.address],
     log: true,
     autoMine: true,
   });
 
-  const certificationAuthority = await hre.ethers.getContract<Contract>("InspectionReport", deployer);
-  console.log("InspectonReport contract deployed at:", certificationAuthority.address);
+  const inspectionReport = await hre.ethers.getContract<Contract>("InspectionReport", deployer);
+  console.log("✅ InspectionReport deployed at:", inspectionReport.address);
 };
 
-export default deployCertificationAuthority;
-deployCertificationAuthority.tags = ["InspectonReport"];
+export default deployInspectionReport;
+deployInspectionReport.tags = ["InspectionReport"];

@@ -1,21 +1,7 @@
-import { HardhatRuntimeEnvironment } from "hardhat/types";
-import { DeployFunction } from "hardhat-deploy/types";
-import { Contract } from "ethers";
 
-const deployCertificationAuthority: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
-  const { deployer } = await hre.getNamedAccounts();
-  const { deploy } = hre.deployments;
+// SPDX-License-Identifier: MIT
+pragma solidity ^0.8.20;
 
-  await deploy("CertificationAuthority", {
-    from: deployer,
-    args: [],
-    log: true,
-    autoMine: true,
-  });
-
-  const certificationAuthority = await hre.ethers.getContract<Contract>("CertificationAuthority", deployer);
-  console.log("✅ CertificationAuthority deployed at:", certificationAuthority.address);
-};
-
-export default deployCertificationAuthority;
-deployCertificationAuthority.tags = ["CertificationAuthority"];
+contract Predevelopment {
+    
+}

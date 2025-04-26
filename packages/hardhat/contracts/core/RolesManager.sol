@@ -15,6 +15,11 @@ contract RolesManager is AccessControl {
         _setupRole(DEFAULT_ADMIN_ROLE, admin);
     }
 
+    function _setupRole(bytes32 role, address account) internal virtual {
+    _grantRole(role, account);
+}
+
+
     ////////////////////////////////////////////////
     /////// ROLEMANAGEMENT FUNCTIONS ////////////////
     ////////////////////////////////////////////////
@@ -31,7 +36,7 @@ contract RolesManager is AccessControl {
         grantRole(INSPECTOR_ROLE, account);
     }
 
-    function grantAuditor(address acccount) external {
+    function grantAuditor(address account) external {
         grantRole(AUDITOR_ROLE, account);
     }
 
@@ -51,8 +56,8 @@ contract RolesManager is AccessControl {
         revokeRole(INSPECTOR_ROLE, account);
     }
 
-    function revokeAuditor(address account) external {|
-    reveokeRole(AUDITOR_ROLE, account);
+    function revokeAuditor(address account) external {
+    revokeRole(AUDITOR_ROLE, account);
     }
 
     function revokeEnterprise(address account) external {
@@ -73,7 +78,7 @@ contract RolesManager is AccessControl {
     }
 
     function hasAuditRole(address account) external view returns(bool) {
-        return hasRole(AUDIT_ROLE, account);
+        return hasRole(AUDITOR_ROLE, account);
     }
 
     function hasEnterpriseRole(address account) external view returns(bool) {

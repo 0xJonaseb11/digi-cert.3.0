@@ -3,7 +3,7 @@ pragma solidity ^0.8.20;
 
 import { RolesManager } from "../core/RolesManager.sol";
 import { DataTypes } from "../utils/DataTypes.sol";
-import { Event } from "../utils/Events.sol";
+import { Events } from "../utils/Events.sol";
 
 contract InspectionReport {
     RolesManager public rolesManager;
@@ -23,7 +23,7 @@ contract InspectionReport {
     }
 
     modifier onlyInspector () {
-        require(rolesManager.hasInspectorRole(msg.sender), "InspectionReport: Caller is not a registered inspector!":);
+        require(rolesManager.hasInspectorRole(msg.sender), "InspectionReport: Caller is not a registered inspector!");
         _;
     }
 
@@ -32,7 +32,7 @@ contract InspectionReport {
     /////////////////////////////////////////
     
     function submitReport(
-        sddress enterprise,
+        address enterprise,
         bool passed,
         string memory remarks
     ) external onlyInspector {

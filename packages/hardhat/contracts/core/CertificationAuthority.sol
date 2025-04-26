@@ -5,7 +5,7 @@ import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol"
 import { Events } from "../utils/Events.sol";
 import { DataTypes } from "../utils/DataTypes.sol";
 
-contract CertificationAuthority {
+contract CertificationAuthority is AccessControl {
     using DataTypes for DataTypes.Enterprise; // wit libs
     bytes32 public constant CERTIFIER_ROLE = keccak256("CERTIFYING_BODY_ROLE");
     bytes32 public constant INSPECTION_MANAGER_ROLE = keccak256("INSPECTION_MANAGER_ROLE");
@@ -17,13 +17,20 @@ contract CertificationAuthority {
 
     constructor (address admin) {
         _setupRole(DEFAULT_ADMIN_ROLE, admin);
+        _setupRole(CERTIFIER_ROLE, admin);
 
     }
+    function _setupRole(bytes32 role, address account) internal virtual {
+    _grantRole(role, account);
+}
+
+
+
 
     //////////////////////////////////////////////////////////
     ///////////// ENTERPRISE CERTIFICATION FUNCTIONS/////////
     /////////////////////////////////////////////////////////
-    function certifyEnterprise(address enterpriseAddress, sting memory _industry, string memory _metadataURI) external onlyRole(CERTIFIER_ROOLE) {
+    function certifyEnterprise(address enterpriseAddress, string memory _industry, string memory _metadataURI) external onlyRole(CERTIFIER_ROLE) {
         require(certifications[enterpriseAddress].isCertified == false, "Enterprise is already certified!!");
 
         certifications[enterpriseAddress] = DataTypes.Certification({
@@ -42,13 +49,13 @@ contract CertificationAuthority {
 
         certifications[enterpriseAddress].isCertified == false;
 
-        emit Events.CertificationRevoked(enterpriseAddress, _industry);
+        emit Events.CertificationRevoked(enterpriseAddress);
     }
 
-    function updateCertificationMetadata(address enterpriseAddress, newMetadataURI)  external onlyRole(CERTIFIER_ROLE) {
+    function updateCertificationMetadata(address enterpriseAddress, string calldata newMetadataURI)  external onlyRole(CERTIFIER_ROLE) {
         require(certifications[enterpriseAddress].isCertified == true, "Enterprise has no certifications YET!!");
 
-        certifications[enterpriseAddress].metadataURI =. newMetadataURI;
+        certifications[enterpriseAddress].metadataURI = newMetadataURI;
 
         emit Events.CertifiocationUpdated(enterpriseAddress, newMetadataURI);
     }

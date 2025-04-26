@@ -35,9 +35,9 @@ contract EnterpriseRegistry {
         string memory _industry,
         string memory _metadataURI
     ) external onlyCertifier {
-        require(!enterprises[enterpriseAddress].isRegistered, "EnterpriseRegistry: Enterprise Already registererd!!");
+        require(!enterprises[_enterpriseAddress].isRegistered, "EnterpriseRegistry: Enterprise Already registererd!!");
 
-        enterprises[enterpriseAddress] = DataTypes.Enterprise({
+        enterprises[_enterpriseAddress] = DataTypes.Enterprise({
             enterpriseAddress: _enterpriseAddress,
             name: _name,
             industry: _industry,
@@ -63,8 +63,7 @@ contract EnterpriseRegistry {
     ////////////////////////
     ////// getters /////////
     ////////////////////////
-    function getEnterprise(address enterpriseAddress) external view returns (DataTypes.Enterprise memo
-    ) {
+    function getEnterprise(address enterpriseAddress) external view returns (DataTypes.Enterprise memory) {
         return enterprises[enterpriseAddress];
     }
 
