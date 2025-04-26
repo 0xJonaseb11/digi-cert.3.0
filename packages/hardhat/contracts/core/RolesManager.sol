@@ -2,6 +2,8 @@
 pragma solidity ^0.8.20;
 
 import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
+import { Events } from "../utils/Events.sol";
+import { DataTypes } from "../utils/DataTypes.sol";
 
 contract RolesManager is AccessControl {
     bytes32 public constant CERTIFIER_ROLE = keccak256("CERTIFIER_ROLE");
@@ -44,7 +46,7 @@ contract RolesManager is AccessControl {
     function revokeCertifier(address account) external {
         revokeRole(CERTIFIER_ROLE, account);
     }
-    
+
     function revokeInspector(address account) external {
         revokeRole(INSPECTOR_ROLE, account);
     }

@@ -2,6 +2,8 @@
 pragma solidity ^0.8.20;
 
 import { RolesManager } from "../core/RolesManager.sol";
+import { Events } from "../utils/Events.sol";
+import { DataTypes } from "../utils/DataTypes.sol";
 
 contract InspectionManager {|
     RolesManager public rolesManager;
