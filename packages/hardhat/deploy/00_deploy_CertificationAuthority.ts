@@ -5,16 +5,15 @@ import { Contract } from "ethers";
 const deployCertificationAuthority: DeployFunction = async function (hre: HardhatRuntimeEnvironment) {
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
-
-  await deploy("CertificationAuthority", {
+  await deploy("CertificateAuthority", {
     from: deployer,
     args: [],
     log: true,
     autoMine: true,
   });
 
-  const certificationAuthority = await hre.ethers.getContract<Contract>("CertificationAuthority", deployer);
-  console.log("✅ CertificationAuthority deployed at:", certificationAuthority.address);
+  const certificationAuthority = await hre.ethers.getContract<Contract>("CertificateAuthority", deployer);
+  console.log("CertificationAuthority contract deployed at:", certificationAuthority.address);
 };
 
 export default deployCertificationAuthority;
