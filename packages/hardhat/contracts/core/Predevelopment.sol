@@ -1,9 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-interface ICertificationAuthority {
-    function setRolesManager(address _rolesManager) external;
-    function updateEnterpriseRegistry(address _enterpriseRegistry) external;
-    function updateInspectorManager(address _inspectorManager) external;
-    function updateCertificateNFT(address _certificateNFT) external;
+interface ICertificateNFT {
+    function mintCertificate(address enterprise, string calldata metadataURI) external returns (uint256);
+    function revokeCertificate(uint256 certId) external;
+    function isCertificateValid(uint256 certId) external view returns (bool);
+    function getCertificateId(address enterprise) external view returns (uint256);
 }
