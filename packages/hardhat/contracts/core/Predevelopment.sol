@@ -1,8 +1,9 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-interface IInspectorManager {
-    function registerInspector(address inspector) external;
-    function removeInspector(address inspector) external;
-    function isInspectorRegistered(address inspector) external view returns (bool);
+interface ICertificationAuthority {
+    function setRolesManager(address _rolesManager) external;
+    function updateEnterpriseRegistry(address _enterpriseRegistry) external;
+    function updateInspectorManager(address _inspectorManager) external;
+    function updateCertificateNFT(address _certificateNFT) external;
 }
