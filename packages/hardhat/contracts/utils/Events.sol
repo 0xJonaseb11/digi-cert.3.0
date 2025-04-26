@@ -11,6 +11,7 @@ library Events {
     
     event InspectorAssigned(address indexed enterprise, address indexed inspector);
     event InspectionReportSubmitted(address indexed inspector, address indexed enterprise, bool passed, string reportURI);
-
+    
+    event CertificateRevoked(uint256 certificateId, address indexed revoker, uint256 timestamp);
 
 }

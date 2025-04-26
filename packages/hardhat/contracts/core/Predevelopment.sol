@@ -1,53 +1,51 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
+import "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
+import "@openzeppelin/contracts/access/Ownable.sol";
 import "../core/RolesManager.sol";
-import "../utils/DataTypes.sol";
-import "../utils/Events.sol";
 
-contract InspectionReport {
+contract CertificateNFT is ERC721URIStorage, Ownable {
     RolesManager public rolesManager;
+    uint256 public nextCertificateId;
 
-    struct Report {
-        address inspector;
-        address enterprise;
-        bool passed;
-        string remarks;
-        uint256 timestamp;
-    }
+    mapping(address => uint256) public enterpriseCertificate; // enterprise => certificateId
+    mapping(uint256 => bool) public validCertificates;         // certId => validity
 
-    mapping(address => Report[]) private enterpriseReports; // enterprise => list of reports
-
-    constructor(address _rolesManager) {
+    constructor(address _rolesManager) ERC721("Enterprise Certificate", "CERT") {
         rolesManager = RolesManager(_rolesManager);
     }
 
-    modifier onlyInspector() {
-        require(rolesManager.hasInspectorRole(msg.sender), "InspectionReport: Caller is not a registered inspector");
+    modifier onlyCertifier() {
+        require(rolesManager.hasCertifierRole(msg.sender), "CertificateNFT: Not an authorized certifier");
         _;
     }
 
-    function submitReport(
-        address enterprise,
-        bool passed,
-        string memory remarks
-    ) external onlyInspector {
-        require(enterprise != address(0), "InspectionReport: Invalid enterprise address");
+    function mintCertificate(address enterprise, string memory metadataURI) external onlyCertifier returns (uint256) {
+        require(enterprise != address(0), "CertificateNFT: Invalid enterprise address");
+        require(enterpriseCertificate[enterprise] == 0, "CertificateNFT: Enterprise already certified");
 
-        Report memory report = Report({
-            inspector: msg.sender,
-            enterprise: enterprise,
-            passed: passed,
-            remarks: remarks,
-            timestamp: block.timestamp
-        });
+        uint256 certId = ++nextCertificateId;
 
-        enterpriseReports[enterprise].push(report);
+        _mint(enterprise, certId);
+        _setTokenURI(certId, metadataURI);
 
-        emit Events.InspectionSubmitted(msg.sender, enterprise, passed, remarks, block.timestamp);
+        enterpriseCertificate[enterprise] = certId;
+        validCertificates[certId] = true;
+
+        return certId;
     }
 
-    function getReports(address enterprise) external view returns (Report[] memory) {
-        return enterpriseReports[enterprise];
+    function revokeCertificate(uint256 certId) external onlyCertifier {
+        require(validCertificates[certId], "CertificateNFT: Certificate already revoked");
+        validCertificates[certId] = false;
+    }
+
+    function isCertificateValid(uint256 certId) external view returns (bool) {
+        return validCertificates[certId];
+    }
+
+    function getCertificateId(address enterprise) external view returns (uint256) {
+        return enterpriseCertificate[enterprise];
     }
 }
