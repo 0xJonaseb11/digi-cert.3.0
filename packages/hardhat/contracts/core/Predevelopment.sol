@@ -1,29 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-library DataTypes {
-    struct Certification {
-        string industry;
-        string metadataURI;
-        uint256 certifiedAt;
-        bool isCertified;
-    }
+library Events {
+    event CertificationGranted(address indexed enterprise, string industry, string metadataURI);
+    event CertificationRevoked(address indexed enterprise);
+    event CertificationUpdated(address indexed enterprise, string newMetadataURI);
 
-    struct Enterprise {
-        address enterpriseAddress;
-        string name;
-        string industry;
-        string metadataURI;
-        bool isRegistered;
-    }
+    event EnterpriseRegistered(address indexed enterprise, string name, string industry, string metadataURI);
+    event EnterpriseUpdated(address indexed enterprise, string newMetadataURI);
 
-    struct InspectionReport {
-        address inspector;
-        address enterprise;
-        string reportURI;
-        uint256 inspectedAt;
-        bool passed;
-    }
+    event InspectionReportSubmitted(address indexed inspector, address indexed enterprise, bool passed, string reportURI);
 
-    // You can add more structs as needed
+    // You can add more events later as needed
 }
