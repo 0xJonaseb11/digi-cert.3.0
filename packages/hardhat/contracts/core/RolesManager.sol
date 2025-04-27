@@ -10,6 +10,7 @@ contract RolesManager is AccessControl {
     bytes32 public constant INSPECTOR_ROLE = keccak256("INSPECTOR_ROLE");
     bytes32 public constant AUDITOR_ROLE = keccak256("AUDITOR_ROLE");
     bytes32 public constant ENTERPRISE_ROLE = keccak256("ENTERPRISE_ROLE");
+    bytes32 public constant CERTIFICATE_FACTORY_ROLE = keccak256("CERTIFICATE_FACTORY_ROLE");
 
     constructor(address admin) {
         _setupRole(DEFAULT_ADMIN_ROLE, admin);
@@ -69,6 +70,10 @@ contract RolesManager is AccessControl {
     //////// ROLE OWNERSHIP CHECKS //////////////////
     /////////////////////////////////////////////////
     
+    function isAdmin(address account) external view returns(bool) {
+        return hasRole(DEFAULT_ADMIN_ROLE, account);
+    }
+
     function hasCertifierRole(address account) external view returns(bool) { 
         return hasRole(CERTIFIER_ROLE, account);
     }
@@ -83,5 +88,9 @@ contract RolesManager is AccessControl {
 
     function hasEnterpriseRole(address account) external view returns(bool) {
         return hasRole(ENTERPRISE_ROLE, account);
+    }
+
+    function hasCertificateFactoryRole(address account) external view returns(bool) {
+        return hasRole(CERTIFICATE_FACTORY_ROLE, account);
     }
 }

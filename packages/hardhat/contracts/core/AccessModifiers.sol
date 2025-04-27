@@ -20,22 +20,22 @@ abstract contract AccessModifiers {
     }
 
     modifier onlyInspector() {
-        require(rolesManager.hasInspectorRole(msg.sender), Access Denied: Not a registered Inspector);
+        require(rolesManager.hasInspectorRole(msg.sender), "Access Denied: Not a registered Inspector");
         _;
     }
 
-    modifer onlyEnterprise() {
-        require(rolesManager.hasEnterpriseRole(msg.sender), "Access Denied: Not a registered Enterprise!!")
+    modifier onlyEnterprise() {
+        require(rolesManager.hasEnterpriseRole(msg.sender), "Access Denied: Not a registered Enterprise!!");
         _;
     }
 
     modifier onlyCertificateFactory() {
-        require(rolesManager.hasCertificateFactoryRole(msg.sender), "Access Denied: Not a registered Certificate factory!!")
+        require(rolesManager.hasCertificateFactoryRole(msg.sender), "Access Denied: Not a registered Certificate factory!!");
         _;
     }
 
     modifier onlyAdmin() {
-        require(rolesManager.isAdmin(msg.sender), "Access Denied: Only Admin can accesss this!!")
+        require(rolesManager.isAdmin(msg.sender), "Access Denied: Only Admin can accesss this!!");
         _;
     }
 }
