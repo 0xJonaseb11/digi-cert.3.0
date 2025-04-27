@@ -41,13 +41,13 @@ contract EnterpriseRegistry {
             enterpriseAddress: _enterpriseAddress,
             name: _name,
             industry: _industry,
-            metadatURI: _metadataURI,
+            metadataURI: _metadataURI,
             isRegistered: true
         });
 
         allEnterprises.push(_enterpriseAddress);
 
-        emit Events.EnterpriseRegistered(_enterpriseAddress);
+        emit Events.EnterpriseRegistered(_enterpriseAddress, _name, _industry, _metadataURI);
 
     }
 

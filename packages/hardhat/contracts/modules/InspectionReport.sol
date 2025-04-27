@@ -48,7 +48,7 @@ contract InspectionReport {
 
         enterpriseReports[enterprise].push(report);
 
-        emit Events.InspectionSubmitted(msg.sender, enterprise, passed, remarks, block.timestamp);
+        emit Events.InspectionReportSubmitted(msg.sender, enterprise, passed, remarks, block.timestamp);
     }
 
     function getReports(address enterprise) external view returns(Report[] memory) {

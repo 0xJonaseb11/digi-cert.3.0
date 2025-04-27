@@ -57,7 +57,7 @@ contract CertificationAuthority is AccessControl {
 
         certifications[enterpriseAddress].metadataURI = newMetadataURI;
 
-        emit Events.CertifiocationUpdated(enterpriseAddress, newMetadataURI);
+        emit Events.CertificationUpdated(enterpriseAddress, newMetadataURI);
     }
 
     // getters
