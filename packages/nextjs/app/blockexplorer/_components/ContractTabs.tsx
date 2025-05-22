@@ -51,33 +51,23 @@ export const ContractTabs = ({ address, contractData }: PageProps) => {
   return (
     <>
       {isContract && (
-        <div role="tablist" className="tabs tabs-lift">
+        <div className="tabs tabs-lifted w-min">
           <button
-            role="tab"
             className={`tab ${activeTab === "transactions" ? "tab-active" : ""}`}
             onClick={() => setActiveTab("transactions")}
           >
             Transactions
           </button>
-          <button
-            role="tab"
-            className={`tab ${activeTab === "code" ? "tab-active" : ""}`}
-            onClick={() => setActiveTab("code")}
-          >
+          <button className={`tab ${activeTab === "code" ? "tab-active" : ""}`} onClick={() => setActiveTab("code")}>
             Code
           </button>
           <button
-            role="tab"
             className={`tab  ${activeTab === "storage" ? "tab-active" : ""}`}
             onClick={() => setActiveTab("storage")}
           >
             Storage
           </button>
-          <button
-            role="tab"
-            className={`tab  ${activeTab === "logs" ? "tab-active" : ""}`}
-            onClick={() => setActiveTab("logs")}
-          >
+          <button className={`tab  ${activeTab === "logs" ? "tab-active" : ""}`} onClick={() => setActiveTab("logs")}>
             Logs
           </button>
         </div>
