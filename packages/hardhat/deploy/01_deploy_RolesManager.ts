@@ -8,7 +8,7 @@ const deployCertificationAuthority: DeployFunction = async function (hre: Hardha
 
   await deploy("RolesManager", {
     from: deployer,
-    args: [deployer],
+    args: [],
     log: true,
     autoMine: true,
   });

@@ -12,8 +12,9 @@ contract RolesManager is AccessControl {
     bytes32 public constant ENTERPRISE_ROLE = keccak256("ENTERPRISE_ROLE");
     bytes32 public constant CERTIFICATE_FACTORY_ROLE = keccak256("CERTIFICATE_FACTORY_ROLE");
 
-    constructor(address admin) {
-        _setupRole(DEFAULT_ADMIN_ROLE, admin);
+    constructor() {
+        _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+        _setupRole(CERTIFIER_ROLE,  msg.sender);
     }
 
     function _setupRole(bytes32 role, address account) internal virtual {
