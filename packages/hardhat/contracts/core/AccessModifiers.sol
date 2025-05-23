@@ -2,6 +2,7 @@
 pragma solidity ^0.8.20;
 
 import { RolesManager } from "./RolesManager.sol";
+import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
 
 /**
 * @title AccessModifiers
@@ -15,27 +16,27 @@ abstract contract AccessModifiers is RolesManager {
     } 
 
     modifier onlyCertifier() {
-        require(hasCertifierRole(msg.sender), "Access Denied: Not a registered certifier!");
+        require(rolesManager.hasCertifierRole(msg.sender), "Access Denied: Not a registered certifier!");
         _;
     }
 
     modifier onlyInspector() {
-        require(hasInspectorRole(msg.sender), "Access Denied: Not a registered Inspector");
+        require(rolesManager.hasInspectorRole(msg.sender), "Access Denied: Not a registered Inspector");
         _;
     }
 
     modifier onlyEnterprise() {
-        require(hasEnterpriseRole(msg.sender), "Access Denied: Not a registered Enterprise!!");
+        require(rolesManager.hasEnterpriseRole(msg.sender), "Access Denied: Not a registered Enterprise!!");
         _;
     }
 
     modifier onlyCertificateFactory() {
-        require(hasCertificateFactoryRole(msg.sender), "Access Denied: Not a registered Certificate factory!!");
+        require(rolesManager.hasCertificateFactoryRole(msg.sender), "Access Denied: Not a registered Certificate factory!!");
         _;
     }
 
     modifier onlyAdmin() {
-        require(isAdmin(msg.sender), "Access Denied: Only Admin can accesss this!!");
+        require(rolesManager.isAdmin(msg.sender), "Access Denied: Only Admin can accesss this!!");
         _;
     }
 }
