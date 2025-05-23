@@ -8,13 +8,14 @@ const deployCertificationAuthority: DeployFunction = async function (hre: Hardha
 
   await deploy("RolesManager", {
     from: deployer,
-    args: [],
+    args: [deployer],
     log: true,
     autoMine: true,
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const certificationAuthority = await hre.ethers.getContract<Contract>("RolesManager", deployer);
-  console.log("✅ RolesManager deployed at:", certificationAuthority.address);
+  console.log("✅ CertificationAuthority contract deployed successfully!!");
 };
 
 export default deployCertificationAuthority;

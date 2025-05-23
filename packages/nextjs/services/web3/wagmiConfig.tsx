@@ -3,6 +3,7 @@ import { wagmiConnectors } from "./wagmiConnectors";
 import { Chain, createClient, fallback, http } from "viem";
 import { createConfig } from "wagmi";
 import scaffoldConfig from "~~/scaffold.config";
+import { getAlchemyHttpUrl } from "~~/utils/scaffold-eth/networks";
 
 const { targetNetworks, pollingInterval } = scaffoldConfig;
 
