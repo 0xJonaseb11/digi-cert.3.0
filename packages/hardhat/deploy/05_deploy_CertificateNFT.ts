@@ -15,8 +15,9 @@ const deployCertificateNFT: DeployFunction = async function (hre: HardhatRuntime
     autoMine: true,
   });
 
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const certificateNFT = await hre.ethers.getContract<Contract>("CertificateNFT", deployer);
-  console.log("✅ CertificateNFT deployed at:", certificateNFT.address);
+  console.log("✅ CertificateNFT contract deployed sufcessfully!!");
 };
 
 export default deployCertificateNFT;

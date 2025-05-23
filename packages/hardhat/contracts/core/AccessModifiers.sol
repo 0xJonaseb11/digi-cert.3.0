@@ -2,7 +2,6 @@
 pragma solidity ^0.8.20;
 
 import { RolesManager } from "./RolesManager.sol";
-import {AccessControl} from "@openzeppelin/contracts/access/AccessControl.sol";
 
 /**
 * @title AccessModifiers
