@@ -13,9 +13,10 @@ pragma solidity ^0.8.20;
 
 import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
 import { Events } from "../utils/Events.sol";
+import { Errors } from "../utils/Errors.sol";
 import { DataTypes } from "../utils/DataTypes.sol";
 
-contract RolesManager is AccessControl {
+contract RolesManager is AccessControl, Errors {
     bytes32 public constant CERTIFIER_ROLE = keccak256("CERTIFYING_BODY_ROLE");
     bytes32 public constant INSPECTOR_ROLE = keccak256("INSPECTION_MANAGER_ROLE");
     bytes32 public constant AUDITOR_ROLE = keccak256("AUDITOR_ROLE");
@@ -23,6 +24,14 @@ contract RolesManager is AccessControl {
     bytes32 public constant CERTIFICATE_FACTORY_ROLE = keccak256("CERTIFICATE_FACTORY_ROLE");
     bytes32 public constant PUBLIC_ROLE = keccak256("PUBLIC_ROLE");
 
+
+   // ----- modifiers
+   modifier onlyValidAddress(address account) {
+    if (account == address(0)) {
+        revert InvalidAddress();
+    }
+    _;
+   }
     constructor() {
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _setupRole(CERTIFIER_ROLE,  msg.sender);
@@ -41,27 +50,27 @@ contract RolesManager is AccessControl {
     /////////////////////////////////
     ////// ROLE GRANTING ////////////
     /////////////////////////////////
-    function grantCertifier(address account) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    function grantCertifier(address account) external onlyValidAddress(account) onlyRole(DEFAULT_ADMIN_ROLE) {
         grantRole(CERTIFIER_ROLE, account);
     }
 
-    function grantInspector(address account ) external onlyRole(DEFAULT_ADMIN_ROLE){
+    function grantInspector(address account ) external onlyValidAddress(account) onlyRole(DEFAULT_ADMIN_ROLE){
         grantRole(INSPECTOR_ROLE, account);
     }
 
-    function grantAuditor(address account) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    function grantAuditor(address account) external onlyValidAddress(account) onlyRole(DEFAULT_ADMIN_ROLE) {
         grantRole(AUDITOR_ROLE, account);
     }
 
-    function grantEnterprise(address account) external onlyRole(DEFAULT_ADMIN_ROLE){
+    function grantEnterprise(address account) external onlyValidAddress(account) onlyRole(DEFAULT_ADMIN_ROLE){
         grantRole(ENTERPRISE_ROLE, account);
     }
 
-    function grantCertificateFactory(address account) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    function grantCertificateFactory(address account) external onlyValidAddress(account) onlyRole(DEFAULT_ADMIN_ROLE) {
         grantRole(CERTIFICATE_FACTORY_ROLE, account);
     }
 
-    function grantPublicRole(address account) external onlyRole(DEFAULT_ADMIN_ROLE){
+    function grantPublicRole(address account) external onlyValidAddress(account) onlyRole(DEFAULT_ADMIN_ROLE){
         grantRole(PUBLIC_ROLE, account);
     }
 
@@ -76,27 +85,27 @@ contract RolesManager is AccessControl {
     /////////////////////////////////
     // ROLE REVOKATION /////////////
     ////////////////////////////////
-    function revokeCertifier(address account) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    function revokeCertifier(address account) external onlyValidAddress(account) onlyRole(DEFAULT_ADMIN_ROLE) {
         revokeRole(CERTIFIER_ROLE, account);
     }
 
-    function revokeInspector(address account) external onlyRole(DEFAULT_ADMIN_ROLE){
+    function revokeInspector(address account) external onlyValidAddress(account) onlyRole(DEFAULT_ADMIN_ROLE){
         revokeRole(INSPECTOR_ROLE, account);
     }
 
-    function revokeAuditor(address account) external onlyRole(DEFAULT_ADMIN_ROLE){
+    function revokeAuditor(address account) external onlyValidAddress(account) onlyRole(DEFAULT_ADMIN_ROLE){
     revokeRole(AUDITOR_ROLE, account);
     }
 
-    function revokeEnterprise(address account) external onlyRole(DEFAULT_ADMIN_ROLE){
+    function revokeEnterprise(address account) external onlyValidAddress(account) onlyRole(DEFAULT_ADMIN_ROLE){
         revokeRole(ENTERPRISE_ROLE, account);
     }
 
-    function revokeCertificateFactory(address account) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    function revokeCertificateFactory(address account) external onlyValidAddress(account) onlyRole(DEFAULT_ADMIN_ROLE) {
         revokeRole(CERTIFICATE_FACTORY_ROLE, account);
     }
     
-    function revokePublicRole(address account) external onlyRole(DEFAULT_ADMIN_ROLE) {
+    function revokePublicRole(address account) external onlyValidAddress(account) onlyRole(DEFAULT_ADMIN_ROLE) {
         revokeRole(PUBLIC_ROLE, account);
     }
 
@@ -105,31 +114,31 @@ contract RolesManager is AccessControl {
     //////// ROLE OWNERSHIP CHECKS //////////////////
     /////////////////////////////////////////////////
     
-    function hasAdminRole(address account) public view returns(bool) {
+    function hasAdminRole(address account) public view onlyValidAddress(account) returns(bool) {
         return hasRole(DEFAULT_ADMIN_ROLE, account);
     }
 
-    function hasCertifierRole(address account) public view returns(bool) { 
+    function hasCertifierRole(address account) public view onlyValidAddress(account) returns(bool) { 
         return hasRole(CERTIFIER_ROLE, account);
     }
 
-    function hasInspectorRole(address account) public view returns(bool) {
+    function hasInspectorRole(address account) public view onlyValidAddress(account) returns(bool) {
         return hasRole(INSPECTOR_ROLE, account);
     }
 
-    function hasAuditorRole(address account) public view returns(bool) {
+    function hasAuditorRole(address account) public view onlyValidAddress(account) returns(bool) {
         return hasRole(AUDITOR_ROLE, account);
     }
 
-    function hasEnterpriseRole(address account) public view returns(bool) {
+    function hasEnterpriseRole(address account) public view onlyValidAddress(account) returns(bool) {
         return hasRole(ENTERPRISE_ROLE, account);
     }
 
-    function hasCertificateFactoryRole(address account) public view returns(bool) {
+    function hasCertificateFactoryRole(address account) public view onlyValidAddress(account) returns(bool) {
         return hasRole(CERTIFICATE_FACTORY_ROLE, account);
     }
     
-    function hasPublicRole(address account) public view returns(bool) {
+    function hasPublicRole(address account) public view onlyValidAddress(account) returns(bool) {
         return hasRole(PUBLIC_ROLE, account);
     }
 }
