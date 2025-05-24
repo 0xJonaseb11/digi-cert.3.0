@@ -4,7 +4,7 @@ pragma solidity ^0.8.20;
 
 /**
 * @author @0xJonaseb11
-* @title RolesManager contract
+
 * @dev manages the roles of the whole ecosystem 
 * @dev Only Super Admin can assign roles
 * @dev On very high roles, there's DAO voting
@@ -16,7 +16,9 @@ import { Events } from "../utils/Events.sol";
 import { Errors } from "../utils/Errors.sol";
 import { DataTypes } from "../utils/DataTypes.sol";
 
+
 contract RolesManager is AccessControl, Errors {
+
     bytes32 public constant CERTIFIER_ROLE = keccak256("CERTIFYING_BODY_ROLE");
     bytes32 public constant INSPECTOR_ROLE = keccak256("INSPECTION_MANAGER_ROLE");
     bytes32 public constant AUDITOR_ROLE = keccak256("AUDITOR_ROLE");
@@ -32,6 +34,8 @@ contract RolesManager is AccessControl, Errors {
     }
     _;
    }
+
+
     constructor() {
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _setupRole(CERTIFIER_ROLE,  msg.sender);
@@ -50,6 +54,7 @@ contract RolesManager is AccessControl, Errors {
     /////////////////////////////////
     ////// ROLE GRANTING ////////////
     /////////////////////////////////
+
     function grantCertifier(address account) external onlyValidAddress(account) onlyRole(DEFAULT_ADMIN_ROLE) {
         grantRole(CERTIFIER_ROLE, account);
     }
@@ -71,6 +76,7 @@ contract RolesManager is AccessControl, Errors {
     }
 
     function grantPublicRole(address account) external onlyValidAddress(account) onlyRole(DEFAULT_ADMIN_ROLE){
+
         grantRole(PUBLIC_ROLE, account);
     }
 
@@ -85,6 +91,7 @@ contract RolesManager is AccessControl, Errors {
     /////////////////////////////////
     // ROLE REVOKATION /////////////
     ////////////////////////////////
+
     function revokeCertifier(address account) external onlyValidAddress(account) onlyRole(DEFAULT_ADMIN_ROLE) {
         revokeRole(CERTIFIER_ROLE, account);
     }
@@ -106,6 +113,7 @@ contract RolesManager is AccessControl, Errors {
     }
     
     function revokePublicRole(address account) external onlyValidAddress(account) onlyRole(DEFAULT_ADMIN_ROLE) {
+
         revokeRole(PUBLIC_ROLE, account);
     }
 
@@ -114,6 +122,7 @@ contract RolesManager is AccessControl, Errors {
     //////// ROLE OWNERSHIP CHECKS //////////////////
     /////////////////////////////////////////////////
     
+
     function hasAdminRole(address account) public view onlyValidAddress(account) returns(bool) {
         return hasRole(DEFAULT_ADMIN_ROLE, account);
     }
@@ -139,6 +148,7 @@ contract RolesManager is AccessControl, Errors {
     }
     
     function hasPublicRole(address account) public view onlyValidAddress(account) returns(bool) {
+
         return hasRole(PUBLIC_ROLE, account);
     }
 }
