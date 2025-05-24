@@ -5,7 +5,7 @@ import { RolesManager } from "../core/RolesManager.sol";
 import { Events } from "../utils/Events.sol";
 import { DataTypes } from "../utils/DataTypes.sol";
 
-contract InspectionManager {
+contract InspectionManager is RolesManager{
     RolesManager public rolesManager;
 
     mapping(address => address[]) private enterpriseInspectors;
@@ -15,17 +15,18 @@ contract InspectionManager {
         rolesManager = RolesManager(_rolesManager);
     }
 
-    modifier onlyCertifier() {
-        require(rolesManager.hasCertifierRole(msg.sender), "InspectionManager: Not an authorized certifier!!");
-        _;
+
     }
 
     ///////////////////////////////////////////
     //////////// INSPECTION FUNCTIONS /////////
     //////////////////////////////////////////
     
-    function assignInspector(address enterprise, address inspector) external onlyCertifier {
-        require(rolesManager.hasInspectorRole(inspector), "InspectionManager: Address notb a registered Inspector!!");
+    function assignInspector(address enterprise, address inspector) onlyRole(CERTIFIER_ROLE) {
+
+        if (hasInspectorRole(inspector)) {
+            revert InspectionManager__InspectorAlreadyAssigned();
+        }
 
         enterpriseInspectors[enterprise].push(inspector);
         inspectorEnterprises[inspector].push(enterprise);
@@ -33,14 +34,11 @@ contract InspectionManager {
         emit Events.InspectorAssigned(enterprise, inspector);   
     }
 
-    function getInspectorsForEnterprise(address enterprise) external view returns (address[] memory) {
+    function getInspectorsForEnterprise(address enterprise)  view returns (address[] memory) {
         return enterpriseInspectors[enterprise];
     }
 
-    function getEnterprisesForInspector(address inspector) external view returns(address[] memory) {
+    function getEnterprisesForInspector(address inspector)  view returns(address[] memory) {
         return inspectorEnterprises[inspector];
     }
 
-
-
-}

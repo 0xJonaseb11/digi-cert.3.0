@@ -9,7 +9,7 @@ import { RolesManager } from "../core/RolesManager.sol";
 import { Events } from "../utils/Events.sol";
 import { DataTypes } from "../utils/DataTypes.sol";
 
-contract CertificateNFT is ERC721URIStorage, Ownable {
+contract CertificateNFT is RolesManager, ERC721URIStorage, Ownable {
     RolesManager public rolesManager;
     uint256 public nextCertificateId;
 
@@ -25,7 +25,9 @@ contract CertificateNFT is ERC721URIStorage, Ownable {
     }
 
     modifier onlyCertifier() {
-        require(rolesManager.hasCertifierRole(msg.sender), "CertificateNFT: Not an authorized certifier!!");
+        if (!hasCertifierRole(msg.sender)) {
+            revert RolesManager__NotAuthorizedCertifier();
+        }
         _;
     }
 
@@ -33,10 +35,12 @@ contract CertificateNFT is ERC721URIStorage, Ownable {
     //////// CERTIFICATENFT FUNCTIONS ///////////
     /////////////////////////////////////////////
     
-    function mintCertificate(address enterprise, string memory metadataURI) external onlyCertifier  returns(uint256) {
-        require(enterprise != address(0), "CertificateNFT: Invalid enterprise address!!");
-        require(bytes(metadataURI).length > 0, "CertificateNFT: Invalid metadata URI!!");
-        require(enterpriseCertificate[enterprise] == 0, "CertificateNFT: Enterprise already certified!!");
+    function mintCertificate(address enterprise, string memory metadataURI) external onlyValidAddress(enterprise) onlyCertifier  returns(uint256) {
+
+        if (enterpriseCertificate[enterprise] != 0) {
+            revert CertificateNFT__EnterpriseAlreadyCertified();
+        }
+
 
         uint256 certId = ++nextCertificateId;
 
@@ -55,7 +59,10 @@ contract CertificateNFT is ERC721URIStorage, Ownable {
     ////// revoke certificate //
     ////////////////////////////
     function revokeCertificate(uint256 certId) external onlyCertifier  {
-        require(validCertificates[certId], "CertificateNFT: Certificate already revoked!!");
+        
+        if (validCertificates[certId] == false) {
+            revert CertificateNFT__CertificateDoesNotExist();
+        }
         validCertificates[certId] = false;
 
         emit Events.CertificateRevoked(certId, msg.sender, block.timestamp);
@@ -69,7 +76,7 @@ contract CertificateNFT is ERC721URIStorage, Ownable {
         return validCertificates[certId];
     }
 
-    function getCertificateId(address enterprise) external view returns(uint256) {
+    function getCertificateId(address enterprise) external view onlyValidAddress(enterprise) returns(uint256) {
         return enterpriseCertificate[enterprise];
     }
 }    

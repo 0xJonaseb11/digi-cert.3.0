@@ -28,8 +28,11 @@ contract CertificationAuthority is RolesManager {
     //////////////////////////////////////////////////////////
     ///////////// ENTERPRISE CERTIFICATION FUNCTIONS/////////
     /////////////////////////////////////////////////////////
-    function certifyEnterprise(address enterpriseAddress, string memory _industry, string memory _metadataURI) external onlyRole(CERTIFIER_ROLE) {
-        require(certifications[enterpriseAddress].isCertified == false, "Enterprise is already certified!!");
+    function certifyEnterprise(address enterpriseAddress, string memory _industry, string memory _metadataURI) external onlyValidAddress(enterpriseAddress) onlyRole(CERTIFIER_ROLE) {
+
+        if (certifications[enterpriseAddress].isCertified) {
+            revert CertificationAuthority__EnterpriseAlreadyCertified();
+        }
 
         certifications[enterpriseAddress] = DataTypes.Certification({
             industry: _industry,
@@ -42,16 +45,22 @@ contract CertificationAuthority is RolesManager {
 
     }
 
-    function revokeCertification(address enterpriseAddress) external onlyRole(CERTIFIER_ROLE) {
-        require(certifications[enterpriseAddress].isCertified == true, "Enterprise has mo certifications YET!!");
+    function revokeCertification(address enterpriseAddress) external onlyValidAddress(enterpriseAddress) onlyRole(CERTIFIER_ROLE) {
+
+        if (certifications[enterpriseAddress].isCertified == false) {
+            revert CertificationAuthority__EnterpriseNotCertifiedYet();
+        }
 
         certifications[enterpriseAddress].isCertified == false;
 
         emit Events.CertificationRevoked(enterpriseAddress);
     }
 
-    function updateCertificationMetadata(address enterpriseAddress, string calldata newMetadataURI)  external onlyRole(CERTIFIER_ROLE) {
-        require(certifications[enterpriseAddress].isCertified == true, "Enterprise has no certifications YET!!");
+    function updateCertificationMetadata(address enterpriseAddress, string calldata newMetadataURI)  external onlyValidAddress(enterpriseAddress) onlyRole(CERTIFIER_ROLE) {
+
+        if (certifications[enterpriseAddress].isCertified == false) {
+            revert CertificationAuthority__EnterpriseNotCertifiedYet();
+        }
 
         certifications[enterpriseAddress].metadataURI = newMetadataURI;
 

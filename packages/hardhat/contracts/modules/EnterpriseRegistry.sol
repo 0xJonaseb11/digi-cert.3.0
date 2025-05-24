@@ -5,7 +5,7 @@ import { DataTypes } from "../utils/DataTypes.sol";
 import { Events } from "../utils/Events.sol";
 import { RolesManager } from "../core/RolesManager.sol";
 
-contract EnterpriseRegistry {
+contract EnterpriseRegistry is RolesManager {
     RolesManager public rolesManager;
 
     mapping (address => DataTypes.Enterprise) private enterprises;
@@ -17,13 +17,12 @@ contract EnterpriseRegistry {
 
     modifier onlyEnterprise() {
         require(rolesManager.hasEnterpriseRole(msg.sender));
+        if (!hasEnterpriseRole(msg.sender)) {
+            revert RolesManager__NotAuthorizedEnterprise();
+        }
         _;
     }
 
-    modifier onlyCertifier() {
-        require(rolesManager.hasCertifierRole(msg.sender));
-        _;
-    }
 
     //////////////////////////////////////////////
     /////// MINERAL REGISTRY FUNCTIONS ///////////
@@ -34,9 +33,11 @@ contract EnterpriseRegistry {
         string memory _name,
         string memory _industry,
         string memory _metadataURI
-    ) external onlyCertifier {
-        require(!enterprises[_enterpriseAddress].isRegistered, "EnterpriseRegistry: Enterprise Already registererd!!");
-
+    ) external onlyRole(CERTIFIER_ROLE) {
+        
+        if (enterprises[_enterpriseAddress].isRegistered == true) {
+            revert EnterpriseRegistry__EnterpriseAlreadyExists();
+        }
         enterprises[_enterpriseAddress] = DataTypes.Enterprise({
             enterpriseAddress: _enterpriseAddress,
             name: _name,
@@ -52,8 +53,10 @@ contract EnterpriseRegistry {
     }
 
     function updateEnterpriseMetadata(string memory newMetadataURI) external onlyEnterprise {
-        require(enterprises[msg.sender].isRegistered, "EnterpriseRegistry: Enterprise Not Registered!!");
         
+        if (enterprises[msg.sender].isRegistered == false) {
+            revert EnterpriseRegistry__EnterpriseDoesNotExist();
+        }
         enterprises[msg.sender].metadataURI = newMetadataURI;
 
         emit Events.EnterpriseUpdated(msg.sender, newMetadataURI);
@@ -63,7 +66,7 @@ contract EnterpriseRegistry {
     ////////////////////////
     ////// getters /////////
     ////////////////////////
-    function getEnterprise(address enterpriseAddress) external view returns (DataTypes.Enterprise memory) {
+    function getEnterprise(address enterpriseAddress) external view onlyValidAddress(enterpriseAddress) returns (DataTypes.Enterprise memory) {
         return enterprises[enterpriseAddress];
     }
 
