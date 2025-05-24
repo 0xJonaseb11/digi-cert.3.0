@@ -13,6 +13,7 @@ import scaffoldConfig from "~~/scaffold.config";
 
 const { onlyLocalBurnerWallet, targetNetworks } = scaffoldConfig;
 
+// Ensure that targetNetworks contains all the networks you want to support
 const wallets = [
   metaMaskWallet,
   walletConnectWallet,

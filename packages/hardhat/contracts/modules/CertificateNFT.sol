@@ -16,6 +16,10 @@ contract CertificateNFT is RolesManager, ERC721URIStorage, Ownable {
     mapping(address => uint256) public enterpriseCertificate;
     mapping(uint256 => bool) public validCertificates;
 
+
+    // --------------- Events -------------------//
+    event CertificateMinted(uint256 certId, address enterprise, address certifier, uint256 timestamp);
+
     constructor(address _rolesManager) ERC721("Enterprise Certificate", "DIGI-CERT") Ownable(msg.sender){
         rolesManager = RolesManager(_rolesManager);
     }
@@ -45,6 +49,8 @@ contract CertificateNFT is RolesManager, ERC721URIStorage, Ownable {
 
         enterpriseCertificate[enterprise] = certId;
         validCertificates[certId] = true;
+        
+        emit CertificateMinted(certId, enterprise, msg.sender, block.timestamp);
 
         return certId;
     }
