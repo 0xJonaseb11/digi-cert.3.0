@@ -1,30 +1,28 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
-import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
+import { RolesManager } from "./RolesManager.sol";
 import { Events } from "../utils/Events.sol";
 import { DataTypes } from "../utils/DataTypes.sol";
 
-contract CertificationAuthority is AccessControl {
+contract CertificationAuthority is RolesManager {
     using DataTypes for DataTypes.Enterprise; // wit libs
-    bytes32 public constant CERTIFIER_ROLE = keccak256("CERTIFYING_BODY_ROLE");
-    bytes32 public constant INSPECTION_MANAGER_ROLE = keccak256("INSPECTION_MANAGER_ROLE");
-    bytes32 public constant CERTIFICATE_FACTORY_ROLES = keccak256("CERTIFICATE_FACTORY_ROLE");
-    bytes32 public constant ENTERPRISE_ROLE = keccak256("ENTERPRISE_ROLE");
-    bytes32 public constant PUBLIC_ROLE = keccak256("PUBLIC_ROLE");
 
     mapping(address => DataTypes.Certification) public certifications;
+     
 
-    constructor (address admin) {
-        _setupRole(DEFAULT_ADMIN_ROLE, admin);
-        _setupRole(CERTIFIER_ROLE, admin);
+     /// -- Assign a custorm address on deployment
+    // constructor (address admin) {
+    //     _setupRole(DEFAULT_ADMIN_ROLE, admin);
+    //     _setupRole(CERTIFIER_ROLE, admin);
 
+    // }
+
+     /// -- assign the deployer on deployment
+    constructor() {
+     _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
+     _setupRole(CERTIFIER_ROLE, msg.sender);
     }
-    function _setupRole(bytes32 role, address account) internal virtual {
-    _grantRole(role, account);
-}
-
-
 
 
     //////////////////////////////////////////////////////////
