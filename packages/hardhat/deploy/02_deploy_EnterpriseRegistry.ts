@@ -17,7 +17,9 @@ const deployEnterpriseRegistry: DeployFunction = async function (hre: HardhatRun
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const enterpriseRegistry = await hre.ethers.getContract<Contract>("EnterpriseRegistry", deployer);
-  console.log("✅ EnterpriseRegistry contract deployed successfully!!");
+
+  console.log("✅ InterpriseRegistry contract deployed sufcessfully!!");
+
 };
 
 export default deployEnterpriseRegistry;

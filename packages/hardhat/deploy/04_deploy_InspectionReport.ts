@@ -17,7 +17,9 @@ const deployInspectionReport: DeployFunction = async function (hre: HardhatRunti
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const inspectionReport = await hre.ethers.getContract<Contract>("InspectionReport", deployer);
-  console.log("✅ InspectionReport contract deployed successfully!!");
+
+  console.log("✅ InspectionReport contract deployed sufcessfully!!");
+
 };
 
 export default deployInspectionReport;

@@ -17,7 +17,9 @@ const deployInspectorManager: DeployFunction = async function (hre: HardhatRunti
 
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const inspectorManager = await hre.ethers.getContract<Contract>("InspectionManager", deployer);
-  console.log("✅ InspectionManager contract deployed successfully!!");
+
+  console.log("✅ InspectionManager contract deployed sufcessfully!!");
+
 };
 
 export default deployInspectorManager;
