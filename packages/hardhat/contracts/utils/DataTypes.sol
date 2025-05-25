@@ -27,5 +27,13 @@ library DataTypes {
         bool passed;
     }
 
+    struct NFTCertificate {
+    address enterprise;
+    address issuer;
+    uint256 issuedAt;
+    uint256 expiresAt;
+    bool isRevoked;
+}
+
     
 }
