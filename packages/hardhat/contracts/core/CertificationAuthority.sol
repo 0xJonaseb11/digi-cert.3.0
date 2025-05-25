@@ -76,7 +76,7 @@ contract CertificationAuthority is RolesManager, ERC721URIStorage, ERC721Burnabl
         }
 
         if (cert.tokenId != 0) {
-            burn(cert.tokenId); // Using ERC721Burnable's function
+            burn(cert.tokenId); 
             delete _tokenToEnterprise[cert.tokenId];
         }
 
@@ -169,7 +169,7 @@ contract CertificationAuthority is RolesManager, ERC721URIStorage, ERC721Burnabl
         return _tokenToEnterprise[tokenId];
     }
 
-    // Required overrides for multiple inheritance
+    // ----- Required overrides for multiple inheritance --- //
     function tokenURI(uint256 tokenId)
         public
         view

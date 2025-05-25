@@ -26,6 +26,7 @@ contract RolesManager is AccessControl, Errors {
     bytes32 public constant CERTIFICATE_FACTORY_ROLE = keccak256("CERTIFICATE_FACTORY_ROLE");
     bytes32 public constant PUBLIC_ROLE = keccak256("PUBLIC_ROLE");
 
+    mapping(address => uint256) public publicRoleExpiry;
 
    // ----- modifiers
    modifier onlyValidAddress(address account) {
@@ -35,17 +36,85 @@ contract RolesManager is AccessControl, Errors {
     _;
    }
 
-//    modifier onlyRole(bytes32 role) override(AccessControl) {
-//     if (!hasRole(role, msg.sender)) {
-//         revert RolesManager__UnauthorizedToPerformAction();
-//     }
-//     _;
-//    }
 
     constructor() {
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);
         _setupRole(CERTIFIER_ROLE,  msg.sender);
     }
+
+
+    // ------ Claim temporary public role ---- //
+    function claimTemporaryPublicRole(uint256 durationInHours) external {
+        require(!hasPublicRole(msg.sender), "Already has public role");
+        require(durationInHours > 0, "Duration must be greater than 0 hours");
+        require(durationInHours <= 24, "Duration must be less than or equal to 24 hours");  
+
+        uint256 durationInSeconds = durationInHours * 1 hours;
+    
+        _grantRole(PUBLIC_ROLE, msg.sender);
+        publicRoleExpiry[msg.sender] = block.timestamp + durationInSeconds;
+        emit Events.PublicRoleGranted(msg.sender, durationInHours);
+    }
+
+    // ------- helper for client ---- //
+    function getMaxPublicRoleDuration() public pure returns (uint256) {
+        return 24;
+    }
+
+
+    // --------- Auto-expiry check (Call periodically) --- //
+    function checkExpiryRoles(address account) public {
+        if (hasPublicRole(account) && publicRoleExpiry[account] < block.timestamp) {
+            _revokeRole(PUBLIC_ROLE, account);
+
+            emit Events.PublicRoleExpired(account);
+        }
+    }
+
+    // ---- Bulk Role Management(Gas saver) ---- //
+    function bulkGrantRoles(
+        bytes32[] calldata roles,
+        address[] calldata accounts
+    ) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        require(roles.length == accounts.length, "Array length mismatch");  
+        
+        for (uint256 i = 0; i < roles.length; i++) {
+            _grantRole(roles[i], accounts[i]);
+        }
+    }
+
+    // --- Safe Role Transfer --- //
+    function transferRole(
+        bytes32 role,
+        address from,
+        address to  
+    ) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        require(hasRole(role, from), "From Address doesnot have role!");
+        _revokeRole(role, from);
+        _grantRole(role, to);
+    }
+
+    // ---- combined role check ----- //
+    function getActiveRoles(address account) public view returns (
+        bool isAdmin,
+        bool isCertifier,
+        bool isInspector,
+        bool isAuditor,
+        bool isEnterprise,
+        bool isCertificateFactory,
+        bool isPublic
+    ) {
+        return (
+            hasRole(DEFAULT_ADMIN_ROLE, account),
+            hasRole(CERTIFIER_ROLE, account),
+            hasRole(INSPECTOR_ROLE, account),
+            hasRole(AUDITOR_ROLE, account),
+            hasRole(ENTERPRISE_ROLE, account),
+            hasRole(CERTIFICATE_FACTORY_ROLE, account),
+            hasRole(PUBLIC_ROLE, account)
+        );
+    }
+    
 
     function _setupRole(bytes32 role, address account) internal virtual {
     _grantRole(role, account);
@@ -53,7 +122,7 @@ contract RolesManager is AccessControl, Errors {
 
 
     ////////////////////////////////////////////////
-    /////// ROLES MANAGEMENT  ////////////////
+    /////// MANAUAL ROLES MANAGEMENT  ////////////////
     ////////////////////////////////////////////////
     
 
@@ -98,28 +167,27 @@ contract RolesManager is AccessControl, Errors {
     // ROLE REVOKATION /////////////
     ////////////////////////////////
 
-    function revokeCertifier(address account) external onlyValidAddress(account) onlyRole(DEFAULT_ADMIN_ROLE) {
+    function revokeCertifierRole(address account) external onlyValidAddress(account) onlyRole(DEFAULT_ADMIN_ROLE) {
         revokeRole(CERTIFIER_ROLE, account);
     }
 
-    function revokeInspector(address account) external onlyValidAddress(account) onlyRole(DEFAULT_ADMIN_ROLE){
+    function revokeInspectorRole(address account) external onlyValidAddress(account) onlyRole(DEFAULT_ADMIN_ROLE){
         revokeRole(INSPECTOR_ROLE, account);
     }
 
-    function revokeAuditor(address account) external onlyValidAddress(account) onlyRole(DEFAULT_ADMIN_ROLE){
+    function revokeAuditorRole(address account) external onlyValidAddress(account) onlyRole(DEFAULT_ADMIN_ROLE){
     revokeRole(AUDITOR_ROLE, account);
     }
 
-    function revokeEnterprise(address account) external onlyValidAddress(account) onlyRole(DEFAULT_ADMIN_ROLE){
+    function revokeEnterpriseRole(address account) external onlyValidAddress(account) onlyRole(DEFAULT_ADMIN_ROLE){
         revokeRole(ENTERPRISE_ROLE, account);
     }
 
-    function revokeCertificateFactory(address account) external onlyValidAddress(account) onlyRole(DEFAULT_ADMIN_ROLE) {
+    function revokeCertificateFactoryRole(address account) external onlyValidAddress(account) onlyRole(DEFAULT_ADMIN_ROLE) {
         revokeRole(CERTIFICATE_FACTORY_ROLE, account);
     }
     
     function revokePublicRole(address account) external onlyValidAddress(account) onlyRole(DEFAULT_ADMIN_ROLE) {
-
         revokeRole(PUBLIC_ROLE, account);
     }
 

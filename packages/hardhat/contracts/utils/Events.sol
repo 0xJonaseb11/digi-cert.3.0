@@ -14,4 +14,8 @@ library Events {
     
     event CertificateRevoked(uint256 certificateId, address indexed revoker, uint256 timestamp);
 
+    event PublicRoleGranted(address indexed user, uint256 duration);
+    event PublicRoleExpired(address indexed user);
+    event RoleTransferred(bytes32 indexed role, address from, address to);
+
 }
