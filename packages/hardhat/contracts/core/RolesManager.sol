@@ -35,12 +35,12 @@ contract RolesManager is AccessControl, Errors {
     _;
    }
 
-   modifier onlyRole(bytes32 role) {
-    if (!hasRole(role, msg.sender)) {
-        revert RolesManager__UnauthorizedToPerformAction();
-    }
-    _;
-   }
+//    modifier onlyRole(bytes32 role) override(AccessControl) {
+//     if (!hasRole(role, msg.sender)) {
+//         revert RolesManager__UnauthorizedToPerformAction();
+//     }
+//     _;
+//    }
 
     constructor() {
         _setupRole(DEFAULT_ADMIN_ROLE, msg.sender);

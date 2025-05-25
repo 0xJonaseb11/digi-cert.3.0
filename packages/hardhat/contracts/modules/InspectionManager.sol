@@ -8,7 +8,7 @@ import { DataTypes } from "../utils/DataTypes.sol";
 contract InspectionManager is RolesManager{
     RolesManager public rolesManager;
 
-    mapping(address => address[]) private enterpriseInspectors;
+    mapping(address => address[])  enterpriseInspectors;
     mapping(address => address[]) private inspectorEnterprises;
 
     constructor(address _rolesManager) {
@@ -16,13 +16,12 @@ contract InspectionManager is RolesManager{
     }
 
 
-    }
 
     ///////////////////////////////////////////
     //////////// INSPECTION FUNCTIONS /////////
     //////////////////////////////////////////
     
-    function assignInspector(address enterprise, address inspector) onlyRole(CERTIFIER_ROLE) {
+    function assignInspector(address enterprise, address inspector) external onlyRole(CERTIFIER_ROLE) {
 
         if (hasInspectorRole(inspector)) {
             revert InspectionManager__InspectorAlreadyAssigned();
@@ -34,11 +33,12 @@ contract InspectionManager is RolesManager{
         emit Events.InspectorAssigned(enterprise, inspector);   
     }
 
-    function getInspectorsForEnterprise(address enterprise)  view returns (address[] memory) {
+    function getInspectorsForEnterprise(address enterprise) public view returns (address[] memory) {
         return enterpriseInspectors[enterprise];
     }
 
-    function getEnterprisesForInspector(address inspector)  view returns(address[] memory) {
+    function getEnterprisesForInspector(address inspector) public view returns(address[] memory) {
         return inspectorEnterprises[inspector];
     }
 
+}
