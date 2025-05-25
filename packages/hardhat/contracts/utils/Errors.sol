@@ -7,7 +7,7 @@ contract Errors {
     // -------- RolesManager ------------------//
     error RolesManager__UnauthorizedToPerformAction();
     error RolesManager__NotAuthorizedCertifier();
-    error ROlesManager__NotAuthorizedInspector();
+    error RolesManager__NotAuthorizedInspector();
     error RolesManager__NotAuthorizedAuditor();
     error RolesManager__NotAuthorizedEnterprise();
     error RolesManager__NotAuthorizedCertificateFactory();
@@ -27,5 +27,8 @@ contract Errors {
 
     // -------- InspectionManageer --------- //
     error InspectionManager__InspectorAlreadyAssigned();
+
+    // ---------- InspectionReport ----------- //
+    error InspectionReport__NoReportsAssociatedWithEnterprise();
 
 }

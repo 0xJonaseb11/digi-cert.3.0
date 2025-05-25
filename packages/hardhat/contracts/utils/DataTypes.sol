@@ -6,7 +6,9 @@ library DataTypes {
         string industry;
         string metadataURI;
         uint256 certifiedAt;
+        uint256 expiryDate;
         bool isCertified;
+        uint256 tokenId;
     }
 
     struct Enterprise {

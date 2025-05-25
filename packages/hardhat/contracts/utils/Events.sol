@@ -2,7 +2,7 @@
 pragma solidity ^0.8.20;
 
 library Events {
-    event CertificationGranted(address indexed enterprise, string industry, string metadataURI);
+    event CertificationGranted(address indexed enterprise, string industry, string metadataURI, uint256 expiryDate);
     event CertificationRevoked(address indexed enterprise);
     event CertificationUpdated(address indexed enterprise, string newMetadataURI);
 

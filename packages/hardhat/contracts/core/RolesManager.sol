@@ -129,31 +129,31 @@ contract RolesManager is AccessControl, Errors {
     /////////////////////////////////////////////////
     
 
-    function hasAdminRole(address account) public view onlyValidAddress(account) returns(bool) {
+    function hasAdminRole(address account) public view returns(bool) {
         return hasRole(DEFAULT_ADMIN_ROLE, account);
     }
 
-    function hasCertifierRole(address account) public view onlyValidAddress(account) returns(bool) { 
+    function hasCertifierRole(address account) public view returns(bool) { 
         return hasRole(CERTIFIER_ROLE, account);
     }
 
-    function hasInspectorRole(address account) public view onlyValidAddress(account) returns(bool) {
+    function hasInspectorRole(address account) public view  returns(bool) {
         return hasRole(INSPECTOR_ROLE, account);
     }
 
-    function hasAuditorRole(address account) public view onlyValidAddress(account) returns(bool) {
+    function hasAuditorRole(address account) public view  returns(bool) {
         return hasRole(AUDITOR_ROLE, account);
     }
 
-    function hasEnterpriseRole(address account) public view onlyValidAddress(account) returns(bool) {
+    function hasEnterpriseRole(address account) public view  returns(bool) {
         return hasRole(ENTERPRISE_ROLE, account);
     }
 
-    function hasCertificateFactoryRole(address account) public view onlyValidAddress(account) returns(bool) {
+    function hasCertificateFactoryRole(address account) public view  returns(bool) {
         return hasRole(CERTIFICATE_FACTORY_ROLE, account);
     }
     
-    function hasPublicRole(address account) public view onlyValidAddress(account) returns(bool) {
+    function hasPublicRole(address account) public view  returns(bool) {
 
         return hasRole(PUBLIC_ROLE, account);
     }
