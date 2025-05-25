@@ -5,7 +5,7 @@ import { RolesManager } from "../core/RolesManager.sol";
 import { DataTypes } from "../utils/DataTypes.sol";
 import { Events } from "../utils/Events.sol";
 
-contract InspectionReport {
+contract InspectionReport is RolesManager {
     RolesManager public rolesManager;
 
     struct Report {
@@ -23,7 +23,9 @@ contract InspectionReport {
     }
 
     modifier onlyInspector () {
-        require(rolesManager.hasInspectorRole(msg.sender), "InspectionReport: Caller is not a registered inspector!");
+        if (!hasInspectorRole(msg.sender)) {
+            revert RolesManager__NotAuthorizedInspector();
+        }
         _;
     }
 
@@ -31,12 +33,12 @@ contract InspectionReport {
     ////// INSPECTION REPORT FUNCTIONS //////
     /////////////////////////////////////////
     
-    function submitReport(
+    function submitInspectionReport(
         address enterprise,
         bool passed,
         string memory remarks
-    ) external onlyInspector {
-        require(enterprise != address(0), "InspectionReport: Invalid Enterprise address!!");
+    ) external onlyValidAddress(enterprise) onlyInspector {
+
 
         Report memory report = Report ({
             inspector: msg.sender,
@@ -52,6 +54,10 @@ contract InspectionReport {
     }
 
     function getReports(address enterprise) external view returns(Report[] memory) {
+
+        if (enterpriseReports[enterprise].length == 0) {
+            revert InspectionReport__NoReportsAssociatedWithEnterprise();
+        }
         return enterpriseReports[enterprise];
     }
 }

@@ -2,7 +2,7 @@
 pragma solidity ^0.8.20;
 
 library Events {
-    event CertificationGranted(address indexed enterprise, string industry, string metadataURI);
+    event CertificationGranted(address indexed enterprise, string industry, string metadataURI, uint256 expiryDate);
     event CertificationRevoked(address indexed enterprise);
     event CertificationUpdated(address indexed enterprise, string newMetadataURI);
 
@@ -13,5 +13,9 @@ library Events {
     event InspectionReportSubmitted(address indexed inspector, address indexed enterprise, bool passed, string reportURI, uint256 timestamp);
     
     event CertificateRevoked(uint256 certificateId, address indexed revoker, uint256 timestamp);
+
+    event PublicRoleGranted(address indexed user, uint256 duration);
+    event PublicRoleExpired(address indexed user);
+    event RoleTransferred(bytes32 indexed role, address from, address to);
 
 }
