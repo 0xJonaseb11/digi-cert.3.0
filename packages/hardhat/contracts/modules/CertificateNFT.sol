@@ -35,7 +35,7 @@ contract CertificateNFT is RolesManager, ERC721URIStorage, Ownable {
     //////// CERTIFICATENFT FUNCTIONS ///////////
     /////////////////////////////////////////////
     
-    function mintCertificate(address enterprise, string memory metadataURI) external onlyValidAddress(enterprise) onlyCertifier  returns(uint256) {
+    function mintCertificate(address enterprise, string memory metadataURI /*, uint256 initialCertificateDuration*/) external onlyValidAddress(enterprise) onlyCertifier  returns(uint256) {
 
         if (enterpriseCertificate[enterprise] != 0) {
             revert CertificateNFT__EnterpriseAlreadyCertified();
