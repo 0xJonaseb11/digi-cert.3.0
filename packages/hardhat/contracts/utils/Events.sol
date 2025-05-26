@@ -6,7 +6,7 @@ library Events {
     event CertificationRevoked(address indexed enterprise);
     event CertificationUpdated(address indexed enterprise, string newMetadataURI);
 
-    event EnterpriseRegistered(address indexed enterprise, string name, string industry, string metadataURI);
+    event EnterpriseRegistered(address indexed enterprise, string name, string industry, string metadataURI, uint256 certificateId);
     event EnterpriseUpdated(address indexed enterprise, string newMetadataURI);
     
     event InspectorAssigned(address indexed enterprise, address indexed inspector);

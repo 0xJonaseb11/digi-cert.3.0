@@ -19,7 +19,7 @@ library DataTypes {
         bool isRegistered;
         uint256 registrationDate;
         uint256 lastUpdated;
-        uint256 certificateId
+        uint256 certificateId;
     }
 
     struct InspectionReport {
