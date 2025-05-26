@@ -16,6 +16,7 @@ contract Errors {
     // ------- EnterpriseRegistry --------------//
     error EnterpriseRegistry__EnterpriseAlreadyExists();
     error EnterpriseRegistry__EnterpriseDoesNotExist();
+    error EnterpriseRegistry__InvalidStart();
 
     // ------- CertificationAuthority ------- //
     error CertificationAuthority__EnterpriseAlreadyCertified();

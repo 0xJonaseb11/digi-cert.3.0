@@ -82,16 +82,66 @@ contract EnterpriseRegistry is RolesManager {
         emit Events.EnterpriseUpdated(msg.sender, newMetadataURI);
     }  
 
+    ///////////////////////////////////////////
+    ///////////   Essential helpers //////////
+    //////////////////////////////////////////
+    function isEnterpriseActive(address _enterprise) public view returns(bool) {
+        return 
+            enterprises[_enterprise].isRegistered &&
+            certAuthority.isCertificationValid(_enterprise) &&
+            certificateNFT.isCertificateValid(enterprises[_enterprise].certificateId);
+    }
+
+    function deRegisterEnterprise(address _enterprise) external onlyRole(DEFAULT_ADMIN_ROLE) {
+        if (!enterprises[_enterprise].isRegistered) {
+            revert EnterpriseRegistry__EnterpriseDoesNotExist();
+        }
+            // revoke in all systems
+            certAuthority.revokeCertification(_enterprise);
+            certificateNFT.revokeCertificate(enterprises[_enterprise].certificateId);
+
+            enterprises[_enterprise].isRegistered = false;
+
+            emit Events.EnterpriseDeregistered(_enterprise, block.timestamp);
+    }
+
 
     ////////////////////////
     ////// getters /////////
     ////////////////////////
-    function getEnterprise(address enterpriseAddress) external view onlyValidAddress(enterpriseAddress) returns (DataTypes.Enterprise memory) {
+
+    /// ------ Simple getters approach ---- //
+     function getEnterprise(address enterpriseAddress) external view onlyValidAddress(enterpriseAddress) returns (DataTypes.Enterprise memory) {
         return enterprises[enterpriseAddress];
     }
 
     function listEnterprises() external view returns(address[] memory) {
         return allEnterprises;
+    }
+
+
+    function getEnterpriseWithStatus(address _enterprise)
+    external view
+    returns(DataTypes.Enterprise memory, bool isActive) {
+        DataTypes.Enterprise memory ent = enterprises[_enterprise];
+        return (ent, isEnterpriseActive(_enterprise));
+    }
+
+    // paginated enterprise listing
+    // --- added pagination for formatted output
+
+    function lisEnterprisesPaginated(uint256 start, uint256 limit) 
+    external view returns(address[] memory) {
+        
+        if (start > allEnterprises.length) {
+            revert EnterpriseRegistry__InvalidStart();
+        }   uint256 end = start + limit > allEnterprises.length ? allEnterprises.length : start + limit;
+            address[] memory result = new address[] (end - start);
+
+            for (uint256 i = start; i < end; i++) {
+                result[i - start] = allEnterprises[i];
+            }
+            return result;
     }
 
 }
