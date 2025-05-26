@@ -10,138 +10,41 @@ import {Events} from "../utils/Events.sol";
 import {DataTypes} from "../utils/DataTypes.sol";
 
 contract CertificateNFT is  ERC721URIStorage, AccessControl, RolesManager {
-    // Immutable system contracts
-    RolesManager public immutable rolesManager;
-    CertificationAuthority public immutable certAuthority;
-
-    // Certificate tracking
-    mapping(uint256 => DataTypes.NFTCertificate) private _certificates;
-    uint256 private _nextId;
-
-    constructor(address _rolesManager, address _certAuthority) 
-        ERC721("EnterpriseCertificate", "ECERT") 
-    {
-        rolesManager = RolesManager(_rolesManager);
-        certAuthority = CertificationAuthority(_certAuthority);
-        _grantRole(DEFAULT_ADMIN_ROLE, msg.sender);
-    }
-
-    /////////////////////////////////////////////
-    //////// CERTIFICATE MINTING LOGIC //////////
-    /////////////////////////////////////////////
-
-    function mintCertificate(
-        address enterprise,
-        string calldata metadataURI,
-        uint256 validityDuration
-    ) external onlyCertifier returns(uint256) {
-        // Verify enterprise is certified in Authority
-        require(
-            certAuthority.isCertificationValid(enterprise),
-            "Enterprise not certified"
-        );
-
-        // Check for existing NFT
-        require(
-            balanceOf(enterprise) == 0,
-            "Enterprise already has certificate"
-        );
-
-        uint256 certId = ++_nextId;
-        uint256 expiry = block.timestamp + validityDuration;
-
-        _safeMint(enterprise, certId);
-        _setTokenURI(certId, metadataURI);
-
-        _certificates[certId] = DataTypes.NFTCertificate({
-            enterprise: enterprise,
-            issuer: msg.sender,
-            issuedAt: block.timestamp,
-            expiresAt: expiry,
-            isRevoked: false
-        });
-
-        emit Events.CertificateMinted(
-            certId,
-            enterprise,
-            msg.sender,
-            expiry
-        );
-
-        return certId;
-    }
-
-    /////////////////////////////////////////////
-    //////// ENHANCED REVOCATION LOGIC //////////
-    /////////////////////////////////////////////
-
-    function revokeCertificate(uint256 certId) external onlyRevoker {
-        require(_certificateExists(certId), "Invalid certificate ID");
-        require(!_certificates[certId].isRevoked, "Already revoked");
-
-        _certificates[certId].isRevoked = true;
-        emit Events.CertificateRevoked(certId, msg.sender, block.timestamp);
-    }
-
-    /////////////////////////////////////////////
-    //////// CROSS-CONTRACT VALIDATION //////////
-    /////////////////////////////////////////////
-
-    function isValid(uint256 certId) public view returns(bool) {
-        return 
-            _certificateExists(certId) &&
-            !_certificates[certId].isRevoked &&
-            block.timestamp < _certificates[certId].expiresAt &&
-            certAuthority.isCertificationValid(_certificates[certId].enterprise);
-    }
-
-    /////////////////////////////////////////////
-    //////// INTEGRATION-SAFE OVERRIDES /////////
-    /////////////////////////////////////////////
-
-    function _update(
-        address to,
-        uint256 tokenId,
-        address auth
-    ) internal override returns (address) {
-        require(to == address(0) || auth == address(0), "Non-transferable");
-        return super._update(to, tokenId, auth);
-    }
-
-    /////////////////////////////////////////////
-    //////// ROLE-BASED ACCESS CONTROL //////////
-    /////////////////////////////////////////////
-
-    modifier onlyCertifier() {
-        require(hasCertifierRole(msg.sender), "Not certifier");
-        _;
-    }
-
-    modifier onlyRevoker() {
-        require(
-            hasCertifierRole(msg.sender) || 
-            hasRole(DEFAULT_ADMIN_ROLE, msg.sender),
-            "Not authorized"
-        );
-        _;
-    }
-
-    function supportsInterface(bytes4 interfaceId)
-        public
-        view
-        override(ERC721URIStorage, AccessControl)
-        returns (bool)
-    {
-        return super.supportsInterface(interfaceId);
-    }
+   
 
 
-    // -------- helper to aid in ceritificate checks
-    function _certificateExists(uint256 tokenId) internal view returns (bool) {
-    try this.ownerOf(tokenId) returns (address) {
-        return true;
-    } catch {
-        return false;
-    }
+
+function registerEnterprise(
+    address _enterpriseAddress,
+    string calldata _name,
+    string calldata _industry,
+    string calldata _metadataURI,
+    uint256 initialCertDuration
+) external onlyRole(CERTIFIER_ROLE) {
+    require(!enterprises[_enterpriseAddress].isRegistered, "Enterprise exists");
+    
+    // Register enterprise
+    enterprises[_enterpriseAddress] = DataTypes.Enterprise({
+        enterpriseAddress: _enterpriseAddress,
+        name: _name,
+        industry: _industry,
+        metadataURI: _metadataURI,
+        isRegistered: true,
+        registrationDate: block.timestamp,
+        lastUpdated: block.timestamp,
+        certificateId: 0
+    });
+
+    // Auto-certify in CertificationAuthority
+    certAuthority.certifyEnterprise(_enterpriseAddress, _industry, _metadataURI);
+    
+    // Mint certificate NFT
+    uint256 certId = certificateNFT.mintCertificate(_enterpriseAddress, _metadataURI, initialCertDuration);
+    enterprises[_enterpriseAddress].certificateId = certId;
+
+    allEnterprises.push(_enterpriseAddress);
+    emit Events.EnterpriseRegistered(_enterpriseAddress, _name, _industry, _metadataURI, certId);
 }
+
+
 }
