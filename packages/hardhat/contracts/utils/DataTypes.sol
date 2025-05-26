@@ -17,6 +17,9 @@ library DataTypes {
         string industry;
         string metadataURI;
         bool isRegistered;
+        uint256 registrationDate;
+        uint256 lastUpdated;
+        uint256 certificateId
     }
 
     struct InspectionReport {

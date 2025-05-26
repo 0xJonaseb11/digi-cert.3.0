@@ -4,19 +4,28 @@ pragma solidity ^0.8.20;
 import { DataTypes } from "../utils/DataTypes.sol";
 import { Events } from "../utils/Events.sol";
 import { RolesManager } from "../core/RolesManager.sol";
+import { CertificateNFT } from "../modules/CertificateNFT.sol";
+import { CertificationAuthority } from "../core/CertificationAuthority.sol";
 
 contract EnterpriseRegistry is RolesManager {
     RolesManager public rolesManager;
+    CertificateNFT public certificateNFT;
+    CertificationAuthority public certAuthority;
+
 
     mapping (address => DataTypes.Enterprise) private enterprises;
     address[] public allEnterprises;
 
-    constructor(address _rolesManager) {
+    constructor(address _rolesManager, address _certNFT, address _certAuthority) {
         rolesManager = RolesManager(_rolesManager);
+        certificateNFT = CertificateNFT(_certNFT);
+        certAuthority = CertificationAuthority(_certAuthority);
+
+
     }
 
     modifier onlyEnterprise() {
-        require(rolesManager.hasEnterpriseRole(msg.sender));
+        require(hasEnterpriseRole(msg.sender));
         if (!hasEnterpriseRole(msg.sender)) {
             revert RolesManager__NotAuthorizedEnterprise();
         }
@@ -30,28 +39,14 @@ contract EnterpriseRegistry is RolesManager {
     
     function registerEnterprise(
         address _enterpriseAddress,
-        string memory _name,
-        string memory _industry,
-        string memory _metadataURI
+        string calldata _name,
+        string calldata _industry,
+        string calldata _metadataURI,
+        uint256 initialCertDuration
     ) external onlyRole(CERTIFIER_ROLE) {
-        
-        if (enterprises[_enterpriseAddress].isRegistered == true) {
-            revert EnterpriseRegistry__EnterpriseAlreadyExists();
-        }
-        enterprises[_enterpriseAddress] = DataTypes.Enterprise({
-            enterpriseAddress: _enterpriseAddress,
-            name: _name,
-            industry: _industry,
-            metadataURI: _metadataURI,
-            isRegistered: true
-        });
 
-        allEnterprises.push(_enterpriseAddress);
-
-        emit Events.EnterpriseRegistered(_enterpriseAddress, _name, _industry, _metadataURI);
-
+        if ()
     }
-
     function updateEnterpriseMetadata(string memory newMetadataURI) external onlyEnterprise {
         
         if (enterprises[msg.sender].isRegistered == false) {
