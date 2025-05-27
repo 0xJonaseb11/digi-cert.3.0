@@ -10,8 +10,8 @@ library Events {
     event EnterpriseUpdated(address indexed enterprise, string newMetadataURI);
     event EnterpriseDeregistered(address indexed enterprise, uint256 deregisteredAt);
     
-    event InspectorAssigned(address indexed enterprise, address indexed inspector);
-    event InspectionReportSubmitted(address indexed inspector, address indexed enterprise, bool passed, string reportURI, uint256 ReportedAt);
+    event InspectorAssigned(address indexed enterprise, address indexed inspector, uint256 validityPeriod);
+    event InspectionReportSubmitted(address indexed inspector, address indexed enterprise, bool passed, string remarks, string evidenceURI, uint256 ReportedAt);
     
     event CertificateMinted(uint256 certificateId, address indexed enterprise, address indexed certifier, uint256 mintedAt);
     event CertificateRevoked(uint256 certificateId, address indexed revoker, uint256 timestamp);

@@ -28,6 +28,8 @@ contract Errors {
 
     // -------- InspectionManageer --------- //
     error InspectionManager__InspectorAlreadyAssigned();
+    error InspectionManager__InspectionPeriodExpired();
+    error InspectionManager__NotAssignedToEnterprise();
 
     // ---------- InspectionReport ----------- //
     error InspectionReport__NoReportsAssociatedWithEnterprise();
