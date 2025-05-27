@@ -1,80 +1,145 @@
-# 🏗 Scaffold-ETH 2
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Solidity Version](https://img.shields.io/badge/Solidity-^0.8.20-blue)](https://docs.soliditylang.org)
 
-<h4 align="center">
-  <a href="https://docs.scaffoldeth.io">Documentation</a> |
-  <a href="https://scaffoldeth.io">Website</a>
-</h4>
+# Digi-Cert: On-Chain Digital Certification Platform
 
-🧪 An open-source, up-to-date toolkit for building decentralized applications (dapps) on the Ethereum blockchain. It's designed to make it easier for developers to create and deploy smart contracts and build user interfaces that interact with those contracts.
+A blockchain-based certification management system for enterprises, providing immutable credential issuance, inspection workflows, and decentralized oversight.
 
-⚙️ Built using NextJS, RainbowKit, Hardhat, Wagmi, Viem, and Typescript.
+Digi-Cert is a blockchain-powered digital certification platform designed to ensure **trust, transparency, and integrity** in the certification of enterprises. Built on **Scaffold-ETH 2**, it combines regulatory compliance, enterprise registry, digital credentialing, and role-based access control — all on-chain.
 
-- ✅ **Contract Hot Reload**: Your frontend auto-adapts to your smart contract as you edit it.
-- 🪝 **[Custom hooks](https://docs.scaffoldeth.io/hooks/)**: Collection of React hooks wrapper around [wagmi](https://wagmi.sh/) to simplify interactions with smart contracts with typescript autocompletion.
-- 🧱 [**Components**](https://docs.scaffoldeth.io/components/): Collection of common web3 components to quickly build your frontend.
-- 🔥 **Burner Wallet & Local Faucet**: Quickly test your application with a burner wallet and local faucet.
-- 🔐 **Integration with Wallet Providers**: Connect to different wallet providers and interact with the Ethereum network.
+---
 
-![Debug Contracts tab](https://github.com/scaffold-eth/scaffold-eth-2/assets/55535804/b237af0c-5027-4849-a5c1-2e31495cccb1)
+## Table of Contents
 
-## Requirements
+- [ Features](#-features)
+- [ Smart Contract Architecture](#-smart-contract-architecture)
+- [ RBAC Design](#-rbac-design)
+- [ Certification Process](#️-certification-process)
+- [ Project Structure](#-project-structure)
+- [ Tech Stack](#️-tech-stack)
+- [ Testing](#-testing)
+- [ License](#-license)
+- [ Contact](#-contact)
 
-Before you begin, you need to install the following tools:
+---
 
-- [Node (>= v20.18.3)](https://nodejs.org/en/download/)
-- Yarn ([v1](https://classic.yarnpkg.com/en/docs/install/) or [v2+](https://yarnpkg.com/getting-started/install))
-- [Git](https://git-scm.com/downloads)
+##  Features
 
-## Quickstart
+- **On-chain Certification Issuance** via NFTs  
+- **Enterprise Registration & Deregistration**  
+- **Role-Based Access Control (RBAC)** using `RolesManager`  
+- **Inspections & Trust Management**  
+- **Auditor Oversight & Compliance Audits**  
+- **Anti-Spam Security** with audit deposit requirement  
 
-To get started with Scaffold-ETH 2, follow the steps below:
+---
 
-1. Install dependencies if it was skipped in CLI:
+## Smart Contract Architecture
+
+```sh
+packages/hardhat/contracts/
+├── core/
+│   ├── CertificationAuthority.sol       # Issues certificates, manages cert logic
+│   └── RolesManager.sol                 # Centralized RBAC: assign, revoke, manage roles
+│
+├── interfaces/
+│   ├── ICertificateNFT.sol
+│   ├── ICertificationAuthority.sol
+│   ├── IEnterpriseRegistry.sol
+│   └── IInspectionManager.sol
+│
+├── modules/
+│   ├── AuditorOversight.sol             # Audits inspection reports & ensures compliance
+│   ├── CertificateNFT.sol               # NFT-based certificate logic
+│   ├── EnterpriseRegistry.sol           # Registers/deregisters enterprises
+│   └── InspectionManager.sol            # Validates activities & inspections
+│
+├── utils/
+│   ├── DataTypes.sol                    # Common structs and enums
+│   ├── Errors.sol                       # Custom error definitions
+│   └── Events.sol                       # Shared events across contracts
 
 ```
-cd my-dapp-example
-yarn install
+
+---
+
+## 🔐 RBAC Design
+
+All user roles are centrally controlled via the `RolesManager` contract, including:
+
+- **Certification Authorities**: Issue and revoke certificates  
+- **Enterprises**: Registered and certified businesses  
+- **Inspectors**: Conduct compliance checks  
+- **Auditors**: Independently audit activities and inspection reports  
+
+---
+
+## 🎖️ Certification Process
+
+1. **Enterprise Registration** via `EnterpriseRegistry`  
+2. **Inspections** carried out via `InspectionManager`  
+3. **Audits** by neutral third parties via `AuditorOversight`  
+   - Minimum 0.1 ETH deposit required to deter spam  
+4. **Certificate Minting** using `CertificateNFT` through `CertificationAuthority`  
+
+---
+
+##  Project Structure (Scaffold-ETH 2)
+
+
+```sh
+├── packages/
+│   ├── hardhat/               # Smart contracts & deployment logic
+│   │   ├── contracts/
+│   │   ├── deploy/
+│   │   ├── deployments/
+│   │   ├── test/
+│   │   └── typechain-types/
+│   │
+│   ├── nextjs/                # Frontend dApp (React + Wagmi + Tailwind)
+│   │   ├── components/
+│   │   ├── pages/
+│   │   └── hooks/
+│
+├── scripts/                   # Automation / interaction scripts
+└── foundry.toml               # Optional if integrating Foundry tooling
+
 ```
 
-2. Run a local network in the first terminal:
+---
 
+## Tech Stack
+
+- **Scaffold-ETH 2**  
+- **Solidity**  
+- **Hardhat**  
+- **TypeChain**  
+- **Ether.js**  
+- **Next.js + Tailwind CSS**  
+- **Wagmi + RainbowKit**  
+- **OpenZeppelin Contracts**  
+
+---
+
+## Testing
+
+```sh
+yarn test
 ```
-yarn chain
-```
 
-This command starts a local Ethereum network using Hardhat. The network runs on your local machine and can be used for testing and development. You can customize the network configuration in `packages/hardhat/hardhat.config.ts`.
+Run all smart contract tests from `packages/hardhat/test`.
 
-3. On a second terminal, deploy the test contract:
+---
 
-```
-yarn deploy
-```
+##  License
 
-This command deploys a test smart contract to the local network. The contract is located in `packages/hardhat/contracts` and can be modified to suit your needs. The `yarn deploy` command uses the deploy script located in `packages/hardhat/deploy` to deploy the contract to the network. You can also customize the deploy script.
+[MIT License](./LICENCE)
 
-4. On a third terminal, start your NextJS app:
+---
 
-```
-yarn start
-```
+## Contacts - Collaborators
 
-Visit your app on: `http://localhost:3000`. You can interact with your smart contract using the `Debug Contracts` page. You can tweak the app config in `packages/nextjs/scaffold.config.ts`.
+For collaborations, questions, or contributions:
 
-Run smart contract test with `yarn hardhat:test`
-
-- Edit your smart contracts in `packages/hardhat/contracts`
-- Edit your frontend homepage at `packages/nextjs/app/page.tsx`. For guidance on [routing](https://nextjs.org/docs/app/building-your-application/routing/defining-routes) and configuring [pages/layouts](https://nextjs.org/docs/app/building-your-application/routing/pages-and-layouts) checkout the Next.js documentation.
-- Edit your deployment scripts in `packages/hardhat/deploy`
-
-
-## Documentation
-
-Visit our [docs](https://docs.scaffoldeth.io) to learn how to start building with Scaffold-ETH 2.
-
-To know more about its features, check out our [website](https://scaffoldeth.io).
-
-## Contributing to Scaffold-ETH 2
-
-We welcome contributions to Scaffold-ETH 2!
-
-Please see [CONTRIBUTING.MD](https://github.com/scaffold-eth/scaffold-eth-2/blob/main/CONTRIBUTING.md) for more information and guidelines for contributing to Scaffold-ETH 2.
+ - [@0xJonaseb11](https://github.com/0xJonaseb11)
+ - [@Iot-clementregis](https://github.com/Iot-clementregis)
