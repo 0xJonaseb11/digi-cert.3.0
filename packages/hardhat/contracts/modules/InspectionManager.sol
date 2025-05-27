@@ -31,6 +31,11 @@ contract InspectionManager is RolesManager {
     // Inspection reports storage
     mapping(address => DataTypes.InspectionReport[]) private _enterpriseReports;
     mapping(address => mapping(address => uint256)) private _lastInspectionTimestamps;
+
+    // flagged inspection tracking
+    mapping(uint256 => DataTypes.FlaggedInspection) private _flaggedInspections;
+    mapping(address => uint256[]) private _enterpriseFlaggedReports;
+    uint256 private _flagCounter;
     constructor(address _rolesManager, address _certAuthority) {
         rolesManager = RolesManager(_rolesManager);
         certAuthority = CertificationAuthority(_certAuthority);
@@ -113,7 +118,8 @@ contract InspectionManager is RolesManager {
             remarks: _remarks,
             evidenceURI: _evidenceURI, // IPFS hash
             inspectedAt: block.timestamp,
-            passed: _passed
+            passed: _passed,
+            flagged: false
         });
 
         _enterpriseReports[_enterprise].push(report);
@@ -125,6 +131,8 @@ contract InspectionManager is RolesManager {
 
         }
 
+   
+
         emit Events.InspectionReportSubmitted(
             msg.sender,
             _enterprise,
@@ -134,6 +142,48 @@ contract InspectionManager is RolesManager {
             block.timestamp
         );
     }
+
+
+         /////////////////////////////////////////////////
+        ////////// INSPECTION FLAGGING /////////////////
+        ////////////////////////////////////////////////
+        function flagInspection(
+            address enterprise,
+            uint256 reportIndex,
+            string calldata reason
+        ) external onlyRole(AUDITOR_ROLE) {
+            if (reportIndex >_enterpriseReports[enterprise].length) {
+                revert InspectionManager__InvalidReportIndex();
+            }
+            
+            if (_enterpriseReports[enterprise][reportIndex].flagged) {
+                revert InspectionManager__ReportAlreadyFlagged();
+            }
+
+            _enterpriseReports[enterprise][reportIndex].flagged = true;
+
+            DataTypes.FlaggedInspection memory flagged = DataTypes.FlaggedInspection({
+                enterprise: enterprise,
+                reportIndex: reportIndex,
+                report: _enterpriseReports[enterprise][reportIndex],
+                flaggedBy: msg.sender,
+                reason: reason,
+                flaggedAt: block.timestamp
+            });
+
+            _flaggedInspections[_flagCounter] = flagged;
+            _enterpriseFlaggedReports[enterprise].push(_flagCounter);
+            _flagCounter++;
+
+            emit Events.InspectionReportFlagged(
+                enterprise,
+                reportIndex,
+                msg.sender,
+                reason,
+                block.timestamp
+            );
+
+        }
 
 
     ////////////////////////////////////////////////
@@ -203,5 +253,36 @@ contract InspectionManager is RolesManager {
             revert InspectionManager__NoReportsAssociatedWithEnterprise();
         }
         return _enterpriseReports[enterprise];
+    }
+
+
+
+    //////////////////////////////////////////
+    ///// FLAGGED INSPECTION GETTERS ////////
+    ////////////////////////////////////////
+    function getFlaggedInspections(uint256 limit, uint256 offset) 
+        public view 
+        returns(DataTypes.FlaggedInspection[] memory) {
+            uint256 resultSize = limit > _flagCounter - offset ?  _flagCounter - offset : limit;
+            DataTypes.FlaggedInspection[] memory result = new DataTypes.FlaggedInspection[](resultSize);
+
+            for (uint256 i = 0; i < resultSize; i++) {
+                result[i] = _flaggedInspections[offset + i];
+            }
+
+            return result;
+    }
+
+    function getEnterpriseFlaggedReports(address enterprise)
+    public
+    view
+    returns(DataTypes.FlaggedInspection[] memory) {
+        uint256[] memory flaggedIds = _enterpriseFlaggedReports[enterprise];
+        DataTypes.FlaggedInspection[] memory result = new DataTypes.FlaggedInspection[](flaggedIds.length);
+
+        for (uint256 i = 0; i < flaggedIds.length; i++) {
+            result[i] = _flaggedInspections[flaggedIds[i]];
+        }
+        return result;
     }
 }

@@ -17,6 +17,7 @@ library Events {
     
     event InspectorAssigned(address indexed enterprise, address indexed inspector, uint256 validityPeriod);
     event InspectionReportSubmitted(address indexed inspector, address indexed enterprise, bool passed, string remarks, string evidenceURI, uint256 ReportedAt);
+    event InspectionReportFlagged(address indexed enterprise, uint256 indexed reportIndex, address flaggedBy, string reason, uint256 timestamp);
     
     event CertificateMinted(uint256 certificateId, address indexed enterprise, address indexed certifier, uint256 mintedAt);
     event CertificateRevoked(uint256 certificateId, address indexed revoker, uint256 timestamp);
@@ -29,4 +30,8 @@ library Events {
     event RoleGranted(bytes32 indexed role, address indexed account);
     event RoleRevoked(bytes32 indexed role, address indexed account);
 
-}
+    event AuditInitiated(uint256 indexed caseId, address indexed enterprise, uint256 inspectionId, address auditor, string reason, string evidenceURI);
+    event AuditResolved(uint256 indexed caseId, address indexed enterprise, address resolvedBy, bool upheld, string remarks);
+    event AppealFiled(uint256 indexed caseid, address indexed enterprise, string counterEvidenceURI, uint256 timestamp);
+
+}    

@@ -14,6 +14,21 @@ import type { Errors, ErrorsInterface } from "../../../contracts/utils/Errors";
 const _abi = [
   {
     inputs: [],
+    name: "AuditorOversight__AppealWindowClosed",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "AuditorOversight__CaseNotPending",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "AuditorOversight__NotAuthorizedEnterpriseOwner",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "CertificateNFT__CertificateDoesNotExist",
     type: "error",
   },
@@ -64,12 +79,22 @@ const _abi = [
   },
   {
     inputs: [],
+    name: "InspectionManager__InvalidReportIndex",
+    type: "error",
+  },
+  {
+    inputs: [],
     name: "InspectionManager__NoReportsAssociatedWithEnterprise",
     type: "error",
   },
   {
     inputs: [],
     name: "InspectionManager__NotAssignedToEnterprise",
+    type: "error",
+  },
+  {
+    inputs: [],
+    name: "InspectionManager__ReportAlreadyFlagged",
     type: "error",
   },
   {
@@ -140,7 +165,7 @@ const _abi = [
 ] as const;
 
 const _bytecode =
-  "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea2646970667358221220ee455f5d7187c75bfb162ba25560b552cc1ecbe118ef40d4afb4fc939be0137164736f6c63430008140033";
+  "0x6080604052348015600f57600080fd5b50603f80601d6000396000f3fe6080604052600080fdfea26469706673582212206ffb534b15053409499c007d1f0d3e0a7b91466d09f6108f0bf622a41223e28364736f6c63430008140033";
 
 type ErrorsConstructorParams =
   | [signer?: Signer]

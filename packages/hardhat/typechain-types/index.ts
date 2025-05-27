@@ -52,6 +52,8 @@ export type { IEnterpriseRegistry } from "./contracts/interfaces/IEnterpriseRegi
 export { IEnterpriseRegistry__factory } from "./factories/contracts/interfaces/IEnterpriseRegistry__factory";
 export type { IEnspectionManager } from "./contracts/interfaces/IInspectionManager.sol/IEnspectionManager";
 export { IEnspectionManager__factory } from "./factories/contracts/interfaces/IInspectionManager.sol/IEnspectionManager__factory";
+export type { AuditorOversight } from "./contracts/modules/AuditorOversight";
+export { AuditorOversight__factory } from "./factories/contracts/modules/AuditorOversight__factory";
 export type { CertificateNFT } from "./contracts/modules/CertificateNFT";
 export { CertificateNFT__factory } from "./factories/contracts/modules/CertificateNFT__factory";
 export type { EnterpriseRegistry } from "./contracts/modules/EnterpriseRegistry";

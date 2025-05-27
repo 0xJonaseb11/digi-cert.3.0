@@ -31,6 +31,7 @@ export declare namespace DataTypes {
     evidenceURI: string;
     inspectedAt: BigNumberish;
     passed: boolean;
+    flagged: boolean;
   };
 
   export type InspectionReportStructOutput = [
@@ -39,7 +40,8 @@ export declare namespace DataTypes {
     remarks: string,
     evidenceURI: string,
     inspectedAt: bigint,
-    passed: boolean
+    passed: boolean,
+    flagged: boolean
   ] & {
     inspector: string;
     enterprise: string;
@@ -47,6 +49,32 @@ export declare namespace DataTypes {
     evidenceURI: string;
     inspectedAt: bigint;
     passed: boolean;
+    flagged: boolean;
+  };
+
+  export type FlaggedInspectionStruct = {
+    enterprise: AddressLike;
+    reportIndex: BigNumberish;
+    report: DataTypes.InspectionReportStruct;
+    flaggedBy: AddressLike;
+    reason: string;
+    flaggedAt: BigNumberish;
+  };
+
+  export type FlaggedInspectionStructOutput = [
+    enterprise: string,
+    reportIndex: bigint,
+    report: DataTypes.InspectionReportStructOutput,
+    flaggedBy: string,
+    reason: string,
+    flaggedAt: bigint
+  ] & {
+    enterprise: string;
+    reportIndex: bigint;
+    report: DataTypes.InspectionReportStructOutput;
+    flaggedBy: string;
+    reason: string;
+    flaggedAt: bigint;
   };
 }
 
@@ -65,9 +93,12 @@ export interface InspectionManagerInterface extends Interface {
       | "certAuthority"
       | "checkExpiryRoles"
       | "claimTemporaryPublicRole"
+      | "flagInspection"
       | "getActiveRoles"
+      | "getEnterpriseFlaggedReports"
       | "getEnterpriseInspectionReports"
       | "getEnterpriseInspectors"
+      | "getFlaggedInspections"
       | "getInspectorReports"
       | "getMaxPublicRoleDuration"
       | "getRoleAdmin"
@@ -104,6 +135,7 @@ export interface InspectionManagerInterface extends Interface {
   getEvent(
     nameOrSignatureOrTopic:
       | "BulkRolesGranted"
+      | "InspectionReportFlagged"
       | "InspectionReportSubmitted"
       | "InspectorAssigned"
       | "PublicRoleExpired"
@@ -165,7 +197,15 @@ export interface InspectionManagerInterface extends Interface {
     values: [BigNumberish]
   ): string;
   encodeFunctionData(
+    functionFragment: "flagInspection",
+    values: [AddressLike, BigNumberish, string]
+  ): string;
+  encodeFunctionData(
     functionFragment: "getActiveRoles",
+    values: [AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getEnterpriseFlaggedReports",
     values: [AddressLike]
   ): string;
   encodeFunctionData(
@@ -175,6 +215,10 @@ export interface InspectionManagerInterface extends Interface {
   encodeFunctionData(
     functionFragment: "getEnterpriseInspectors",
     values: [AddressLike]
+  ): string;
+  encodeFunctionData(
+    functionFragment: "getFlaggedInspections",
+    values: [BigNumberish, BigNumberish]
   ): string;
   encodeFunctionData(
     functionFragment: "getInspectorReports",
@@ -350,7 +394,15 @@ export interface InspectionManagerInterface extends Interface {
     data: BytesLike
   ): Result;
   decodeFunctionResult(
+    functionFragment: "flagInspection",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
     functionFragment: "getActiveRoles",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getEnterpriseFlaggedReports",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -359,6 +411,10 @@ export interface InspectionManagerInterface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "getEnterpriseInspectors",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "getFlaggedInspections",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -484,6 +540,34 @@ export namespace BulkRolesGrantedEvent {
   export interface OutputObject {
     roles: string[];
     accounts: string[];
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace InspectionReportFlaggedEvent {
+  export type InputTuple = [
+    enterprise: AddressLike,
+    reportIndex: BigNumberish,
+    flaggedBy: AddressLike,
+    reason: string,
+    timestamp: BigNumberish
+  ];
+  export type OutputTuple = [
+    enterprise: string,
+    reportIndex: bigint,
+    flaggedBy: string,
+    reason: string,
+    timestamp: bigint
+  ];
+  export interface OutputObject {
+    enterprise: string;
+    reportIndex: bigint;
+    flaggedBy: string;
+    reason: string;
+    timestamp: bigint;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -758,6 +842,12 @@ export interface InspectionManager extends BaseContract {
     "nonpayable"
   >;
 
+  flagInspection: TypedContractMethod<
+    [enterprise: AddressLike, reportIndex: BigNumberish, reason: string],
+    [void],
+    "nonpayable"
+  >;
+
   getActiveRoles: TypedContractMethod<
     [account: AddressLike],
     [
@@ -774,6 +864,12 @@ export interface InspectionManager extends BaseContract {
     "view"
   >;
 
+  getEnterpriseFlaggedReports: TypedContractMethod<
+    [enterprise: AddressLike],
+    [DataTypes.FlaggedInspectionStructOutput[]],
+    "view"
+  >;
+
   getEnterpriseInspectionReports: TypedContractMethod<
     [enterprise: AddressLike],
     [DataTypes.InspectionReportStructOutput[]],
@@ -783,6 +879,12 @@ export interface InspectionManager extends BaseContract {
   getEnterpriseInspectors: TypedContractMethod<
     [enterprise: AddressLike],
     [[string[], bigint[]] & { validityPeriods: bigint[] }],
+    "view"
+  >;
+
+  getFlaggedInspections: TypedContractMethod<
+    [limit: BigNumberish, offset: BigNumberish],
+    [DataTypes.FlaggedInspectionStructOutput[]],
     "view"
   >;
 
@@ -1006,6 +1108,13 @@ export interface InspectionManager extends BaseContract {
     nameOrSignature: "claimTemporaryPublicRole"
   ): TypedContractMethod<[durationInHours: BigNumberish], [void], "nonpayable">;
   getFunction(
+    nameOrSignature: "flagInspection"
+  ): TypedContractMethod<
+    [enterprise: AddressLike, reportIndex: BigNumberish, reason: string],
+    [void],
+    "nonpayable"
+  >;
+  getFunction(
     nameOrSignature: "getActiveRoles"
   ): TypedContractMethod<
     [account: AddressLike],
@@ -1023,6 +1132,13 @@ export interface InspectionManager extends BaseContract {
     "view"
   >;
   getFunction(
+    nameOrSignature: "getEnterpriseFlaggedReports"
+  ): TypedContractMethod<
+    [enterprise: AddressLike],
+    [DataTypes.FlaggedInspectionStructOutput[]],
+    "view"
+  >;
+  getFunction(
     nameOrSignature: "getEnterpriseInspectionReports"
   ): TypedContractMethod<
     [enterprise: AddressLike],
@@ -1034,6 +1150,13 @@ export interface InspectionManager extends BaseContract {
   ): TypedContractMethod<
     [enterprise: AddressLike],
     [[string[], bigint[]] & { validityPeriods: bigint[] }],
+    "view"
+  >;
+  getFunction(
+    nameOrSignature: "getFlaggedInspections"
+  ): TypedContractMethod<
+    [limit: BigNumberish, offset: BigNumberish],
+    [DataTypes.FlaggedInspectionStructOutput[]],
     "view"
   >;
   getFunction(
@@ -1171,6 +1294,13 @@ export interface InspectionManager extends BaseContract {
     BulkRolesGrantedEvent.OutputObject
   >;
   getEvent(
+    key: "InspectionReportFlagged"
+  ): TypedContractEvent<
+    InspectionReportFlaggedEvent.InputTuple,
+    InspectionReportFlaggedEvent.OutputTuple,
+    InspectionReportFlaggedEvent.OutputObject
+  >;
+  getEvent(
     key: "InspectionReportSubmitted"
   ): TypedContractEvent<
     InspectionReportSubmittedEvent.InputTuple,
@@ -1251,6 +1381,17 @@ export interface InspectionManager extends BaseContract {
       BulkRolesGrantedEvent.InputTuple,
       BulkRolesGrantedEvent.OutputTuple,
       BulkRolesGrantedEvent.OutputObject
+    >;
+
+    "InspectionReportFlagged(address,uint256,address,string,uint256)": TypedContractEvent<
+      InspectionReportFlaggedEvent.InputTuple,
+      InspectionReportFlaggedEvent.OutputTuple,
+      InspectionReportFlaggedEvent.OutputObject
+    >;
+    InspectionReportFlagged: TypedContractEvent<
+      InspectionReportFlaggedEvent.InputTuple,
+      InspectionReportFlaggedEvent.OutputTuple,
+      InspectionReportFlaggedEvent.OutputObject
     >;
 
     "InspectionReportSubmitted(address,address,bool,string,string,uint256)": TypedContractEvent<

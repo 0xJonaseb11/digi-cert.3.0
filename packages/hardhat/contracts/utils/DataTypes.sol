@@ -34,6 +34,16 @@ library DataTypes {
         string evidenceURI; // IPFS hash
         uint256 inspectedAt;
         bool passed;
+        bool flagged;
+    }
+
+    struct FlaggedInspection {
+        address enterprise;
+        uint256 reportIndex;
+        InspectionReport report;
+        address flaggedBy;
+        string reason;
+        uint256 flaggedAt;
     }
 
     struct NFTCertificate {
@@ -42,7 +52,25 @@ library DataTypes {
     uint256 issuedAt;
     uint256 expiresAt;
     bool isRevoked;
-}
+    }
 
-    
+    struct AuditCase {
+        uint256 id;
+        address targetEnterprise;
+        uint256 inspectionId;
+        address auditor;
+        string reason;
+        string evidenceURI;
+        uint256 depositAmount;
+        AuditStatus status;
+        uint256 createdAt;
+        uint256 resolvedAt;
+    }
+
+    enum AuditStatus {
+        Pending,
+        Upheld,
+        Rejected,
+        Appealed
+    }
 }

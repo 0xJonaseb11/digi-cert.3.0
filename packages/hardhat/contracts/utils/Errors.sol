@@ -42,8 +42,15 @@ contract Errors {
     error InspectionManager__InspectorAlreadyAssigned();
     error InspectionManager__InspectionPeriodExpired();
     error InspectionManager__NotAssignedToEnterprise();
+    error InspectionManager__InvalidReportIndex();
+    error InspectionManager__ReportAlreadyFlagged();
+    error InspectionManager__NoReportsAssociatedWithEnterprise();
+
 
     // ---------- InspectionReport ----------- //
-    error InspectionManager__NoReportsAssociatedWithEnterprise();
+
+    error AuditorOversight__NotAuthorizedEnterpriseOwner();
+    error AuditorOversight__AppealWindowClosed();
+    error AuditorOversight__CaseNotPending();
 
 }
