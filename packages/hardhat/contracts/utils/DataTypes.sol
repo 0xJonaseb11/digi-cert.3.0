@@ -25,7 +25,8 @@ library DataTypes {
     struct InspectionReport {
         address inspector;
         address enterprise;
-        string reportURI;
+        string remarks;
+        string evidenceURI; // IPFS hash
         uint256 inspectedAt;
         bool passed;
     }
