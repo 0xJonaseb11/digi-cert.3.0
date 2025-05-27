@@ -1,6 +1,20 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
+/**
+* @author @0xJonaseb11 
+* @title InspectionManager Contract
+* @dev Manages inspection process and reports
+* @automates certification revocation when inspection is not passed
+*/
+
+///////////////////////////////////////////////////////////////////
+/////// TO-DO : : Implement Inspection Validity specification/////
+/////// Initial 30 days atleast - can be changed by Super Admin //
+////// ASK REGIS HOW LONG A CERTIFICATION WOULD LAST ////////////
+////////////////////////////////////////////////////////////////
+
+
 import { RolesManager } from "../core/RolesManager.sol";
 import { CertificationAuthority } from "../core/CertificationAuthority.sol";
 import { Events } from "../utils/Events.sol";
@@ -183,11 +197,11 @@ contract InspectionManager is RolesManager {
     /////////////////////////////////////////
     /// Simple reports getter for testing////
     /////////////////////////////////////////
-      function getReports(address enterprise) external view returns(Report[] memory) {
+      function getEnterpriseInspectionReports(address enterprise) external view returns(DataTypes.InspectionReport[] memory) {
 
-        if (enterpriseReports[enterprise].length == 0) {
-            revert InspectionReport__NoReportsAssociatedWithEnterprise();
+        if (_enterpriseReports[enterprise].length == 0) {
+            revert InspectionManager__NoReportsAssociatedWithEnterprise();
         }
-        return enterpriseReports[enterprise];
+        return _enterpriseReports[enterprise];
     }
 }
