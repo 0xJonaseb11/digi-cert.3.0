@@ -24,6 +24,9 @@ import type {
 export interface EventsInterface extends Interface {
   getEvent(
     nameOrSignatureOrTopic:
+      | "AppealFiled"
+      | "AuditInitiated"
+      | "AuditResolved"
       | "BulkRolesGranted"
       | "CertificateMinted"
       | "CertificateRevoked"
@@ -33,6 +36,7 @@ export interface EventsInterface extends Interface {
       | "EnterpriseDeregistered"
       | "EnterpriseRegistered"
       | "EnterpriseUpdated"
+      | "InspectionReportFlagged"
       | "InspectionReportSubmitted"
       | "InspectorAssigned"
       | "PublicRoleExpired"
@@ -41,6 +45,90 @@ export interface EventsInterface extends Interface {
       | "RoleRevoked"
       | "RoleTransferred"
   ): EventFragment;
+}
+
+export namespace AppealFiledEvent {
+  export type InputTuple = [
+    caseid: BigNumberish,
+    enterprise: AddressLike,
+    counterEvidenceURI: string,
+    timestamp: BigNumberish
+  ];
+  export type OutputTuple = [
+    caseid: bigint,
+    enterprise: string,
+    counterEvidenceURI: string,
+    timestamp: bigint
+  ];
+  export interface OutputObject {
+    caseid: bigint;
+    enterprise: string;
+    counterEvidenceURI: string;
+    timestamp: bigint;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace AuditInitiatedEvent {
+  export type InputTuple = [
+    caseId: BigNumberish,
+    enterprise: AddressLike,
+    inspectionId: BigNumberish,
+    auditor: AddressLike,
+    reason: string,
+    evidenceURI: string
+  ];
+  export type OutputTuple = [
+    caseId: bigint,
+    enterprise: string,
+    inspectionId: bigint,
+    auditor: string,
+    reason: string,
+    evidenceURI: string
+  ];
+  export interface OutputObject {
+    caseId: bigint;
+    enterprise: string;
+    inspectionId: bigint;
+    auditor: string;
+    reason: string;
+    evidenceURI: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace AuditResolvedEvent {
+  export type InputTuple = [
+    caseId: BigNumberish,
+    enterprise: AddressLike,
+    resolvedBy: AddressLike,
+    upheld: boolean,
+    remarks: string
+  ];
+  export type OutputTuple = [
+    caseId: bigint,
+    enterprise: string,
+    resolvedBy: string,
+    upheld: boolean,
+    remarks: string
+  ];
+  export interface OutputObject {
+    caseId: bigint;
+    enterprise: string;
+    resolvedBy: string;
+    upheld: boolean;
+    remarks: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
 }
 
 export namespace BulkRolesGrantedEvent {
@@ -203,6 +291,34 @@ export namespace EnterpriseUpdatedEvent {
   export interface OutputObject {
     enterprise: string;
     newMetadataURI: string;
+  }
+  export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
+  export type Filter = TypedDeferredTopicFilter<Event>;
+  export type Log = TypedEventLog<Event>;
+  export type LogDescription = TypedLogDescription<Event>;
+}
+
+export namespace InspectionReportFlaggedEvent {
+  export type InputTuple = [
+    enterprise: AddressLike,
+    reportIndex: BigNumberish,
+    flaggedBy: AddressLike,
+    reason: string,
+    timestamp: BigNumberish
+  ];
+  export type OutputTuple = [
+    enterprise: string,
+    reportIndex: bigint,
+    flaggedBy: string,
+    reason: string,
+    timestamp: bigint
+  ];
+  export interface OutputObject {
+    enterprise: string;
+    reportIndex: bigint;
+    flaggedBy: string;
+    reason: string;
+    timestamp: bigint;
   }
   export type Event = TypedContractEvent<InputTuple, OutputTuple, OutputObject>;
   export type Filter = TypedDeferredTopicFilter<Event>;
@@ -380,6 +496,27 @@ export interface Events extends BaseContract {
   ): T;
 
   getEvent(
+    key: "AppealFiled"
+  ): TypedContractEvent<
+    AppealFiledEvent.InputTuple,
+    AppealFiledEvent.OutputTuple,
+    AppealFiledEvent.OutputObject
+  >;
+  getEvent(
+    key: "AuditInitiated"
+  ): TypedContractEvent<
+    AuditInitiatedEvent.InputTuple,
+    AuditInitiatedEvent.OutputTuple,
+    AuditInitiatedEvent.OutputObject
+  >;
+  getEvent(
+    key: "AuditResolved"
+  ): TypedContractEvent<
+    AuditResolvedEvent.InputTuple,
+    AuditResolvedEvent.OutputTuple,
+    AuditResolvedEvent.OutputObject
+  >;
+  getEvent(
     key: "BulkRolesGranted"
   ): TypedContractEvent<
     BulkRolesGrantedEvent.InputTuple,
@@ -443,6 +580,13 @@ export interface Events extends BaseContract {
     EnterpriseUpdatedEvent.OutputObject
   >;
   getEvent(
+    key: "InspectionReportFlagged"
+  ): TypedContractEvent<
+    InspectionReportFlaggedEvent.InputTuple,
+    InspectionReportFlaggedEvent.OutputTuple,
+    InspectionReportFlaggedEvent.OutputObject
+  >;
+  getEvent(
     key: "InspectionReportSubmitted"
   ): TypedContractEvent<
     InspectionReportSubmittedEvent.InputTuple,
@@ -493,6 +637,39 @@ export interface Events extends BaseContract {
   >;
 
   filters: {
+    "AppealFiled(uint256,address,string,uint256)": TypedContractEvent<
+      AppealFiledEvent.InputTuple,
+      AppealFiledEvent.OutputTuple,
+      AppealFiledEvent.OutputObject
+    >;
+    AppealFiled: TypedContractEvent<
+      AppealFiledEvent.InputTuple,
+      AppealFiledEvent.OutputTuple,
+      AppealFiledEvent.OutputObject
+    >;
+
+    "AuditInitiated(uint256,address,uint256,address,string,string)": TypedContractEvent<
+      AuditInitiatedEvent.InputTuple,
+      AuditInitiatedEvent.OutputTuple,
+      AuditInitiatedEvent.OutputObject
+    >;
+    AuditInitiated: TypedContractEvent<
+      AuditInitiatedEvent.InputTuple,
+      AuditInitiatedEvent.OutputTuple,
+      AuditInitiatedEvent.OutputObject
+    >;
+
+    "AuditResolved(uint256,address,address,bool,string)": TypedContractEvent<
+      AuditResolvedEvent.InputTuple,
+      AuditResolvedEvent.OutputTuple,
+      AuditResolvedEvent.OutputObject
+    >;
+    AuditResolved: TypedContractEvent<
+      AuditResolvedEvent.InputTuple,
+      AuditResolvedEvent.OutputTuple,
+      AuditResolvedEvent.OutputObject
+    >;
+
     "BulkRolesGranted(bytes32[],address[])": TypedContractEvent<
       BulkRolesGrantedEvent.InputTuple,
       BulkRolesGrantedEvent.OutputTuple,
@@ -590,6 +767,17 @@ export interface Events extends BaseContract {
       EnterpriseUpdatedEvent.InputTuple,
       EnterpriseUpdatedEvent.OutputTuple,
       EnterpriseUpdatedEvent.OutputObject
+    >;
+
+    "InspectionReportFlagged(address,uint256,address,string,uint256)": TypedContractEvent<
+      InspectionReportFlaggedEvent.InputTuple,
+      InspectionReportFlaggedEvent.OutputTuple,
+      InspectionReportFlaggedEvent.OutputObject
+    >;
+    InspectionReportFlagged: TypedContractEvent<
+      InspectionReportFlaggedEvent.InputTuple,
+      InspectionReportFlaggedEvent.OutputTuple,
+      InspectionReportFlaggedEvent.OutputObject
     >;
 
     "InspectionReportSubmitted(address,address,bool,string,string,uint256)": TypedContractEvent<

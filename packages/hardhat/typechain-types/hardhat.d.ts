@@ -106,6 +106,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IEnspectionManager__factory>;
     getContractFactory(
+      name: "AuditorOversight",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.AuditorOversight__factory>;
+    getContractFactory(
       name: "CertificateNFT",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.CertificateNFT__factory>;
@@ -242,6 +246,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IEnspectionManager>;
     getContractAt(
+      name: "AuditorOversight",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.AuditorOversight>;
+    getContractAt(
       name: "CertificateNFT",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
@@ -360,6 +369,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IEnspectionManager>;
     deployContract(
+      name: "AuditorOversight",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.AuditorOversight>;
+    deployContract(
       name: "CertificateNFT",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.CertificateNFT>;
@@ -495,6 +508,11 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IEnspectionManager>;
+    deployContract(
+      name: "AuditorOversight",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.AuditorOversight>;
     deployContract(
       name: "CertificateNFT",
       args: any[],
