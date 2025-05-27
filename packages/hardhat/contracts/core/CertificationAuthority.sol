@@ -1,6 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
+
+/**
+* @author @0xJonaseb11
+* @title CertificationAuthority Contract
+* @dev Acts like a Certificate Authority main house for enterprises
+* @dev Only the Certifier can certify enterprises
+* @dev Allows update of NFT certificate's metadata URI
+* @dev Automatic revocation of certificates after expiry duration
+*/
 import {RolesManager} from "./RolesManager.sol";
 import {Events} from "../utils/Events.sol";
 import {DataTypes} from "../utils/DataTypes.sol";
@@ -14,7 +23,6 @@ contract CertificationAuthority is RolesManager, ERC721URIStorage, ERC721Burnabl
     using DataTypes for DataTypes.Certification;
     using DataTypes for DataTypes.InspectionReport;
 
-    // Storage
     mapping(address => DataTypes.Certification) public certifications;
     mapping(uint256 => address) private _tokenToEnterprise;
     uint256 private _tokenIdCounter;
@@ -27,6 +35,18 @@ contract CertificationAuthority is RolesManager, ERC721URIStorage, ERC721Burnabl
     //////////////////////////////////////////////////////////
     ///////////// ENTERPRISE CERTIFICATION ///////////////////
     //////////////////////////////////////////////////////////
+
+    /**
+    * @dev This function is used to certify enterprises
+    * @dev Only the Certifier can certify enterprises
+    * @dev mints and assigns NFT certificate to an enterprise
+    * @dev sets token URI to metadata URI of a certificate
+    * @param enterpriseAddress The address of the enterprise to be certified
+    * @param _industry The industry of the enterprise to be certified
+    * @param _metadataURI The metadata URI of the certificate (IPFS hash)
+    * @param validityDurationSeconds The validity duration of the certificate in seconds
+    * @notice Emits CertificationGranted event on successful enterprise certification
+    */
 
     function certifyEnterprise(
         address enterpriseAddress,
@@ -64,11 +84,19 @@ contract CertificationAuthority is RolesManager, ERC721URIStorage, ERC721Burnabl
     //////////////////////////////////////////////////////////
     ///////////// REVOCATION & EXPIRY HANDLING //////////////
     //////////////////////////////////////////////////////////
+    
 
+    /**
+    * @dev allows the revocation of certifications from enterprises
+    * @dev Only the `Certifier` or `Super Admin` can revoke certifications
+    * @dev allows automatic destruction of NFT certificates via oppenzeppelin's`burn` function
+    * @param enterpriseAddress The address of the enterprise to be revoked
+    * @notice Emits CertificationRevoked event on successful enterprise revocation
+    */
     function revokeCertification(address enterpriseAddress)
         external
         onlyValidAddress(enterpriseAddress)
-        onlyRole(CERTIFIER_ROLE)
+        onlyRole(CERTIFIER_ROLE) onlyRole(DEFAULT_ADMIN_ROLE)
     {
         DataTypes.Certification storage cert = certifications[enterpriseAddress];
         if (!cert.isCertified) {
@@ -83,11 +111,22 @@ contract CertificationAuthority is RolesManager, ERC721URIStorage, ERC721Burnabl
         cert.isCertified = false;
         emit Events.CertificationRevoked(enterpriseAddress);
     }
+    
 
+    /**
+    * @dev alloes automatic revokation of NFT certificates after expiry duration 
+    * @dev callable by anyone as long as expiry date kicks in
+    * @notice Emits CertificationRevoked event on successful enterprise revocation
+    */
     function revokeIfExpired(address enterpriseAddress) external {
         DataTypes.Certification storage cert = certifications[enterpriseAddress];
-        require(cert.isCertified, "Not certified");
-        require(block.timestamp > cert.expiryDate, "Not expired");
+
+        if (!cert.isCertified) {
+            revert CertificationAuthority__EnterpriseNotCertifiedYet();
+        }
+        if (block.timestamp < cert.expiryDate) {
+            revert CertificationAuthority__CertificationNotExpiredYet();
+        }
 
         if (cert.tokenId != 0) {
             burn(cert.tokenId);
@@ -127,11 +166,19 @@ contract CertificationAuthority is RolesManager, ERC721URIStorage, ERC721Burnabl
         return cert.isCertified && block.timestamp <= cert.expiryDate;
     }
 
-    function isCertificationValid(uint256 tokenId) public view returns (bool) {
+    function isCertificateValid(uint256 tokenId) public view returns (bool) {
         address enterprise = _tokenToEnterprise[tokenId];
         return isCertificationValid(enterprise);
     }
-
+    
+    
+    /**
+    * @dev updates the metadata URI of the NFT certificate
+    * @dev Only the `Certifier` can update certification metadata URI
+    * @param enterpriseAddress The address of the enterprise to be updated
+    * @param newMetadataURI The new metadata URI of the certificate
+    * @notice Emits CertificationUpdated event on successful metadata update
+    */
     function updateCertificationMetadata(
         address enterpriseAddress,
         string calldata newMetadataURI

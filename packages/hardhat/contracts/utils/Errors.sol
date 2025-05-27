@@ -32,6 +32,7 @@ contract Errors {
     // ------- CertificationAuthority ------- //
     error CertificationAuthority__EnterpriseAlreadyCertified();
     error CertificationAuthority__EnterpriseNotCertifiedYet();
+    error CertificationAuthority__CertificationNotExpiredYet();
 
     // -------- CertificateNFT --------- //
     error CertificateNFT__EnterpriseAlreadyCertified();
