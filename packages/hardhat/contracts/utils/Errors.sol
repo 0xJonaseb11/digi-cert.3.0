@@ -1,6 +1,12 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
+/**
+* @author @0xJonaseb11
+* @dev contains the custom errors emitted by the contracts
+@notice All the contracts inherit this to handle custom errors
+*/
+
 contract Errors {
     error InvalidAddress();
 
@@ -12,6 +18,11 @@ contract Errors {
     error RolesManager__NotAuthorizedEnterprise();
     error RolesManager__NotAuthorizedCertificateFactory();
     error RolesManager__NotAuthorizedPublicUser();
+    error RolesManager__AlreadyHasRole();
+    error RolesManager__InvalidDuration();
+    error RolesManager__EmptyArray();
+    error RolesManager__ArrayLengthMismatch();
+    error RolesManager__RoleDoesNotExist();
 
     // ------- EnterpriseRegistry --------------//
     error EnterpriseRegistry__EnterpriseAlreadyExists();
@@ -32,6 +43,6 @@ contract Errors {
     error InspectionManager__NotAssignedToEnterprise();
 
     // ---------- InspectionReport ----------- //
-    error InspectionReport__NoReportsAssociatedWithEnterprise();
+    error InspectionManager__NoReportsAssociatedWithEnterprise();
 
 }

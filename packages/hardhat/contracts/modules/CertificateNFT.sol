@@ -1,6 +1,15 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
+
+/**
+* @author @0xJonaseb11
+* @title CertificateNFT Contract
+* @dev This contract is used to mint NFT certificates for enterprises
+* @dev Only the Certifier can mint certificates
+* @dev Only the Certifier can revoke certificates
+* @notice It allows integration with  `CertificationAuthority` contract for smooth certifiation mage't
+*/
 import { ERC721URIStorage } from "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol";
 import { ERC721 } from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import { AccessControl } from "@openzeppelin/contracts/access/AccessControl.sol";
@@ -16,26 +25,24 @@ contract CertificateNFT is RolesManager, ERC721URIStorage, Ownable {
     mapping(address => uint256) public enterpriseCertificate;
     mapping(uint256 => bool) public validCertificates;
 
-
-    // --------------- Events -------------------//
-    event CertificateMinted(uint256 certId, address enterprise, address certifier, uint256 timestamp);
-
     constructor(address _rolesManager) ERC721("Enterprise Certificate", "DIGI-CERT") Ownable(msg.sender){
         rolesManager = RolesManager(_rolesManager);
     }
 
-    modifier onlyCertifier() {
-        if (!hasCertifierRole(msg.sender)) {
-            revert RolesManager__NotAuthorizedCertifier();
-        }
-        _;
-    }
 
     /////////////////////////////////////////////
     //////// CERTIFICATENFT FUNCTIONS ///////////
     /////////////////////////////////////////////
     
-    function mintCertificate(address enterprise, string memory metadataURI /*, uint256 initialCertificateDuration*/) external onlyValidAddress(enterprise) onlyCertifier  returns(uint256) {
+    /**
+    * @dev Mints a new certificate for an enterprise
+    * @dev Only the Super Admin can mint a certificate
+    * @param enterprise The address of the enterprise to mint a certificate for
+    * @param metadataURI The metadata URI of the certificate
+    * @notice Emits CertificateMinted event when a certificate is minted
+    * @return uint256 The certificate ID
+    */
+    function mintCertificate(address enterprise, string memory metadataURI /*, uint256 initialCertificateDuration*/) external onlyValidAddress(enterprise) onlyRole(CERTIFIER_ROLE)  returns(uint256) {
 
         if (enterpriseCertificate[enterprise] != 0) {
             revert CertificateNFT__EnterpriseAlreadyCertified();
@@ -50,7 +57,7 @@ contract CertificateNFT is RolesManager, ERC721URIStorage, Ownable {
         enterpriseCertificate[enterprise] = certId;
         validCertificates[certId] = true;
         
-        emit CertificateMinted(certId, enterprise, msg.sender, block.timestamp);
+        emit Events.CertificateMinted(certId, enterprise, msg.sender, block.timestamp);
 
         return certId;
     }
@@ -58,7 +65,14 @@ contract CertificateNFT is RolesManager, ERC721URIStorage, Ownable {
     /////////////////////////////
     ////// revoke certificate //
     ////////////////////////////
-    function revokeCertificate(uint256 certId) external onlyCertifier  {
+
+    /**
+    * @dev Revokes a certificate from an enterprise
+    * @dev Only the Super Admin can revoke a certificate
+    * @param certId The ID of the certificate to revoke
+    * @notice Emits CertificateRevoked event on successful certificate revocation
+    */
+    function revokeCertificate(uint256 certId) external  onlyRole(CERTIFIER_ROLE) onlyRole(DEFAULT_ADMIN_ROLE)  {
         
         if (validCertificates[certId] == false) {
             revert CertificateNFT__CertificateDoesNotExist();

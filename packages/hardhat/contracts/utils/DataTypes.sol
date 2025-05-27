@@ -1,6 +1,11 @@
 // SPDX-License-Identifier: MIT
 pragma solidity ^0.8.20;
 
+/**
+* @author @0xJonaseb11
+* @dev This library contains the data types used by the contracts
+* @dev These structs hold a huge role in maintaining contract states
+*/
 library DataTypes {
     struct Certification {
         string industry;
