@@ -6,11 +6,12 @@ const deployInspectorManager: DeployFunction = async function (hre: HardhatRunti
   const { deployer } = await hre.getNamedAccounts();
   const { deploy, get } = hre.deployments;
 
+  const rolesManager = await get("RolesManager");
   const certificationAuthority = await get("CertificationAuthority");
 
   await deploy("InspectionManager", {
     from: deployer,
-    args: [certificationAuthority.address],
+    args: [rolesManager.address, certificationAuthority.address],
     log: true,
     autoMine: true,
   });
@@ -18,7 +19,7 @@ const deployInspectorManager: DeployFunction = async function (hre: HardhatRunti
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const inspectorManager = await hre.ethers.getContract<Contract>("InspectionManager", deployer);
 
-  console.log("✅ InspectionManager contract deployed sufcessfully!!");
+  console.log("✅ InspectionManager contract deployed successfully!!");
 
 };
 

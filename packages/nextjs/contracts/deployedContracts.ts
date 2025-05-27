@@ -7,9 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     CertificateNFT: {
-
-      address: "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6",
-
+      address: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
       abi: [
         {
           inputs: [
@@ -21,6 +19,52 @@ const deployedContracts = {
           ],
           stateMutability: "nonpayable",
           type: "constructor",
+        },
+        {
+          inputs: [],
+          name: "AccessControlBadConfirmation",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+            {
+              internalType: "bytes32",
+              name: "neededRole",
+              type: "bytes32",
+            },
+          ],
+          name: "AccessControlUnauthorizedAccount",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "CertificateNFT__CertificateDoesNotExist",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "CertificateNFT__EnterpriseAlreadyCertified",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "CertificationAuthority__CertificationNotExpiredYet",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "CertificationAuthority__EnterpriseAlreadyCertified",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "CertificationAuthority__EnterpriseNotCertifiedYet",
+          type: "error",
         },
         {
           inputs: [
@@ -126,6 +170,46 @@ const deployedContracts = {
           type: "error",
         },
         {
+          inputs: [],
+          name: "EnterpriseRegistry__EnterpriseAlreadyExists",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "EnterpriseRegistry__EnterpriseDoesNotExist",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "EnterpriseRegistry__InvalidStart",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InspectionManager__InspectionPeriodExpired",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InspectionManager__InspectorAlreadyAssigned",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InspectionManager__NoReportsAssociatedWithEnterprise",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InspectionManager__NotAssignedToEnterprise",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InvalidAddress",
+          type: "error",
+        },
+        {
           inputs: [
             {
               internalType: "address",
@@ -145,6 +229,66 @@ const deployedContracts = {
             },
           ],
           name: "OwnableUnauthorizedAccount",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__AlreadyHasRole",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__ArrayLengthMismatch",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__EmptyArray",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__InvalidDuration",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__NotAuthorizedAuditor",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__NotAuthorizedCertificateFactory",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__NotAuthorizedCertifier",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__NotAuthorizedEnterprise",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__NotAuthorizedInspector",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__NotAuthorizedPublicUser",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__RoleDoesNotExist",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__UnauthorizedToPerformAction",
           type: "error",
         },
         {
@@ -221,8 +365,57 @@ const deployedContracts = {
           inputs: [
             {
               indexed: false,
+              internalType: "bytes32[]",
+              name: "roles",
+              type: "bytes32[]",
+            },
+            {
+              indexed: true,
+              internalType: "address[]",
+              name: "accounts",
+              type: "address[]",
+            },
+          ],
+          name: "BulkRolesGranted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
               internalType: "uint256",
-
+              name: "certificateId",
+              type: "uint256",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "enterprise",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "certifier",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "mintedAt",
+              type: "uint256",
+            },
+          ],
+          name: "CertificateMinted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "uint256",
               name: "certificateId",
               type: "uint256",
             },
@@ -280,6 +473,176 @@ const deployedContracts = {
             {
               indexed: true,
               internalType: "address",
+              name: "user",
+              type: "address",
+            },
+          ],
+          name: "PublicRoleExpired",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "user",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "duration",
+              type: "uint256",
+            },
+          ],
+          name: "PublicRoleGranted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "previousAdminRole",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "newAdminRole",
+              type: "bytes32",
+            },
+          ],
+          name: "RoleAdminChanged",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "sender",
+              type: "address",
+            },
+          ],
+          name: "RoleGranted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "RoleGranted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "sender",
+              type: "address",
+            },
+          ],
+          name: "RoleRevoked",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "RoleRevoked",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "from",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "to",
+              type: "address",
+            },
+          ],
+          name: "RoleTransferred",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
               name: "from",
               type: "address",
             },
@@ -298,6 +661,97 @@ const deployedContracts = {
           ],
           name: "Transfer",
           type: "event",
+        },
+        {
+          inputs: [],
+          name: "AUDITOR_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "CERTIFICATE_FACTORY_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "CERTIFIER_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "DEFAULT_ADMIN_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "ENTERPRISE_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "INSPECTOR_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "PUBLIC_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
         },
         {
           inputs: [
@@ -339,6 +793,50 @@ const deployedContracts = {
         {
           inputs: [
             {
+              internalType: "bytes32[]",
+              name: "roles",
+              type: "bytes32[]",
+            },
+            {
+              internalType: "address[]",
+              name: "accounts",
+              type: "address[]",
+            },
+          ],
+          name: "bulkGrantRoles",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "checkExpiryRoles",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "durationInHours",
+              type: "uint256",
+            },
+          ],
+          name: "claimTemporaryPublicRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
               internalType: "address",
               name: "",
               type: "address",
@@ -350,6 +848,55 @@ const deployedContracts = {
               internalType: "uint256",
               name: "",
               type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "getActiveRoles",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "isAdmin",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "isCertifier",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "isInspector",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "isAuditor",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "isEnterprise",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "isCertificateFactory",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "isPublic",
+              type: "bool",
             },
           ],
           stateMutability: "view",
@@ -388,6 +935,291 @@ const deployedContracts = {
               internalType: "uint256",
               name: "",
               type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getMaxPublicRoleDuration",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "pure",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+          ],
+          name: "getRoleAdmin",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantAuditor",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantCertificateFactory",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantCertifier",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantEnterprise",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantInspector",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantPublicRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasAdminRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasAuditorRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasCertificateFactoryRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasCertifierRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasEnterpriseRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasInspectorRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasPublicRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
             },
           ],
           stateMutability: "view",
@@ -519,8 +1351,58 @@ const deployedContracts = {
           type: "function",
         },
         {
+          inputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          name: "publicRoleExpiry",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
           inputs: [],
           name: "renounceOwnership",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "callerConfirmation",
+              type: "address",
+            },
+          ],
+          name: "renounceRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokeAuditorRole",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
@@ -534,6 +1416,89 @@ const deployedContracts = {
             },
           ],
           name: "revokeCertificate",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokeCertificateFactoryRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokeCertifierRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokeEnterpriseRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokeInspectorRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokePublicRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokeRole",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
@@ -710,6 +1675,29 @@ const deployedContracts = {
         {
           inputs: [
             {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "from",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "to",
+              type: "address",
+            },
+          ],
+          name: "transferRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
               internalType: "uint256",
               name: "",
               type: "uint256",
@@ -728,38 +1716,77 @@ const deployedContracts = {
         },
       ],
       inheritedFunctions: {
-
-        approve: "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
-        balanceOf: "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
-        getApproved: "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
-        isApprovedForAll: "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
+        AUDITOR_ROLE: "contracts/core/RolesManager.sol",
+        CERTIFICATE_FACTORY_ROLE: "contracts/core/RolesManager.sol",
+        CERTIFIER_ROLE: "contracts/core/RolesManager.sol",
+        DEFAULT_ADMIN_ROLE: "contracts/core/RolesManager.sol",
+        ENTERPRISE_ROLE: "contracts/core/RolesManager.sol",
+        INSPECTOR_ROLE: "contracts/core/RolesManager.sol",
+        PUBLIC_ROLE: "contracts/core/RolesManager.sol",
+        bulkGrantRoles: "contracts/core/RolesManager.sol",
+        checkExpiryRoles: "contracts/core/RolesManager.sol",
+        claimTemporaryPublicRole: "contracts/core/RolesManager.sol",
+        getActiveRoles: "contracts/core/RolesManager.sol",
+        getMaxPublicRoleDuration: "contracts/core/RolesManager.sol",
+        getRoleAdmin: "contracts/core/RolesManager.sol",
+        grantAuditor: "contracts/core/RolesManager.sol",
+        grantCertificateFactory: "contracts/core/RolesManager.sol",
+        grantCertifier: "contracts/core/RolesManager.sol",
+        grantEnterprise: "contracts/core/RolesManager.sol",
+        grantInspector: "contracts/core/RolesManager.sol",
+        grantPublicRole: "contracts/core/RolesManager.sol",
+        grantRole: "contracts/core/RolesManager.sol",
+        hasAdminRole: "contracts/core/RolesManager.sol",
+        hasAuditorRole: "contracts/core/RolesManager.sol",
+        hasCertificateFactoryRole: "contracts/core/RolesManager.sol",
+        hasCertifierRole: "contracts/core/RolesManager.sol",
+        hasEnterpriseRole: "contracts/core/RolesManager.sol",
+        hasInspectorRole: "contracts/core/RolesManager.sol",
+        hasPublicRole: "contracts/core/RolesManager.sol",
+        hasRole: "contracts/core/RolesManager.sol",
+        publicRoleExpiry: "contracts/core/RolesManager.sol",
+        renounceRole: "contracts/core/RolesManager.sol",
+        revokeAuditorRole: "contracts/core/RolesManager.sol",
+        revokeCertificateFactoryRole: "contracts/core/RolesManager.sol",
+        revokeCertifierRole: "contracts/core/RolesManager.sol",
+        revokeEnterpriseRole: "contracts/core/RolesManager.sol",
+        revokeInspectorRole: "contracts/core/RolesManager.sol",
+        revokePublicRole: "contracts/core/RolesManager.sol",
+        revokeRole: "contracts/core/RolesManager.sol",
+        supportsInterface:
+          "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
+        transferRole: "contracts/core/RolesManager.sol",
+        approve:
+          "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
+        balanceOf:
+          "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
+        getApproved:
+          "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
+        isApprovedForAll:
+          "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
         name: "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
-        ownerOf: "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
-        safeTransferFrom: "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
-        setApprovalForAll: "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
-        supportsInterface: "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
-        symbol: "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
-        tokenURI: "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
-        transferFrom: "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
-
+        ownerOf:
+          "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
+        safeTransferFrom:
+          "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
+        setApprovalForAll:
+          "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
+        symbol:
+          "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
+        tokenURI:
+          "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
+        transferFrom:
+          "@openzeppelin/contracts/token/ERC721/extensions/ERC721URIStorage.sol",
         owner: "@openzeppelin/contracts/access/Ownable.sol",
         renounceOwnership: "@openzeppelin/contracts/access/Ownable.sol",
         transferOwnership: "@openzeppelin/contracts/access/Ownable.sol",
       },
     },
     CertificationAuthority: {
-
-      address: "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
-
+      address: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
       abi: [
         {
-          inputs: [
-            {
-              internalType: "address",
-              name: "admin",
-              type: "address",
-            },
-          ],
+          inputs: [],
           stateMutability: "nonpayable",
           type: "constructor",
         },
@@ -785,6 +1812,322 @@ const deployedContracts = {
           type: "error",
         },
         {
+          inputs: [],
+          name: "CertificateNFT__CertificateDoesNotExist",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "CertificateNFT__EnterpriseAlreadyCertified",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "CertificationAuthority__CertificationNotExpiredYet",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "CertificationAuthority__EnterpriseAlreadyCertified",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "CertificationAuthority__EnterpriseNotCertifiedYet",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "sender",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256",
+            },
+            {
+              internalType: "address",
+              name: "owner",
+              type: "address",
+            },
+          ],
+          name: "ERC721IncorrectOwner",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "operator",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256",
+            },
+          ],
+          name: "ERC721InsufficientApproval",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "approver",
+              type: "address",
+            },
+          ],
+          name: "ERC721InvalidApprover",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "operator",
+              type: "address",
+            },
+          ],
+          name: "ERC721InvalidOperator",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "owner",
+              type: "address",
+            },
+          ],
+          name: "ERC721InvalidOwner",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "receiver",
+              type: "address",
+            },
+          ],
+          name: "ERC721InvalidReceiver",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "sender",
+              type: "address",
+            },
+          ],
+          name: "ERC721InvalidSender",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256",
+            },
+          ],
+          name: "ERC721NonexistentToken",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "EnterpriseRegistry__EnterpriseAlreadyExists",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "EnterpriseRegistry__EnterpriseDoesNotExist",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "EnterpriseRegistry__InvalidStart",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InspectionManager__InspectionPeriodExpired",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InspectionManager__InspectorAlreadyAssigned",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InspectionManager__NoReportsAssociatedWithEnterprise",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InspectionManager__NotAssignedToEnterprise",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InvalidAddress",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__AlreadyHasRole",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__ArrayLengthMismatch",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__EmptyArray",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__InvalidDuration",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__NotAuthorizedAuditor",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__NotAuthorizedCertificateFactory",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__NotAuthorizedCertifier",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__NotAuthorizedEnterprise",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__NotAuthorizedInspector",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__NotAuthorizedPublicUser",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__RoleDoesNotExist",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__UnauthorizedToPerformAction",
+          type: "error",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "owner",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "approved",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256",
+            },
+          ],
+          name: "Approval",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "owner",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "operator",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "bool",
+              name: "approved",
+              type: "bool",
+            },
+          ],
+          name: "ApprovalForAll",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "_fromTokenId",
+              type: "uint256",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "_toTokenId",
+              type: "uint256",
+            },
+          ],
+          name: "BatchMetadataUpdate",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "bytes32[]",
+              name: "roles",
+              type: "bytes32[]",
+            },
+            {
+              indexed: true,
+              internalType: "address[]",
+              name: "accounts",
+              type: "address[]",
+            },
+          ],
+          name: "BulkRolesGranted",
+          type: "event",
+        },
+        {
           anonymous: false,
           inputs: [
             {
@@ -804,6 +2147,12 @@ const deployedContracts = {
               internalType: "string",
               name: "metadataURI",
               type: "string",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "expiryDate",
+              type: "uint256",
             },
           ],
           name: "CertificationGranted",
@@ -845,734 +2194,27 @@ const deployedContracts = {
           anonymous: false,
           inputs: [
             {
-              indexed: true,
-              internalType: "bytes32",
-              name: "role",
-              type: "bytes32",
-            },
-            {
-              indexed: true,
-              internalType: "bytes32",
-              name: "previousAdminRole",
-              type: "bytes32",
-            },
-            {
-              indexed: true,
-              internalType: "bytes32",
-              name: "newAdminRole",
-              type: "bytes32",
-            },
-          ],
-          name: "RoleAdminChanged",
-          type: "event",
-        },
-        {
-          anonymous: false,
-          inputs: [
-            {
-              indexed: true,
-              internalType: "bytes32",
-              name: "role",
-              type: "bytes32",
-            },
-            {
-              indexed: true,
-              internalType: "address",
-              name: "account",
-              type: "address",
-            },
-            {
-              indexed: true,
-              internalType: "address",
-              name: "sender",
-              type: "address",
-            },
-          ],
-          name: "RoleGranted",
-          type: "event",
-        },
-        {
-          anonymous: false,
-          inputs: [
-            {
-              indexed: true,
-              internalType: "bytes32",
-              name: "role",
-              type: "bytes32",
-            },
-            {
-              indexed: true,
-              internalType: "address",
-              name: "account",
-              type: "address",
-            },
-            {
-              indexed: true,
-              internalType: "address",
-              name: "sender",
-              type: "address",
-            },
-          ],
-          name: "RoleRevoked",
-          type: "event",
-        },
-        {
-          inputs: [],
-          name: "CERTIFICATE_FACTORY_ROLES",
-          outputs: [
-            {
-              internalType: "bytes32",
-              name: "",
-              type: "bytes32",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "CERTIFIER_ROLE",
-          outputs: [
-            {
-              internalType: "bytes32",
-              name: "",
-              type: "bytes32",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "DEFAULT_ADMIN_ROLE",
-          outputs: [
-            {
-              internalType: "bytes32",
-              name: "",
-              type: "bytes32",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "ENTERPRISE_ROLE",
-          outputs: [
-            {
-              internalType: "bytes32",
-              name: "",
-              type: "bytes32",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "INSPECTION_MANAGER_ROLE",
-          outputs: [
-            {
-              internalType: "bytes32",
-              name: "",
-              type: "bytes32",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "PUBLIC_ROLE",
-          outputs: [
-            {
-              internalType: "bytes32",
-              name: "",
-              type: "bytes32",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "",
-              type: "address",
-            },
-          ],
-          name: "certifications",
-          outputs: [
-            {
-              internalType: "string",
-              name: "industry",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "metadataURI",
-              type: "string",
-            },
-            {
+              indexed: false,
               internalType: "uint256",
-              name: "certifiedAt",
-              type: "uint256",
-            },
-            {
-              internalType: "bool",
-              name: "isCertified",
-              type: "bool",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "enterpriseAddress",
-              type: "address",
-            },
-            {
-              internalType: "string",
-              name: "_industry",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "_metadataURI",
-              type: "string",
-            },
-          ],
-          name: "certifyEnterprise",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "enterpriseAddress",
-              type: "address",
-            },
-          ],
-          name: "getCertification",
-          outputs: [
-            {
-              components: [
-                {
-                  internalType: "string",
-                  name: "industry",
-                  type: "string",
-                },
-                {
-                  internalType: "string",
-                  name: "metadataURI",
-                  type: "string",
-                },
-                {
-                  internalType: "uint256",
-                  name: "certifiedAt",
-                  type: "uint256",
-                },
-                {
-                  internalType: "bool",
-                  name: "isCertified",
-                  type: "bool",
-                },
-              ],
-              internalType: "struct DataTypes.Certification",
-              name: "",
-              type: "tuple",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "bytes32",
-              name: "role",
-              type: "bytes32",
-            },
-          ],
-          name: "getRoleAdmin",
-          outputs: [
-            {
-              internalType: "bytes32",
-              name: "",
-              type: "bytes32",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "bytes32",
-              name: "role",
-              type: "bytes32",
-            },
-            {
-              internalType: "address",
-              name: "account",
-              type: "address",
-            },
-          ],
-          name: "grantRole",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "bytes32",
-              name: "role",
-              type: "bytes32",
-            },
-            {
-              internalType: "address",
-              name: "account",
-              type: "address",
-            },
-          ],
-          name: "hasRole",
-          outputs: [
-            {
-              internalType: "bool",
-              name: "",
-              type: "bool",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "bytes32",
-              name: "role",
-              type: "bytes32",
-            },
-            {
-              internalType: "address",
-              name: "callerConfirmation",
-              type: "address",
-            },
-          ],
-          name: "renounceRole",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "enterpriseAddress",
-              type: "address",
-            },
-          ],
-          name: "revokeCertification",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "bytes32",
-              name: "role",
-              type: "bytes32",
-            },
-            {
-              internalType: "address",
-              name: "account",
-              type: "address",
-            },
-          ],
-          name: "revokeRole",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "bytes4",
-              name: "interfaceId",
-              type: "bytes4",
-            },
-          ],
-          name: "supportsInterface",
-          outputs: [
-            {
-              internalType: "bool",
-              name: "",
-              type: "bool",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "enterpriseAddress",
-              type: "address",
-            },
-            {
-              internalType: "string",
-              name: "newMetadataURI",
-              type: "string",
-            },
-          ],
-          name: "updateCertificationMetadata",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-      ],
-      inheritedFunctions: {
-        DEFAULT_ADMIN_ROLE: "@openzeppelin/contracts/access/AccessControl.sol",
-        getRoleAdmin: "@openzeppelin/contracts/access/AccessControl.sol",
-        grantRole: "@openzeppelin/contracts/access/AccessControl.sol",
-        hasRole: "@openzeppelin/contracts/access/AccessControl.sol",
-        renounceRole: "@openzeppelin/contracts/access/AccessControl.sol",
-        revokeRole: "@openzeppelin/contracts/access/AccessControl.sol",
-        supportsInterface: "@openzeppelin/contracts/access/AccessControl.sol",
-      },
-    },
-    EnterpriseRegistry: {
-
-      address: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
-
-      abi: [
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "_rolesManager",
-              type: "address",
-            },
-          ],
-          stateMutability: "nonpayable",
-          type: "constructor",
-        },
-        {
-          anonymous: false,
-          inputs: [
-            {
-              indexed: true,
-              internalType: "address",
-              name: "enterprise",
-              type: "address",
-            },
-            {
-              indexed: false,
-              internalType: "string",
-              name: "name",
-              type: "string",
-            },
-            {
-              indexed: false,
-              internalType: "string",
-              name: "industry",
-              type: "string",
-            },
-            {
-              indexed: false,
-              internalType: "string",
-              name: "metadataURI",
-              type: "string",
-            },
-          ],
-          name: "EnterpriseRegistered",
-          type: "event",
-        },
-        {
-          anonymous: false,
-          inputs: [
-            {
-              indexed: true,
-              internalType: "address",
-              name: "enterprise",
-              type: "address",
-            },
-            {
-              indexed: false,
-              internalType: "string",
-              name: "newMetadataURI",
-              type: "string",
-            },
-          ],
-          name: "EnterpriseUpdated",
-          type: "event",
-        },
-        {
-          inputs: [
-            {
-              internalType: "uint256",
-              name: "",
+              name: "_tokenId",
               type: "uint256",
             },
           ],
-          name: "allEnterprises",
-          outputs: [
-            {
-              internalType: "address",
-              name: "",
-              type: "address",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "enterpriseAddress",
-              type: "address",
-            },
-          ],
-          name: "getEnterprise",
-          outputs: [
-            {
-              components: [
-                {
-                  internalType: "address",
-                  name: "enterpriseAddress",
-                  type: "address",
-                },
-                {
-                  internalType: "string",
-                  name: "name",
-                  type: "string",
-                },
-                {
-                  internalType: "string",
-                  name: "industry",
-                  type: "string",
-                },
-                {
-                  internalType: "string",
-                  name: "metadataURI",
-                  type: "string",
-                },
-                {
-                  internalType: "bool",
-                  name: "isRegistered",
-                  type: "bool",
-                },
-              ],
-              internalType: "struct DataTypes.Enterprise",
-              name: "",
-              type: "tuple",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "listEnterprises",
-          outputs: [
-            {
-              internalType: "address[]",
-              name: "",
-              type: "address[]",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "_enterpriseAddress",
-              type: "address",
-            },
-            {
-              internalType: "string",
-              name: "_name",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "_industry",
-              type: "string",
-            },
-            {
-              internalType: "string",
-              name: "_metadataURI",
-              type: "string",
-            },
-          ],
-          name: "registerEnterprise",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "rolesManager",
-          outputs: [
-            {
-              internalType: "contract RolesManager",
-              name: "",
-              type: "address",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "string",
-              name: "newMetadataURI",
-              type: "string",
-            },
-          ],
-          name: "updateEnterpriseMetadata",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-      ],
-      inheritedFunctions: {},
-    },
-    InspectionManager: {
-
-      address: "0x0165878A594ca255338adfa4d48449f69242Eb8F",
-
-      abi: [
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "_rolesManager",
-              type: "address",
-            },
-          ],
-          stateMutability: "nonpayable",
-          type: "constructor",
-        },
-        {
-          anonymous: false,
-          inputs: [
-            {
-              indexed: true,
-              internalType: "address",
-              name: "enterprise",
-              type: "address",
-            },
-            {
-              indexed: true,
-              internalType: "address",
-              name: "inspector",
-              type: "address",
-            },
-          ],
-          name: "InspectorAssigned",
+          name: "MetadataUpdate",
           type: "event",
         },
         {
+          anonymous: false,
           inputs: [
             {
+              indexed: true,
               internalType: "address",
-              name: "enterprise",
-              type: "address",
-            },
-            {
-              internalType: "address",
-              name: "inspector",
+              name: "user",
               type: "address",
             },
           ],
-          name: "assignInspector",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "inspector",
-              type: "address",
-            },
-          ],
-          name: "getEnterprisesForInspector",
-          outputs: [
-            {
-              internalType: "address[]",
-              name: "",
-              type: "address[]",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "enterprise",
-              type: "address",
-            },
-          ],
-          name: "getInspectorsForEnterprise",
-          outputs: [
-            {
-              internalType: "address[]",
-              name: "",
-              type: "address[]",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "rolesManager",
-          outputs: [
-            {
-              internalType: "contract RolesManager",
-              name: "",
-              type: "address",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-      ],
-      inheritedFunctions: {},
-    },
-    InspectionReport: {
-
-      address: "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
-
-      abi: [
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "_rolesManager",
-              type: "address",
-            },
-          ],
-          stateMutability: "nonpayable",
-          type: "constructor",
+          name: "PublicRoleExpired",
+          type: "event",
         },
         {
           anonymous: false,
@@ -1580,158 +2222,18 @@ const deployedContracts = {
             {
               indexed: true,
               internalType: "address",
-              name: "inspector",
+              name: "user",
               type: "address",
-            },
-            {
-              indexed: true,
-              internalType: "address",
-              name: "enterprise",
-              type: "address",
-            },
-            {
-              indexed: false,
-              internalType: "bool",
-              name: "passed",
-              type: "bool",
-            },
-            {
-              indexed: false,
-              internalType: "string",
-              name: "reportURI",
-              type: "string",
             },
             {
               indexed: false,
               internalType: "uint256",
-              name: "timestamp",
+              name: "duration",
               type: "uint256",
             },
           ],
-          name: "InspectionReportSubmitted",
+          name: "PublicRoleGranted",
           type: "event",
-        },
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "enterprise",
-              type: "address",
-            },
-          ],
-          name: "getReports",
-          outputs: [
-            {
-              components: [
-                {
-                  internalType: "address",
-                  name: "inspector",
-                  type: "address",
-                },
-                {
-                  internalType: "address",
-                  name: "enterprise",
-                  type: "address",
-                },
-                {
-                  internalType: "bool",
-                  name: "passed",
-                  type: "bool",
-                },
-                {
-                  internalType: "string",
-                  name: "remarks",
-                  type: "string",
-                },
-                {
-                  internalType: "uint256",
-                  name: "timestamp",
-                  type: "uint256",
-                },
-              ],
-              internalType: "struct InspectionReport.Report[]",
-              name: "",
-              type: "tuple[]",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [],
-          name: "rolesManager",
-          outputs: [
-            {
-              internalType: "contract RolesManager",
-              name: "",
-              type: "address",
-            },
-          ],
-          stateMutability: "view",
-          type: "function",
-        },
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "enterprise",
-              type: "address",
-            },
-            {
-              internalType: "bool",
-              name: "passed",
-              type: "bool",
-            },
-            {
-              internalType: "string",
-              name: "remarks",
-              type: "string",
-            },
-          ],
-          name: "submitReport",
-          outputs: [],
-          stateMutability: "nonpayable",
-          type: "function",
-        },
-      ],
-      inheritedFunctions: {},
-    },
-    RolesManager: {
-
-      address: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
-      abi: [
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "admin",
-              type: "address",
-            },
-          ],
-
-          stateMutability: "nonpayable",
-          type: "constructor",
-        },
-        {
-          inputs: [],
-          name: "AccessControlBadConfirmation",
-          type: "error",
-        },
-        {
-          inputs: [
-            {
-              internalType: "address",
-              name: "account",
-              type: "address",
-            },
-            {
-              internalType: "bytes32",
-              name: "neededRole",
-              type: "bytes32",
-            },
-          ],
-          name: "AccessControlUnauthorizedAccount",
-          type: "error",
         },
         {
           anonymous: false,
@@ -1798,6 +2300,25 @@ const deployedContracts = {
               name: "account",
               type: "address",
             },
+          ],
+          name: "RoleGranted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
             {
               indexed: true,
               internalType: "address",
@@ -1806,6 +2327,75 @@ const deployedContracts = {
             },
           ],
           name: "RoleRevoked",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "RoleRevoked",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "from",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "to",
+              type: "address",
+            },
+          ],
+          name: "RoleTransferred",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "from",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "to",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256",
+            },
+          ],
+          name: "Transfer",
           type: "event",
         },
         {
@@ -1887,6 +2477,336 @@ const deployedContracts = {
           type: "function",
         },
         {
+          inputs: [],
+          name: "PUBLIC_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "to",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256",
+            },
+          ],
+          name: "approve",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "owner",
+              type: "address",
+            },
+          ],
+          name: "balanceOf",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32[]",
+              name: "roles",
+              type: "bytes32[]",
+            },
+            {
+              internalType: "address[]",
+              name: "accounts",
+              type: "address[]",
+            },
+          ],
+          name: "bulkGrantRoles",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256",
+            },
+          ],
+          name: "burn",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          name: "certifications",
+          outputs: [
+            {
+              internalType: "string",
+              name: "industry",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "metadataURI",
+              type: "string",
+            },
+            {
+              internalType: "uint256",
+              name: "certifiedAt",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "expiryDate",
+              type: "uint256",
+            },
+            {
+              internalType: "bool",
+              name: "isCertified",
+              type: "bool",
+            },
+            {
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "enterpriseAddress",
+              type: "address",
+            },
+            {
+              internalType: "string",
+              name: "_industry",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "_metadataURI",
+              type: "string",
+            },
+            {
+              internalType: "uint256",
+              name: "validityDurationSeconds",
+              type: "uint256",
+            },
+          ],
+          name: "certifyEnterprise",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "checkExpiryRoles",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "durationInHours",
+              type: "uint256",
+            },
+          ],
+          name: "claimTemporaryPublicRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "getActiveRoles",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "isAdmin",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "isCertifier",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "isInspector",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "isAuditor",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "isEnterprise",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "isCertificateFactory",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "isPublic",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256",
+            },
+          ],
+          name: "getApproved",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "enterpriseAddress",
+              type: "address",
+            },
+          ],
+          name: "getCertification",
+          outputs: [
+            {
+              components: [
+                {
+                  internalType: "string",
+                  name: "industry",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "metadataURI",
+                  type: "string",
+                },
+                {
+                  internalType: "uint256",
+                  name: "certifiedAt",
+                  type: "uint256",
+                },
+                {
+                  internalType: "uint256",
+                  name: "expiryDate",
+                  type: "uint256",
+                },
+                {
+                  internalType: "bool",
+                  name: "isCertified",
+                  type: "bool",
+                },
+                {
+                  internalType: "uint256",
+                  name: "tokenId",
+                  type: "uint256",
+                },
+              ],
+              internalType: "struct DataTypes.Certification",
+              name: "",
+              type: "tuple",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256",
+            },
+          ],
+          name: "getEnterpriseByTokenId",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getMaxPublicRoleDuration",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "pure",
+          type: "function",
+        },
+        {
           inputs: [
             {
               internalType: "bytes32",
@@ -1914,6 +2834,19 @@ const deployedContracts = {
             },
           ],
           name: "grantAuditor",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantCertificateFactory",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
@@ -1960,6 +2893,19 @@ const deployedContracts = {
         {
           inputs: [
             {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantPublicRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
               internalType: "bytes32",
               name: "role",
               type: "bytes32",
@@ -1983,7 +2929,26 @@ const deployedContracts = {
               type: "address",
             },
           ],
-          name: "hasAuditRole",
+          name: "hasAdminRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasAuditorRole",
           outputs: [
             {
               internalType: "bool",
@@ -2073,6 +3038,25 @@ const deployedContracts = {
         {
           inputs: [
             {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasPublicRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
               internalType: "bytes32",
               name: "role",
               type: "bytes32",
@@ -2098,16 +3082,110 @@ const deployedContracts = {
           inputs: [
             {
               internalType: "address",
-              name: "account",
+              name: "owner",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "operator",
               type: "address",
             },
           ],
-          name: "isAdmin",
+          name: "isApprovedForAll",
           outputs: [
             {
               internalType: "bool",
               name: "",
               type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256",
+            },
+          ],
+          name: "isCertificateValid",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "enterpriseAddress",
+              type: "address",
+            },
+          ],
+          name: "isCertificationValid",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "name",
+          outputs: [
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256",
+            },
+          ],
+          name: "ownerOf",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          name: "publicRoleExpiry",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
             },
           ],
           stateMutability: "view",
@@ -2139,7 +3217,7 @@ const deployedContracts = {
               type: "address",
             },
           ],
-          name: "revokeAuditor",
+          name: "revokeAuditorRole",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
@@ -2152,7 +3230,20 @@ const deployedContracts = {
               type: "address",
             },
           ],
-          name: "revokeCertifier",
+          name: "revokeCertificateFactoryRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "enterpriseAddress",
+              type: "address",
+            },
+          ],
+          name: "revokeCertification",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
@@ -2165,7 +3256,7 @@ const deployedContracts = {
               type: "address",
             },
           ],
-          name: "revokeEnterprise",
+          name: "revokeCertifierRole",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
@@ -2178,7 +3269,3974 @@ const deployedContracts = {
               type: "address",
             },
           ],
-          name: "revokeInspector",
+          name: "revokeEnterpriseRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "enterpriseAddress",
+              type: "address",
+            },
+          ],
+          name: "revokeIfExpired",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokeInspectorRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokePublicRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokeRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "from",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "to",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256",
+            },
+          ],
+          name: "safeTransferFrom",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "from",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "to",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256",
+            },
+            {
+              internalType: "bytes",
+              name: "data",
+              type: "bytes",
+            },
+          ],
+          name: "safeTransferFrom",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "operator",
+              type: "address",
+            },
+            {
+              internalType: "bool",
+              name: "approved",
+              type: "bool",
+            },
+          ],
+          name: "setApprovalForAll",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes4",
+              name: "interfaceId",
+              type: "bytes4",
+            },
+          ],
+          name: "supportsInterface",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "symbol",
+          outputs: [
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256",
+            },
+          ],
+          name: "tokenURI",
+          outputs: [
+            {
+              internalType: "string",
+              name: "",
+              type: "string",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "from",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "to",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "tokenId",
+              type: "uint256",
+            },
+          ],
+          name: "transferFrom",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "from",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "to",
+              type: "address",
+            },
+          ],
+          name: "transferRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "enterpriseAddress",
+              type: "address",
+            },
+            {
+              internalType: "string",
+              name: "newMetadataURI",
+              type: "string",
+            },
+          ],
+          name: "updateCertificationMetadata",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+      ],
+      inheritedFunctions: {
+        AUDITOR_ROLE: "contracts/core/RolesManager.sol",
+        CERTIFICATE_FACTORY_ROLE: "contracts/core/RolesManager.sol",
+        CERTIFIER_ROLE: "contracts/core/RolesManager.sol",
+        DEFAULT_ADMIN_ROLE: "contracts/core/RolesManager.sol",
+        ENTERPRISE_ROLE: "contracts/core/RolesManager.sol",
+        INSPECTOR_ROLE: "contracts/core/RolesManager.sol",
+        PUBLIC_ROLE: "contracts/core/RolesManager.sol",
+        bulkGrantRoles: "contracts/core/RolesManager.sol",
+        checkExpiryRoles: "contracts/core/RolesManager.sol",
+        claimTemporaryPublicRole: "contracts/core/RolesManager.sol",
+        getActiveRoles: "contracts/core/RolesManager.sol",
+        getMaxPublicRoleDuration: "contracts/core/RolesManager.sol",
+        getRoleAdmin: "contracts/core/RolesManager.sol",
+        grantAuditor: "contracts/core/RolesManager.sol",
+        grantCertificateFactory: "contracts/core/RolesManager.sol",
+        grantCertifier: "contracts/core/RolesManager.sol",
+        grantEnterprise: "contracts/core/RolesManager.sol",
+        grantInspector: "contracts/core/RolesManager.sol",
+        grantPublicRole: "contracts/core/RolesManager.sol",
+        grantRole: "contracts/core/RolesManager.sol",
+        hasAdminRole: "contracts/core/RolesManager.sol",
+        hasAuditorRole: "contracts/core/RolesManager.sol",
+        hasCertificateFactoryRole: "contracts/core/RolesManager.sol",
+        hasCertifierRole: "contracts/core/RolesManager.sol",
+        hasEnterpriseRole: "contracts/core/RolesManager.sol",
+        hasInspectorRole: "contracts/core/RolesManager.sol",
+        hasPublicRole: "contracts/core/RolesManager.sol",
+        hasRole: "contracts/core/RolesManager.sol",
+        publicRoleExpiry: "contracts/core/RolesManager.sol",
+        renounceRole: "contracts/core/RolesManager.sol",
+        revokeAuditorRole: "contracts/core/RolesManager.sol",
+        revokeCertificateFactoryRole: "contracts/core/RolesManager.sol",
+        revokeCertifierRole: "contracts/core/RolesManager.sol",
+        revokeEnterpriseRole: "contracts/core/RolesManager.sol",
+        revokeInspectorRole: "contracts/core/RolesManager.sol",
+        revokePublicRole: "contracts/core/RolesManager.sol",
+        revokeRole: "contracts/core/RolesManager.sol",
+        supportsInterface:
+          "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol",
+        transferRole: "contracts/core/RolesManager.sol",
+        approve:
+          "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol",
+        balanceOf:
+          "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol",
+        getApproved:
+          "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol",
+        isApprovedForAll:
+          "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol",
+        name: "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol",
+        ownerOf:
+          "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol",
+        safeTransferFrom:
+          "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol",
+        setApprovalForAll:
+          "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol",
+        symbol:
+          "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol",
+        tokenURI:
+          "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol",
+        transferFrom:
+          "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol",
+        burn: "@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable.sol",
+      },
+    },
+    EnterpriseRegistry: {
+      address: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
+      abi: [
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "_rolesManager",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "_certNFT",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "_certAuthority",
+              type: "address",
+            },
+          ],
+          stateMutability: "nonpayable",
+          type: "constructor",
+        },
+        {
+          inputs: [],
+          name: "AccessControlBadConfirmation",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+            {
+              internalType: "bytes32",
+              name: "neededRole",
+              type: "bytes32",
+            },
+          ],
+          name: "AccessControlUnauthorizedAccount",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "CertificateNFT__CertificateDoesNotExist",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "CertificateNFT__EnterpriseAlreadyCertified",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "CertificationAuthority__CertificationNotExpiredYet",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "CertificationAuthority__EnterpriseAlreadyCertified",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "CertificationAuthority__EnterpriseNotCertifiedYet",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "EnterpriseRegistry__EnterpriseAlreadyExists",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "EnterpriseRegistry__EnterpriseDoesNotExist",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "EnterpriseRegistry__InvalidStart",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InspectionManager__InspectionPeriodExpired",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InspectionManager__InspectorAlreadyAssigned",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InspectionManager__NoReportsAssociatedWithEnterprise",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InspectionManager__NotAssignedToEnterprise",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InvalidAddress",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__AlreadyHasRole",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__ArrayLengthMismatch",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__EmptyArray",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__InvalidDuration",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__NotAuthorizedAuditor",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__NotAuthorizedCertificateFactory",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__NotAuthorizedCertifier",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__NotAuthorizedEnterprise",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__NotAuthorizedInspector",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__NotAuthorizedPublicUser",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__RoleDoesNotExist",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__UnauthorizedToPerformAction",
+          type: "error",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "bytes32[]",
+              name: "roles",
+              type: "bytes32[]",
+            },
+            {
+              indexed: true,
+              internalType: "address[]",
+              name: "accounts",
+              type: "address[]",
+            },
+          ],
+          name: "BulkRolesGranted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "enterprise",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "deregisteredAt",
+              type: "uint256",
+            },
+          ],
+          name: "EnterpriseDeregistered",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "enterprise",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "name",
+              type: "string",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "industry",
+              type: "string",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "metadataURI",
+              type: "string",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "certificateId",
+              type: "uint256",
+            },
+          ],
+          name: "EnterpriseRegistered",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "enterprise",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "newMetadataURI",
+              type: "string",
+            },
+          ],
+          name: "EnterpriseUpdated",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "user",
+              type: "address",
+            },
+          ],
+          name: "PublicRoleExpired",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "user",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "duration",
+              type: "uint256",
+            },
+          ],
+          name: "PublicRoleGranted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "previousAdminRole",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "newAdminRole",
+              type: "bytes32",
+            },
+          ],
+          name: "RoleAdminChanged",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "sender",
+              type: "address",
+            },
+          ],
+          name: "RoleGranted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "RoleGranted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "sender",
+              type: "address",
+            },
+          ],
+          name: "RoleRevoked",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "RoleRevoked",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "from",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "to",
+              type: "address",
+            },
+          ],
+          name: "RoleTransferred",
+          type: "event",
+        },
+        {
+          inputs: [],
+          name: "AUDITOR_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "CERTIFICATE_FACTORY_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "CERTIFIER_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "DEFAULT_ADMIN_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "ENTERPRISE_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "INSPECTOR_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "PUBLIC_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          name: "allEnterprises",
+          outputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32[]",
+              name: "roles",
+              type: "bytes32[]",
+            },
+            {
+              internalType: "address[]",
+              name: "accounts",
+              type: "address[]",
+            },
+          ],
+          name: "bulkGrantRoles",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "certAuthority",
+          outputs: [
+            {
+              internalType: "contract CertificationAuthority",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "certificateNFT",
+          outputs: [
+            {
+              internalType: "contract CertificateNFT",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "checkExpiryRoles",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "durationInHours",
+              type: "uint256",
+            },
+          ],
+          name: "claimTemporaryPublicRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "_enterprise",
+              type: "address",
+            },
+          ],
+          name: "deRegisterEnterprise",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "getActiveRoles",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "isAdmin",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "isCertifier",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "isInspector",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "isAuditor",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "isEnterprise",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "isCertificateFactory",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "isPublic",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "enterpriseAddress",
+              type: "address",
+            },
+          ],
+          name: "getEnterprise",
+          outputs: [
+            {
+              components: [
+                {
+                  internalType: "address",
+                  name: "enterpriseAddress",
+                  type: "address",
+                },
+                {
+                  internalType: "string",
+                  name: "name",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "industry",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "metadataURI",
+                  type: "string",
+                },
+                {
+                  internalType: "bool",
+                  name: "isRegistered",
+                  type: "bool",
+                },
+                {
+                  internalType: "uint256",
+                  name: "registrationDate",
+                  type: "uint256",
+                },
+                {
+                  internalType: "uint256",
+                  name: "lastUpdated",
+                  type: "uint256",
+                },
+                {
+                  internalType: "uint256",
+                  name: "certificateId",
+                  type: "uint256",
+                },
+              ],
+              internalType: "struct DataTypes.Enterprise",
+              name: "",
+              type: "tuple",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "_enterprise",
+              type: "address",
+            },
+          ],
+          name: "getEnterpriseWithStatus",
+          outputs: [
+            {
+              components: [
+                {
+                  internalType: "address",
+                  name: "enterpriseAddress",
+                  type: "address",
+                },
+                {
+                  internalType: "string",
+                  name: "name",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "industry",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "metadataURI",
+                  type: "string",
+                },
+                {
+                  internalType: "bool",
+                  name: "isRegistered",
+                  type: "bool",
+                },
+                {
+                  internalType: "uint256",
+                  name: "registrationDate",
+                  type: "uint256",
+                },
+                {
+                  internalType: "uint256",
+                  name: "lastUpdated",
+                  type: "uint256",
+                },
+                {
+                  internalType: "uint256",
+                  name: "certificateId",
+                  type: "uint256",
+                },
+              ],
+              internalType: "struct DataTypes.Enterprise",
+              name: "",
+              type: "tuple",
+            },
+            {
+              internalType: "bool",
+              name: "isActive",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getMaxPublicRoleDuration",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "pure",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+          ],
+          name: "getRoleAdmin",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantAuditor",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantCertificateFactory",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantCertifier",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantEnterprise",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantInspector",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantPublicRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasAdminRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasAuditorRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasCertificateFactoryRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasCertifierRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasEnterpriseRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasInspectorRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasPublicRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "_enterprise",
+              type: "address",
+            },
+          ],
+          name: "isEnterpriseActive",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "start",
+              type: "uint256",
+            },
+            {
+              internalType: "uint256",
+              name: "limit",
+              type: "uint256",
+            },
+          ],
+          name: "lisEnterprisesPaginated",
+          outputs: [
+            {
+              internalType: "address[]",
+              name: "",
+              type: "address[]",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "listEnterprises",
+          outputs: [
+            {
+              internalType: "address[]",
+              name: "",
+              type: "address[]",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          name: "publicRoleExpiry",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "_enterpriseAddress",
+              type: "address",
+            },
+            {
+              internalType: "string",
+              name: "_name",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "_industry",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "_metadataURI",
+              type: "string",
+            },
+            {
+              internalType: "uint256",
+              name: "_initialCertDuration",
+              type: "uint256",
+            },
+          ],
+          name: "registerEnterprise",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "callerConfirmation",
+              type: "address",
+            },
+          ],
+          name: "renounceRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokeAuditorRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokeCertificateFactoryRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokeCertifierRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokeEnterpriseRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokeInspectorRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokePublicRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokeRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "rolesManager",
+          outputs: [
+            {
+              internalType: "contract RolesManager",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes4",
+              name: "interfaceId",
+              type: "bytes4",
+            },
+          ],
+          name: "supportsInterface",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "from",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "to",
+              type: "address",
+            },
+          ],
+          name: "transferRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "string",
+              name: "newMetadataURI",
+              type: "string",
+            },
+          ],
+          name: "updateEnterpriseMetadata",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+      ],
+      inheritedFunctions: {
+        AUDITOR_ROLE: "contracts/core/RolesManager.sol",
+        CERTIFICATE_FACTORY_ROLE: "contracts/core/RolesManager.sol",
+        CERTIFIER_ROLE: "contracts/core/RolesManager.sol",
+        DEFAULT_ADMIN_ROLE: "contracts/core/RolesManager.sol",
+        ENTERPRISE_ROLE: "contracts/core/RolesManager.sol",
+        INSPECTOR_ROLE: "contracts/core/RolesManager.sol",
+        PUBLIC_ROLE: "contracts/core/RolesManager.sol",
+        bulkGrantRoles: "contracts/core/RolesManager.sol",
+        checkExpiryRoles: "contracts/core/RolesManager.sol",
+        claimTemporaryPublicRole: "contracts/core/RolesManager.sol",
+        getActiveRoles: "contracts/core/RolesManager.sol",
+        getMaxPublicRoleDuration: "contracts/core/RolesManager.sol",
+        getRoleAdmin: "contracts/core/RolesManager.sol",
+        grantAuditor: "contracts/core/RolesManager.sol",
+        grantCertificateFactory: "contracts/core/RolesManager.sol",
+        grantCertifier: "contracts/core/RolesManager.sol",
+        grantEnterprise: "contracts/core/RolesManager.sol",
+        grantInspector: "contracts/core/RolesManager.sol",
+        grantPublicRole: "contracts/core/RolesManager.sol",
+        grantRole: "contracts/core/RolesManager.sol",
+        hasAdminRole: "contracts/core/RolesManager.sol",
+        hasAuditorRole: "contracts/core/RolesManager.sol",
+        hasCertificateFactoryRole: "contracts/core/RolesManager.sol",
+        hasCertifierRole: "contracts/core/RolesManager.sol",
+        hasEnterpriseRole: "contracts/core/RolesManager.sol",
+        hasInspectorRole: "contracts/core/RolesManager.sol",
+        hasPublicRole: "contracts/core/RolesManager.sol",
+        hasRole: "contracts/core/RolesManager.sol",
+        publicRoleExpiry: "contracts/core/RolesManager.sol",
+        renounceRole: "contracts/core/RolesManager.sol",
+        revokeAuditorRole: "contracts/core/RolesManager.sol",
+        revokeCertificateFactoryRole: "contracts/core/RolesManager.sol",
+        revokeCertifierRole: "contracts/core/RolesManager.sol",
+        revokeEnterpriseRole: "contracts/core/RolesManager.sol",
+        revokeInspectorRole: "contracts/core/RolesManager.sol",
+        revokePublicRole: "contracts/core/RolesManager.sol",
+        revokeRole: "contracts/core/RolesManager.sol",
+        supportsInterface: "contracts/core/RolesManager.sol",
+        transferRole: "contracts/core/RolesManager.sol",
+      },
+    },
+    InspectionManager: {
+      address: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
+      abi: [
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "_rolesManager",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "_certAuthority",
+              type: "address",
+            },
+          ],
+          stateMutability: "nonpayable",
+          type: "constructor",
+        },
+        {
+          inputs: [],
+          name: "AccessControlBadConfirmation",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+            {
+              internalType: "bytes32",
+              name: "neededRole",
+              type: "bytes32",
+            },
+          ],
+          name: "AccessControlUnauthorizedAccount",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "CertificateNFT__CertificateDoesNotExist",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "CertificateNFT__EnterpriseAlreadyCertified",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "CertificationAuthority__CertificationNotExpiredYet",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "CertificationAuthority__EnterpriseAlreadyCertified",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "CertificationAuthority__EnterpriseNotCertifiedYet",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "EnterpriseRegistry__EnterpriseAlreadyExists",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "EnterpriseRegistry__EnterpriseDoesNotExist",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "EnterpriseRegistry__InvalidStart",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InspectionManager__InspectionPeriodExpired",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InspectionManager__InspectorAlreadyAssigned",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InspectionManager__NoReportsAssociatedWithEnterprise",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InspectionManager__NotAssignedToEnterprise",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InvalidAddress",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__AlreadyHasRole",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__ArrayLengthMismatch",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__EmptyArray",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__InvalidDuration",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__NotAuthorizedAuditor",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__NotAuthorizedCertificateFactory",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__NotAuthorizedCertifier",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__NotAuthorizedEnterprise",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__NotAuthorizedInspector",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__NotAuthorizedPublicUser",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__RoleDoesNotExist",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__UnauthorizedToPerformAction",
+          type: "error",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "bytes32[]",
+              name: "roles",
+              type: "bytes32[]",
+            },
+            {
+              indexed: true,
+              internalType: "address[]",
+              name: "accounts",
+              type: "address[]",
+            },
+          ],
+          name: "BulkRolesGranted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "inspector",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "enterprise",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "bool",
+              name: "passed",
+              type: "bool",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "remarks",
+              type: "string",
+            },
+            {
+              indexed: false,
+              internalType: "string",
+              name: "evidenceURI",
+              type: "string",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "ReportedAt",
+              type: "uint256",
+            },
+          ],
+          name: "InspectionReportSubmitted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "enterprise",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "inspector",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "validityPeriod",
+              type: "uint256",
+            },
+          ],
+          name: "InspectorAssigned",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "user",
+              type: "address",
+            },
+          ],
+          name: "PublicRoleExpired",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "user",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "duration",
+              type: "uint256",
+            },
+          ],
+          name: "PublicRoleGranted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "previousAdminRole",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "newAdminRole",
+              type: "bytes32",
+            },
+          ],
+          name: "RoleAdminChanged",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "sender",
+              type: "address",
+            },
+          ],
+          name: "RoleGranted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "RoleGranted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "sender",
+              type: "address",
+            },
+          ],
+          name: "RoleRevoked",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "RoleRevoked",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "from",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "to",
+              type: "address",
+            },
+          ],
+          name: "RoleTransferred",
+          type: "event",
+        },
+        {
+          inputs: [],
+          name: "AUDITOR_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "CERTIFICATE_FACTORY_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "CERTIFIER_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "DEFAULT_ADMIN_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "ENTERPRISE_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "INSPECTOR_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "PUBLIC_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "enterprise",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "inspector",
+              type: "address",
+            },
+            {
+              internalType: "uint256",
+              name: "validityPeriod",
+              type: "uint256",
+            },
+          ],
+          name: "assignInspector",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32[]",
+              name: "roles",
+              type: "bytes32[]",
+            },
+            {
+              internalType: "address[]",
+              name: "accounts",
+              type: "address[]",
+            },
+          ],
+          name: "bulkGrantRoles",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "certAuthority",
+          outputs: [
+            {
+              internalType: "contract CertificationAuthority",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "checkExpiryRoles",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "durationInHours",
+              type: "uint256",
+            },
+          ],
+          name: "claimTemporaryPublicRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "getActiveRoles",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "isAdmin",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "isCertifier",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "isInspector",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "isAuditor",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "isEnterprise",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "isCertificateFactory",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "isPublic",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "enterprise",
+              type: "address",
+            },
+          ],
+          name: "getEnterpriseInspectionReports",
+          outputs: [
+            {
+              components: [
+                {
+                  internalType: "address",
+                  name: "inspector",
+                  type: "address",
+                },
+                {
+                  internalType: "address",
+                  name: "enterprise",
+                  type: "address",
+                },
+                {
+                  internalType: "string",
+                  name: "remarks",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "evidenceURI",
+                  type: "string",
+                },
+                {
+                  internalType: "uint256",
+                  name: "inspectedAt",
+                  type: "uint256",
+                },
+                {
+                  internalType: "bool",
+                  name: "passed",
+                  type: "bool",
+                },
+              ],
+              internalType: "struct DataTypes.InspectionReport[]",
+              name: "",
+              type: "tuple[]",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "enterprise",
+              type: "address",
+            },
+          ],
+          name: "getEnterpriseInspectors",
+          outputs: [
+            {
+              internalType: "address[]",
+              name: "",
+              type: "address[]",
+            },
+            {
+              internalType: "uint256[]",
+              name: "validityPeriods",
+              type: "uint256[]",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "inspector",
+              type: "address",
+            },
+          ],
+          name: "getInspectorReports",
+          outputs: [
+            {
+              components: [
+                {
+                  internalType: "address",
+                  name: "inspector",
+                  type: "address",
+                },
+                {
+                  internalType: "address",
+                  name: "enterprise",
+                  type: "address",
+                },
+                {
+                  internalType: "string",
+                  name: "remarks",
+                  type: "string",
+                },
+                {
+                  internalType: "string",
+                  name: "evidenceURI",
+                  type: "string",
+                },
+                {
+                  internalType: "uint256",
+                  name: "inspectedAt",
+                  type: "uint256",
+                },
+                {
+                  internalType: "bool",
+                  name: "passed",
+                  type: "bool",
+                },
+              ],
+              internalType: "struct DataTypes.InspectionReport[]",
+              name: "",
+              type: "tuple[]",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getMaxPublicRoleDuration",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "pure",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+          ],
+          name: "getRoleAdmin",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantAuditor",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantCertificateFactory",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantCertifier",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantEnterprise",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantInspector",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantPublicRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasAdminRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasAuditorRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasCertificateFactoryRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasCertifierRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasEnterpriseRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasInspectorRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasPublicRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          name: "publicRoleExpiry",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "callerConfirmation",
+              type: "address",
+            },
+          ],
+          name: "renounceRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokeAuditorRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokeCertificateFactoryRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokeCertifierRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokeEnterpriseRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokeInspectorRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokePublicRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokeRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "rolesManager",
+          outputs: [
+            {
+              internalType: "contract RolesManager",
+              name: "",
+              type: "address",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "_enterprise",
+              type: "address",
+            },
+            {
+              internalType: "bool",
+              name: "_passed",
+              type: "bool",
+            },
+            {
+              internalType: "string",
+              name: "_remarks",
+              type: "string",
+            },
+            {
+              internalType: "string",
+              name: "_evidenceURI",
+              type: "string",
+            },
+          ],
+          name: "submitInspectionReport",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes4",
+              name: "interfaceId",
+              type: "bytes4",
+            },
+          ],
+          name: "supportsInterface",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "from",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "to",
+              type: "address",
+            },
+          ],
+          name: "transferRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+      ],
+      inheritedFunctions: {
+        AUDITOR_ROLE: "contracts/core/RolesManager.sol",
+        CERTIFICATE_FACTORY_ROLE: "contracts/core/RolesManager.sol",
+        CERTIFIER_ROLE: "contracts/core/RolesManager.sol",
+        DEFAULT_ADMIN_ROLE: "contracts/core/RolesManager.sol",
+        ENTERPRISE_ROLE: "contracts/core/RolesManager.sol",
+        INSPECTOR_ROLE: "contracts/core/RolesManager.sol",
+        PUBLIC_ROLE: "contracts/core/RolesManager.sol",
+        bulkGrantRoles: "contracts/core/RolesManager.sol",
+        checkExpiryRoles: "contracts/core/RolesManager.sol",
+        claimTemporaryPublicRole: "contracts/core/RolesManager.sol",
+        getActiveRoles: "contracts/core/RolesManager.sol",
+        getMaxPublicRoleDuration: "contracts/core/RolesManager.sol",
+        getRoleAdmin: "contracts/core/RolesManager.sol",
+        grantAuditor: "contracts/core/RolesManager.sol",
+        grantCertificateFactory: "contracts/core/RolesManager.sol",
+        grantCertifier: "contracts/core/RolesManager.sol",
+        grantEnterprise: "contracts/core/RolesManager.sol",
+        grantInspector: "contracts/core/RolesManager.sol",
+        grantPublicRole: "contracts/core/RolesManager.sol",
+        grantRole: "contracts/core/RolesManager.sol",
+        hasAdminRole: "contracts/core/RolesManager.sol",
+        hasAuditorRole: "contracts/core/RolesManager.sol",
+        hasCertificateFactoryRole: "contracts/core/RolesManager.sol",
+        hasCertifierRole: "contracts/core/RolesManager.sol",
+        hasEnterpriseRole: "contracts/core/RolesManager.sol",
+        hasInspectorRole: "contracts/core/RolesManager.sol",
+        hasPublicRole: "contracts/core/RolesManager.sol",
+        hasRole: "contracts/core/RolesManager.sol",
+        publicRoleExpiry: "contracts/core/RolesManager.sol",
+        renounceRole: "contracts/core/RolesManager.sol",
+        revokeAuditorRole: "contracts/core/RolesManager.sol",
+        revokeCertificateFactoryRole: "contracts/core/RolesManager.sol",
+        revokeCertifierRole: "contracts/core/RolesManager.sol",
+        revokeEnterpriseRole: "contracts/core/RolesManager.sol",
+        revokeInspectorRole: "contracts/core/RolesManager.sol",
+        revokePublicRole: "contracts/core/RolesManager.sol",
+        revokeRole: "contracts/core/RolesManager.sol",
+        supportsInterface: "contracts/core/RolesManager.sol",
+        transferRole: "contracts/core/RolesManager.sol",
+      },
+    },
+    RolesManager: {
+      address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
+      abi: [
+        {
+          inputs: [],
+          stateMutability: "nonpayable",
+          type: "constructor",
+        },
+        {
+          inputs: [],
+          name: "AccessControlBadConfirmation",
+          type: "error",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+            {
+              internalType: "bytes32",
+              name: "neededRole",
+              type: "bytes32",
+            },
+          ],
+          name: "AccessControlUnauthorizedAccount",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "CertificateNFT__CertificateDoesNotExist",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "CertificateNFT__EnterpriseAlreadyCertified",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "CertificationAuthority__CertificationNotExpiredYet",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "CertificationAuthority__EnterpriseAlreadyCertified",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "CertificationAuthority__EnterpriseNotCertifiedYet",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "EnterpriseRegistry__EnterpriseAlreadyExists",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "EnterpriseRegistry__EnterpriseDoesNotExist",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "EnterpriseRegistry__InvalidStart",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InspectionManager__InspectionPeriodExpired",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InspectionManager__InspectorAlreadyAssigned",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InspectionManager__NoReportsAssociatedWithEnterprise",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InspectionManager__NotAssignedToEnterprise",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "InvalidAddress",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__AlreadyHasRole",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__ArrayLengthMismatch",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__EmptyArray",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__InvalidDuration",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__NotAuthorizedAuditor",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__NotAuthorizedCertificateFactory",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__NotAuthorizedCertifier",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__NotAuthorizedEnterprise",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__NotAuthorizedInspector",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__NotAuthorizedPublicUser",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__RoleDoesNotExist",
+          type: "error",
+        },
+        {
+          inputs: [],
+          name: "RolesManager__UnauthorizedToPerformAction",
+          type: "error",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: false,
+              internalType: "bytes32[]",
+              name: "roles",
+              type: "bytes32[]",
+            },
+            {
+              indexed: true,
+              internalType: "address[]",
+              name: "accounts",
+              type: "address[]",
+            },
+          ],
+          name: "BulkRolesGranted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "user",
+              type: "address",
+            },
+          ],
+          name: "PublicRoleExpired",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "address",
+              name: "user",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "uint256",
+              name: "duration",
+              type: "uint256",
+            },
+          ],
+          name: "PublicRoleGranted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "previousAdminRole",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "newAdminRole",
+              type: "bytes32",
+            },
+          ],
+          name: "RoleAdminChanged",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "sender",
+              type: "address",
+            },
+          ],
+          name: "RoleGranted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "RoleGranted",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "sender",
+              type: "address",
+            },
+          ],
+          name: "RoleRevoked",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: true,
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "RoleRevoked",
+          type: "event",
+        },
+        {
+          anonymous: false,
+          inputs: [
+            {
+              indexed: true,
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "from",
+              type: "address",
+            },
+            {
+              indexed: false,
+              internalType: "address",
+              name: "to",
+              type: "address",
+            },
+          ],
+          name: "RoleTransferred",
+          type: "event",
+        },
+        {
+          inputs: [],
+          name: "AUDITOR_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "CERTIFICATE_FACTORY_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "CERTIFIER_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "DEFAULT_ADMIN_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "ENTERPRISE_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "INSPECTOR_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "PUBLIC_ROLE",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32[]",
+              name: "roles",
+              type: "bytes32[]",
+            },
+            {
+              internalType: "address[]",
+              name: "accounts",
+              type: "address[]",
+            },
+          ],
+          name: "bulkGrantRoles",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "checkExpiryRoles",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "uint256",
+              name: "durationInHours",
+              type: "uint256",
+            },
+          ],
+          name: "claimTemporaryPublicRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "getActiveRoles",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "isAdmin",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "isCertifier",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "isInspector",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "isAuditor",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "isEnterprise",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "isCertificateFactory",
+              type: "bool",
+            },
+            {
+              internalType: "bool",
+              name: "isPublic",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "getMaxPublicRoleDuration",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "pure",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+          ],
+          name: "getRoleAdmin",
+          outputs: [
+            {
+              internalType: "bytes32",
+              name: "",
+              type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantAuditor",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantCertificateFactory",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantCertifier",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantEnterprise",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantInspector",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantPublicRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "grantRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasAdminRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasAuditorRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasCertificateFactoryRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasCertifierRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasEnterpriseRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasInspectorRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasPublicRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "hasRole",
+          outputs: [
+            {
+              internalType: "bool",
+              name: "",
+              type: "bool",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "",
+              type: "address",
+            },
+          ],
+          name: "publicRoleExpiry",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "callerConfirmation",
+              type: "address",
+            },
+          ],
+          name: "renounceRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokeAuditorRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokeCertificateFactoryRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokeCertifierRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokeEnterpriseRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokeInspectorRole",
+          outputs: [],
+          stateMutability: "nonpayable",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "address",
+              name: "account",
+              type: "address",
+            },
+          ],
+          name: "revokePublicRole",
           outputs: [],
           stateMutability: "nonpayable",
           type: "function",
@@ -2218,6 +7276,29 @@ const deployedContracts = {
             },
           ],
           stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [
+            {
+              internalType: "bytes32",
+              name: "role",
+              type: "bytes32",
+            },
+            {
+              internalType: "address",
+              name: "from",
+              type: "address",
+            },
+            {
+              internalType: "address",
+              name: "to",
+              type: "address",
+            },
+          ],
+          name: "transferRole",
+          outputs: [],
+          stateMutability: "nonpayable",
           type: "function",
         },
       ],

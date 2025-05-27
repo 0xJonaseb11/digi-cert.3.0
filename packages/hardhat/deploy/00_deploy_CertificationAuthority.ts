@@ -6,12 +6,11 @@ const deployCertificationAuthority: DeployFunction = async function (hre: Hardha
   const { deployer } = await hre.getNamedAccounts();
   const { deploy } = hre.deployments;
 
-
-  const rolesManager = await hre.deployments.get("RolesManager");
+  // const rolesManager = await hre.deployments.get("RolesManager");
 
   await deploy("CertificationAuthority", {
     from: deployer,
-    args: [rolesManager.address],
+    args: [],
 
     log: true,
     autoMine: true,
@@ -20,7 +19,7 @@ const deployCertificationAuthority: DeployFunction = async function (hre: Hardha
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const certificationAuthority = await hre.ethers.getContract<Contract>("CertificationAuthority", deployer);
 
-  console.log("✅ CertificationAuthority contract deployed sufcessfully!!");
+  console.log("✅ CertificationAuthority contract deployed successfully!!");
 
 };
 

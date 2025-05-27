@@ -20,7 +20,7 @@ const deployRolesManager: DeployFunction = async function (hre: HardhatRuntimeEn
 
 
   const rolesManager = await hre.ethers.getContract<Contract>("RolesManager", deployer);
-  console.log("✅ RolesManager contract deployed sufcessfully!!");
+  console.log("✅ RolesManager contract deployed successfully!!");
 };
 
 export default deployRolesManager;
