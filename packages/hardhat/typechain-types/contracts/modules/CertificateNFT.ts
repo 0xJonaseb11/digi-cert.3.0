@@ -30,6 +30,7 @@ export interface CertificateNFTInterface extends Interface {
       | "CERTIFICATE_FACTORY_ROLE"
       | "CERTIFIER_ROLE"
       | "DEFAULT_ADMIN_ROLE"
+      | "DEFAULT_PUBLIC_ROLE_DURATION"
       | "ENTERPRISE_ROLE"
       | "INSPECTOR_ROLE"
       | "PUBLIC_ROLE"
@@ -125,6 +126,10 @@ export interface CertificateNFTInterface extends Interface {
   ): string;
   encodeFunctionData(
     functionFragment: "DEFAULT_ADMIN_ROLE",
+    values?: undefined
+  ): string;
+  encodeFunctionData(
+    functionFragment: "DEFAULT_PUBLIC_ROLE_DURATION",
     values?: undefined
   ): string;
   encodeFunctionData(
@@ -365,6 +370,10 @@ export interface CertificateNFTInterface extends Interface {
   ): Result;
   decodeFunctionResult(
     functionFragment: "DEFAULT_ADMIN_ROLE",
+    data: BytesLike
+  ): Result;
+  decodeFunctionResult(
+    functionFragment: "DEFAULT_PUBLIC_ROLE_DURATION",
     data: BytesLike
   ): Result;
   decodeFunctionResult(
@@ -908,6 +917,8 @@ export interface CertificateNFT extends BaseContract {
 
   DEFAULT_ADMIN_ROLE: TypedContractMethod<[], [string], "view">;
 
+  DEFAULT_PUBLIC_ROLE_DURATION: TypedContractMethod<[], [bigint], "view">;
+
   ENTERPRISE_ROLE: TypedContractMethod<[], [string], "view">;
 
   INSPECTOR_ROLE: TypedContractMethod<[], [string], "view">;
@@ -1215,6 +1226,9 @@ export interface CertificateNFT extends BaseContract {
   getFunction(
     nameOrSignature: "DEFAULT_ADMIN_ROLE"
   ): TypedContractMethod<[], [string], "view">;
+  getFunction(
+    nameOrSignature: "DEFAULT_PUBLIC_ROLE_DURATION"
+  ): TypedContractMethod<[], [bigint], "view">;
   getFunction(
     nameOrSignature: "ENTERPRISE_ROLE"
   ): TypedContractMethod<[], [string], "view">;

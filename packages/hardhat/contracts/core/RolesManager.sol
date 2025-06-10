@@ -19,6 +19,17 @@ import { DataTypes } from "../utils/DataTypes.sol";
 
 contract RolesManager is AccessControl, Errors {
 
+
+
+    //////////////////////////////////////////////////////////
+    // ==================================================== //
+    /////// work on the default public role expiry period
+    /////// Work on the logic of handling
+    // ===================================================== //
+    //////////////////////////////////////////////////////////
+
+
+
     bytes32 public constant CERTIFIER_ROLE = keccak256("CERTIFYING_BODY_ROLE");
     bytes32 public constant INSPECTOR_ROLE = keccak256("INSPECTION_MANAGER_ROLE");
     bytes32 public constant AUDITOR_ROLE = keccak256("AUDITOR_ROLE");
@@ -27,6 +38,8 @@ contract RolesManager is AccessControl, Errors {
     bytes32 public constant PUBLIC_ROLE = keccak256("PUBLIC_ROLE");
 
     mapping(address => uint256) public publicRoleExpiry;
+
+    uint256 public constant DEFAULT_PUBLIC_ROLE_DURATION = 2 minutes;
 
    // ----- modifiers
    modifier onlyValidAddress(address account) {
@@ -53,12 +66,10 @@ contract RolesManager is AccessControl, Errors {
         if (hasPublicRole(msg.sender)) {
             revert RolesManager__AlreadyHasRole();
         }
-        if (durationInHours > 0) {
+        if (durationInHours < 0 || durationInHours > 24) {
             revert RolesManager__InvalidDuration();
         }
-         if (durationInHours > 24 /*hours */) {
-            revert RolesManager__InvalidDuration();
-         }
+      
         uint256 durationInSeconds = durationInHours * 1 hours;
     
         _grantRole(PUBLIC_ROLE, msg.sender);
@@ -78,8 +89,12 @@ contract RolesManager is AccessControl, Errors {
     * @param account The account to check for role expiry
     * @notice Emits PublicRoleExpired event on expiry
     */
+    function _hasRawPublicRole(address account) internal view returns (bool) {
+        return hasRole(PUBLIC_ROLE, account);
+    }
     function checkExpiryRoles(address account) public {
-        if (hasPublicRole(account) && publicRoleExpiry[account] < block.timestamp) {
+        if (!_hasRawPublicRole(account)) revert RolesManager__RoleDoesNotExist();
+        if (publicRoleExpiry[account] < block.timestamp) {
             _revokeRole(PUBLIC_ROLE, account);
 
             emit Events.PublicRoleExpired(account);
@@ -201,6 +216,8 @@ contract RolesManager is AccessControl, Errors {
 
     function grantPublicRole(address account) external onlyValidAddress(account) onlyRole(DEFAULT_ADMIN_ROLE){
         grantRole(PUBLIC_ROLE, account);
+        publicRoleExpiry[msg.sender] = block.timestamp + DEFAULT_PUBLIC_ROLE_DURATION;
+
         emit Events.RoleGranted(PUBLIC_ROLE, account);
     }
 
@@ -284,7 +301,10 @@ contract RolesManager is AccessControl, Errors {
         return hasRole(CERTIFICATE_FACTORY_ROLE, account);
     }
     
-    function hasPublicRole(address account) public view  returns(bool) {
-        return hasRole(PUBLIC_ROLE, account);
+    function hasPublicRole(address account) public view returns(bool) {
+        if (_hasRawPublicRole(account) && publicRoleExpiry[account] > block.timestamp) {
+            return true;
+        }
+        return false;
     }
 }

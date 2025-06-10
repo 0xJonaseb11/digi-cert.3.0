@@ -15,6 +15,13 @@ pragma solidity ^0.8.20;
 ////////////////////////////////////////////////////////////////
 
 
+
+
+//// -------- Fining enterprises ----- //
+//// Implement enteprise fining and revocation // 
+//// on chain --- fallabck contracts /// 
+
+
 import { RolesManager } from "../core/RolesManager.sol";
 import { CertificationAuthority } from "../core/CertificationAuthority.sol";
 import { Events } from "../utils/Events.sol";
