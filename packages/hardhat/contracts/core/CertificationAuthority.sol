@@ -66,7 +66,7 @@ contract CertificationAuthority is RolesManager, ERC721URIStorage, ERC721Burnabl
             industry: _industry,
             metadataURI: _metadataURI,
             certifiedAt: block.timestamp,
-            expiryDate: block.timestamp + validityDurationSeconds,
+            expiryDate: block.timestamp + validityDurationSeconds, // three years
             isCertified: true,
             tokenId: tokenId
         });

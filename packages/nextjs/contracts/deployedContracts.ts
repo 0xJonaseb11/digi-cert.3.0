@@ -7,7 +7,7 @@ import { GenericContractsDeclaration } from "~~/utils/scaffold-eth/contract";
 const deployedContracts = {
   31337: {
     AuditorOversight: {
-      address: "0x610178dA211FEF7D417bC0e6FeD39F05609AD788",
+      address: "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
       abi: [
         {
           inputs: [
@@ -369,7 +369,7 @@ const deployedContracts = {
       inheritedFunctions: {},
     },
     CertificateNFT: {
-      address: "0xa513E6E4b8f2a923D98304ec87F64353C4D5C853",
+      address: "0x9fE46736679d2D9a65F0992F2272dE9f3c7fa6e0",
       abi: [
         {
           inputs: [
@@ -2107,6 +2107,7 @@ const deployedContracts = {
         CERTIFICATE_FACTORY_ROLE: "contracts/core/RolesManager.sol",
         CERTIFIER_ROLE: "contracts/core/RolesManager.sol",
         DEFAULT_ADMIN_ROLE: "contracts/core/RolesManager.sol",
+        DEFAULT_PUBLIC_ROLE_DURATION: "contracts/core/RolesManager.sol",
         ENTERPRISE_ROLE: "contracts/core/RolesManager.sol",
         INSPECTOR_ROLE: "contracts/core/RolesManager.sol",
         PUBLIC_ROLE: "contracts/core/RolesManager.sol",
@@ -2170,7 +2171,7 @@ const deployedContracts = {
       },
     },
     CertificationAuthority: {
-      address: "0x0165878A594ca255338adfa4d48449f69242Eb8F",
+      address: "0x5FbDB2315678afecb367f032d93F642f64180aa3",
       abi: [
         {
           inputs: [],
@@ -3933,6 +3934,7 @@ const deployedContracts = {
         CERTIFICATE_FACTORY_ROLE: "contracts/core/RolesManager.sol",
         CERTIFIER_ROLE: "contracts/core/RolesManager.sol",
         DEFAULT_ADMIN_ROLE: "contracts/core/RolesManager.sol",
+        DEFAULT_PUBLIC_ROLE_DURATION: "contracts/core/RolesManager.sol",
         ENTERPRISE_ROLE: "contracts/core/RolesManager.sol",
         INSPECTOR_ROLE: "contracts/core/RolesManager.sol",
         PUBLIC_ROLE: "contracts/core/RolesManager.sol",
@@ -3994,7 +3996,7 @@ const deployedContracts = {
       },
     },
     EnterpriseRegistry: {
-      address: "0x2279B7A0a67DB372996a5FaB50D91eAA73d2eBe6",
+      address: "0xCf7Ed3AccA5a467e9e704C703E8D87F634fB0Fc9",
       abi: [
         {
           inputs: [
@@ -5402,6 +5404,7 @@ const deployedContracts = {
         CERTIFICATE_FACTORY_ROLE: "contracts/core/RolesManager.sol",
         CERTIFIER_ROLE: "contracts/core/RolesManager.sol",
         DEFAULT_ADMIN_ROLE: "contracts/core/RolesManager.sol",
+        DEFAULT_PUBLIC_ROLE_DURATION: "contracts/core/RolesManager.sol",
         ENTERPRISE_ROLE: "contracts/core/RolesManager.sol",
         INSPECTOR_ROLE: "contracts/core/RolesManager.sol",
         PUBLIC_ROLE: "contracts/core/RolesManager.sol",
@@ -5440,7 +5443,7 @@ const deployedContracts = {
       },
     },
     InspectionManager: {
-      address: "0x8A791620dd6260079BF849Dc5567aDC3F2FdC318",
+      address: "0xDc64a140Aa3E981100a9becA4E685f962f0cF6C9",
       abi: [
         {
           inputs: [
@@ -6990,6 +6993,7 @@ const deployedContracts = {
         CERTIFICATE_FACTORY_ROLE: "contracts/core/RolesManager.sol",
         CERTIFIER_ROLE: "contracts/core/RolesManager.sol",
         DEFAULT_ADMIN_ROLE: "contracts/core/RolesManager.sol",
+        DEFAULT_PUBLIC_ROLE_DURATION: "contracts/core/RolesManager.sol",
         ENTERPRISE_ROLE: "contracts/core/RolesManager.sol",
         INSPECTOR_ROLE: "contracts/core/RolesManager.sol",
         PUBLIC_ROLE: "contracts/core/RolesManager.sol",
@@ -7028,7 +7032,7 @@ const deployedContracts = {
       },
     },
     RolesManager: {
-      address: "0x5FC8d32690cc91D4c39d9d3abcBD16989F875707",
+      address: "0xa82fF9aFd8f496c3d6ac40E2a0F282E47488CFc9",
       abi: [
         {
           inputs: [],
@@ -7442,6 +7446,19 @@ const deployedContracts = {
               internalType: "bytes32",
               name: "",
               type: "bytes32",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
+          name: "DEFAULT_PUBLIC_ROLE_DURATION",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
             },
           ],
           stateMutability: "view",
@@ -10128,6 +10145,7 @@ const deployedContracts = {
         CERTIFICATE_FACTORY_ROLE: "contracts/core/RolesManager.sol",
         CERTIFIER_ROLE: "contracts/core/RolesManager.sol",
         DEFAULT_ADMIN_ROLE: "contracts/core/RolesManager.sol",
+        DEFAULT_PUBLIC_ROLE_DURATION: "contracts/core/RolesManager.sol",
         ENTERPRISE_ROLE: "contracts/core/RolesManager.sol",
         INSPECTOR_ROLE: "contracts/core/RolesManager.sol",
         PUBLIC_ROLE: "contracts/core/RolesManager.sol",
@@ -11929,6 +11947,7 @@ const deployedContracts = {
         CERTIFICATE_FACTORY_ROLE: "contracts/core/RolesManager.sol",
         CERTIFIER_ROLE: "contracts/core/RolesManager.sol",
         DEFAULT_ADMIN_ROLE: "contracts/core/RolesManager.sol",
+        DEFAULT_PUBLIC_ROLE_DURATION: "contracts/core/RolesManager.sol",
         ENTERPRISE_ROLE: "contracts/core/RolesManager.sol",
         INSPECTOR_ROLE: "contracts/core/RolesManager.sol",
         PUBLIC_ROLE: "contracts/core/RolesManager.sol",
@@ -13373,6 +13392,7 @@ const deployedContracts = {
         CERTIFICATE_FACTORY_ROLE: "contracts/core/RolesManager.sol",
         CERTIFIER_ROLE: "contracts/core/RolesManager.sol",
         DEFAULT_ADMIN_ROLE: "contracts/core/RolesManager.sol",
+        DEFAULT_PUBLIC_ROLE_DURATION: "contracts/core/RolesManager.sol",
         ENTERPRISE_ROLE: "contracts/core/RolesManager.sol",
         INSPECTOR_ROLE: "contracts/core/RolesManager.sol",
         PUBLIC_ROLE: "contracts/core/RolesManager.sol",
@@ -14961,6 +14981,7 @@ const deployedContracts = {
         CERTIFICATE_FACTORY_ROLE: "contracts/core/RolesManager.sol",
         CERTIFIER_ROLE: "contracts/core/RolesManager.sol",
         DEFAULT_ADMIN_ROLE: "contracts/core/RolesManager.sol",
+        DEFAULT_PUBLIC_ROLE_DURATION: "contracts/core/RolesManager.sol",
         ENTERPRISE_ROLE: "contracts/core/RolesManager.sol",
         INSPECTOR_ROLE: "contracts/core/RolesManager.sol",
         PUBLIC_ROLE: "contracts/core/RolesManager.sol",
