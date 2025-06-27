@@ -20,6 +20,8 @@ export type { IERC721Errors } from "./@openzeppelin/contracts/interfaces/draft-I
 export { IERC721Errors__factory } from "./factories/@openzeppelin/contracts/interfaces/draft-IERC6093.sol/IERC721Errors__factory";
 export type { IERC4906 } from "./@openzeppelin/contracts/interfaces/IERC4906";
 export { IERC4906__factory } from "./factories/@openzeppelin/contracts/interfaces/IERC4906__factory";
+export type { IERC20 } from "./@openzeppelin/contracts/token/ERC20/IERC20";
+export { IERC20__factory } from "./factories/@openzeppelin/contracts/token/ERC20/IERC20__factory";
 export type { ERC721 } from "./@openzeppelin/contracts/token/ERC721/ERC721";
 export { ERC721__factory } from "./factories/@openzeppelin/contracts/token/ERC721/ERC721__factory";
 export type { ERC721Burnable } from "./@openzeppelin/contracts/token/ERC721/extensions/ERC721Burnable";
@@ -42,6 +44,8 @@ export type { Strings } from "./@openzeppelin/contracts/utils/Strings";
 export { Strings__factory } from "./factories/@openzeppelin/contracts/utils/Strings__factory";
 export type { CertificationAuthority } from "./contracts/core/CertificationAuthority";
 export { CertificationAuthority__factory } from "./factories/contracts/core/CertificationAuthority__factory";
+export type { FinesEngine } from "./contracts/core/FinesEngine";
+export { FinesEngine__factory } from "./factories/contracts/core/FinesEngine__factory";
 export type { RolesManager } from "./contracts/core/RolesManager";
 export { RolesManager__factory } from "./factories/contracts/core/RolesManager__factory";
 export type { ICertificateNFT } from "./contracts/interfaces/ICertificateNFT";
