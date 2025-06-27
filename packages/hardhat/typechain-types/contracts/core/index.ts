@@ -2,4 +2,5 @@
 /* tslint:disable */
 /* eslint-disable */
 export type { CertificationAuthority } from "./CertificationAuthority";
+export type { FinesEngine } from "./FinesEngine";
 export type { RolesManager } from "./RolesManager";

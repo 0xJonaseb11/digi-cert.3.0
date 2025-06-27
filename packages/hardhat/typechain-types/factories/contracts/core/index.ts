@@ -2,4 +2,5 @@
 /* tslint:disable */
 /* eslint-disable */
 export { CertificationAuthority__factory } from "./CertificationAuthority__factory";
+export { FinesEngine__factory } from "./FinesEngine__factory";
 export { RolesManager__factory } from "./RolesManager__factory";

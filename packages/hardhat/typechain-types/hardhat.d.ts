@@ -42,6 +42,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.IERC4906__factory>;
     getContractFactory(
+      name: "IERC20",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.IERC20__factory>;
+    getContractFactory(
       name: "ERC721",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.ERC721__factory>;
@@ -86,6 +90,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.CertificationAuthority__factory>;
     getContractFactory(
+      name: "FinesEngine",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.FinesEngine__factory>;
+    getContractFactory(
       name: "RolesManager",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.RolesManager__factory>;
@@ -121,6 +129,10 @@ declare module "hardhat/types/runtime" {
       name: "InspectionManager",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.InspectionManager__factory>;
+    getContractFactory(
+      name: "FinesEngine",
+      signerOrOptions?: ethers.Signer | FactoryOptions
+    ): Promise<Contracts.FinesEngine__factory>;
     getContractFactory(
       name: "Errors",
       signerOrOptions?: ethers.Signer | FactoryOptions
@@ -166,6 +178,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.IERC4906>;
     getContractAt(
+      name: "IERC20",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.IERC20>;
+    getContractAt(
       name: "ERC721",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
@@ -221,6 +238,11 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.CertificationAuthority>;
     getContractAt(
+      name: "FinesEngine",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.FinesEngine>;
+    getContractAt(
       name: "RolesManager",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
@@ -265,6 +287,11 @@ declare module "hardhat/types/runtime" {
       address: string | ethers.Addressable,
       signer?: ethers.Signer
     ): Promise<Contracts.InspectionManager>;
+    getContractAt(
+      name: "FinesEngine",
+      address: string | ethers.Addressable,
+      signer?: ethers.Signer
+    ): Promise<Contracts.FinesEngine>;
     getContractAt(
       name: "Errors",
       address: string | ethers.Addressable,
@@ -305,6 +332,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IERC4906>;
     deployContract(
+      name: "IERC20",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IERC20>;
+    deployContract(
       name: "ERC721",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.ERC721>;
@@ -349,6 +380,10 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.CertificationAuthority>;
     deployContract(
+      name: "FinesEngine",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.FinesEngine>;
+    deployContract(
       name: "RolesManager",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.RolesManager>;
@@ -384,6 +419,10 @@ declare module "hardhat/types/runtime" {
       name: "InspectionManager",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.InspectionManager>;
+    deployContract(
+      name: "FinesEngine",
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.FinesEngine>;
     deployContract(
       name: "Errors",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -429,6 +468,11 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.IERC4906>;
     deployContract(
+      name: "IERC20",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.IERC20>;
+    deployContract(
       name: "ERC721",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -484,6 +528,11 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.CertificationAuthority>;
     deployContract(
+      name: "FinesEngine",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.FinesEngine>;
+    deployContract(
       name: "RolesManager",
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -528,6 +577,11 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.InspectionManager>;
+    deployContract(
+      name: "FinesEngine",
+      args: any[],
+      signerOrOptions?: ethers.Signer | DeployContractOptions
+    ): Promise<Contracts.FinesEngine>;
     deployContract(
       name: "Errors",
       args: any[],
