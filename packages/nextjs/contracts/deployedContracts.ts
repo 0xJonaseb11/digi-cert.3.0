@@ -1103,6 +1103,19 @@ const deployedContracts = {
         },
         {
           inputs: [],
+          name: "DEFAULT_PUBLIC_ROLE_DURATION",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
           name: "ENTERPRISE_ROLE",
           outputs: [
             {
@@ -2865,6 +2878,19 @@ const deployedContracts = {
         },
         {
           inputs: [],
+          name: "DEFAULT_PUBLIC_ROLE_DURATION",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
           name: "ENTERPRISE_ROLE",
           outputs: [
             {
@@ -4508,6 +4534,19 @@ const deployedContracts = {
         },
         {
           inputs: [],
+          name: "DEFAULT_PUBLIC_ROLE_DURATION",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
           name: "ENTERPRISE_ROLE",
           outputs: [
             {
@@ -5980,6 +6019,19 @@ const deployedContracts = {
         },
         {
           inputs: [],
+          name: "DEFAULT_PUBLIC_ROLE_DURATION",
+          outputs: [
+            {
+              internalType: "uint256",
+              name: "",
+              type: "uint256",
+            },
+          ],
+          stateMutability: "view",
+          type: "function",
+        },
+        {
+          inputs: [],
           name: "ENTERPRISE_ROLE",
           outputs: [
             {
@@ -7032,7 +7084,7 @@ const deployedContracts = {
       },
     },
     RolesManager: {
-      address: "0xa82fF9aFd8f496c3d6ac40E2a0F282E47488CFc9",
+      address: "0xe7f1725E7734CE288F8367e1Bb143E90bb3F0512",
       abi: [
         {
           inputs: [],
