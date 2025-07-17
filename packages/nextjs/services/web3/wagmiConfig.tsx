@@ -1,14 +1,16 @@
-// wagmiConfig.ts
 import { wagmiConnectors } from "./wagmiConnectors";
 import { Chain, createClient, fallback, http } from "viem";
+import { hardhat, mainnet } from "viem/chains";
 import { createConfig } from "wagmi";
-import scaffoldConfig from "~~/scaffold.config";
-import { getAlchemyHttpUrl } from "~~/utils/scaffold-eth/networks";
+import scaffoldConfig, { DEFAULT_ALCHEMY_API_KEY } from "~~/scaffold.config";
+import { getAlchemyHttpUrl } from "~~/utils/scaffold-eth";
 
-const { targetNetworks, pollingInterval } = scaffoldConfig;
+const { targetNetworks } = scaffoldConfig;
 
-// Add logic to include all the networks, ensuring Layer 2s are included.
-export const enabledChains = targetNetworks;
+// We always want to have mainnet enabled (ENS resolution, ETH price, etc). But only once.
+export const enabledChains = targetNetworks.find((network: Chain) => network.id === 1)
+  ? targetNetworks
+  : ([...targetNetworks, mainnet] as const);
 
 export const wagmiConfig = createConfig({
   chains: enabledChains,
@@ -17,21 +19,21 @@ export const wagmiConfig = createConfig({
   client({ chain }) {
     let rpcFallbacks = [http()];
 
-    const rpcOverrideUrl = scaffoldConfig.rpcOverrides?.[chain.id];
-    if (rpcOverrideUrl) {
-      rpcFallbacks = [http(rpcOverrideUrl), http()];
-    } else {
-      const alchemyHttpUrl = getAlchemyHttpUrl(chain.id);
-      if (alchemyHttpUrl) {
-        const isUsingDefaultKey = scaffoldConfig.alchemyApiKey === "your-api-key";
-        rpcFallbacks = isUsingDefaultKey ? [http(), http(alchemyHttpUrl)] : [http(alchemyHttpUrl), http()];
-      }
+    const alchemyHttpUrl = getAlchemyHttpUrl(chain.id);
+    if (alchemyHttpUrl) {
+      const isUsingDefaultKey = scaffoldConfig.alchemyApiKey === DEFAULT_ALCHEMY_API_KEY;
+      // If using default Scaffold-ETH 2 API key, we prioritize the default RPC
+      rpcFallbacks = isUsingDefaultKey ? [http(), http(alchemyHttpUrl)] : [http(alchemyHttpUrl), http()];
     }
 
     return createClient({
       chain,
       transport: fallback(rpcFallbacks),
-      ...(chain.id !== 31337 ? { pollingInterval } : {}),
+      ...(chain.id !== (hardhat as Chain).id
+        ? {
+            pollingInterval: scaffoldConfig.pollingInterval,
+          }
+        : {}),
     });
   },
 });

@@ -130,10 +130,6 @@ declare module "hardhat/types/runtime" {
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.InspectionManager__factory>;
     getContractFactory(
-      name: "FinesEngine",
-      signerOrOptions?: ethers.Signer | FactoryOptions
-    ): Promise<Contracts.FinesEngine__factory>;
-    getContractFactory(
       name: "Errors",
       signerOrOptions?: ethers.Signer | FactoryOptions
     ): Promise<Contracts.Errors__factory>;
@@ -288,11 +284,6 @@ declare module "hardhat/types/runtime" {
       signer?: ethers.Signer
     ): Promise<Contracts.InspectionManager>;
     getContractAt(
-      name: "FinesEngine",
-      address: string | ethers.Addressable,
-      signer?: ethers.Signer
-    ): Promise<Contracts.FinesEngine>;
-    getContractAt(
       name: "Errors",
       address: string | ethers.Addressable,
       signer?: ethers.Signer
@@ -419,10 +410,6 @@ declare module "hardhat/types/runtime" {
       name: "InspectionManager",
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.InspectionManager>;
-    deployContract(
-      name: "FinesEngine",
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.FinesEngine>;
     deployContract(
       name: "Errors",
       signerOrOptions?: ethers.Signer | DeployContractOptions
@@ -577,11 +564,6 @@ declare module "hardhat/types/runtime" {
       args: any[],
       signerOrOptions?: ethers.Signer | DeployContractOptions
     ): Promise<Contracts.InspectionManager>;
-    deployContract(
-      name: "FinesEngine",
-      args: any[],
-      signerOrOptions?: ethers.Signer | DeployContractOptions
-    ): Promise<Contracts.FinesEngine>;
     deployContract(
       name: "Errors",
       args: any[],
