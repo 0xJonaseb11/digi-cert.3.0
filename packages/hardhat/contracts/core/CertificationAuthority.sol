@@ -114,7 +114,7 @@ contract CertificationAuthority is RolesManager, ERC721URIStorage, ERC721Burnabl
     
 
     /**
-    * @dev alloes automatic revokation of NFT certificates after expiry duration 
+    * @dev allowes automatic revokation of NFT certificates after expiry duration 
     * @dev callable by anyone as long as expiry date kicks in
     * @notice Emits CertificationRevoked event on successful enterprise revocation
     */
