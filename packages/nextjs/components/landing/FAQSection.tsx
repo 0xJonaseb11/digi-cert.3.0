@@ -1,6 +1,6 @@
-import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
-import { ShieldCheck, HelpCircle, CheckCircle, FileText } from "lucide-react";
 import Image from "next/image";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "../ui/accordion";
+import { CheckCircle, FileText, HelpCircle, ShieldCheck } from "lucide-react";
 
 const faqList = [
   {
@@ -63,14 +63,16 @@ export const FAQSection: React.FC = () => (
         <div className="w-full max-w-none bg-gradient-to-r from-[#23272f] to-[#e0f2fe] shadow-xl rounded-2xl p-8 border-2 border-blue-100">
           <Accordion type="single" collapsible>
             {faqList.map((faq, idx) => (
-              <AccordionItem key={idx} value={`item-${idx + 1}`} className="mb-2 border-b border-blue-100 last:border-b-0">
+              <AccordionItem
+                key={idx}
+                value={`item-${idx + 1}`}
+                className="mb-2 border-b border-blue-100 last:border-b-0"
+              >
                 <AccordionTrigger className="flex items-center text-lg font-semibold text-slate-900 hover:text-blue-600 transition-colors">
                   {faq.icon}
                   {faq.question}
                 </AccordionTrigger>
-                <AccordionContent className="text-slate-600 text-base animate-fade-in">
-                  {faq.answer}
-                </AccordionContent>
+                <AccordionContent className="text-slate-700 text-base animate-fade-in">{faq.answer}</AccordionContent>
               </AccordionItem>
             ))}
           </Accordion>
@@ -79,8 +81,9 @@ export const FAQSection: React.FC = () => (
               <ShieldCheck className="w-5 h-5 mr-2 text-blue-500" />
               Why trust <span className="ml-1 font-bold">DIGICERT</span>?
             </div>
-            <p className="mt-2 text-slate-100 text-center max-w-xl">
-              DIGICERT leverages advanced blockchain technology, cryptographic security, and regulatory compliance to ensure your digital certificates are always secure, verifiable, and trusted worldwide.
+            <p className="mt-2 text-white text-center max-w-xl">
+              DIGICERT leverages advanced blockchain technology, cryptographic security, and regulatory compliance to
+              ensure your digital certificates are always secure, verifiable, and trusted worldwide.
             </p>
           </div>
         </div>
@@ -89,4 +92,4 @@ export const FAQSection: React.FC = () => (
   </section>
 );
 
-export default FAQSection; 
+export default FAQSection;

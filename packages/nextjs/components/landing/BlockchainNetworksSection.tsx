@@ -6,7 +6,9 @@ export const BlockchainNetworksSection: React.FC = () => (
   <section id="blockchain" className="py-20 bg-gradient-to-b from-white to-slate-50">
     <div className="container mx-auto px-6">
       <div className="text-center mb-16">
-        <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">Multi-Chain Blockchain Support</h2>
+        <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">
+          <span className="text-blue-600">Multi-Chain</span> Blockchain Support
+        </h2>
         <p className="text-xl text-slate-600 max-w-3xl mx-auto">
           Deploy your certificates across multiple blockchain networks for maximum security and global reach.
         </p>
