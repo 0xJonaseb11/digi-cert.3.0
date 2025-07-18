@@ -1,4 +1,3 @@
-// app/layout.tsx (Server Component)
 import { Montserrat } from "next/font/google";
 import "../styles/globals.css";
 import ClientProviders from "./client-providers";
@@ -34,7 +33,10 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   return (
     <html lang="en" suppressHydrationWarning className={`${montserrat.variable} min-h-screen`}>
       <body className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-        <ClientProviders>{children}</ClientProviders>
+        <ClientProviders>
+          {/* <DebugWallets /> */}
+          {children}
+        </ClientProviders>
       </body>
     </html>
   );
