@@ -62,9 +62,13 @@
     "@radix-ui/react-accordion": "^1.2.11",
     "@radix-ui/react-separator": "^1.1.7",
     "@radix-ui/react-tabs": "^1.1.12",
+    "@rainbow-me/rainbowkit": "2.2.3",
+    "@safe-global/safe-apps-sdk": "latest",
     "@tailwindcss/forms": "^0.5.10",
     "@tailwindcss/postcss": "^4.1.7",
+    "@wagmi/connectors": "5.8.6",
     "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
     "embla-carousel-react": "^8.6.0",
     "install": "^0.13.0",
     "lucide-react": "^0.525.0",
@@ -74,6 +78,7 @@
     "react-day-picker": "^9.8.0",
     "react-icons": "^5.5.0",
     "tailwind-merge": "^3.3.1",
-    "viem": "latest"
+    "viem": "^2.21.1",
+    "wagmi": "2.15.7"
   }
 }
