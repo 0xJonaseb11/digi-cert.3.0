@@ -4,10 +4,11 @@ export const SolutionsSection: React.FC = () => (
   <section id="solutions" className="py-20">
     <div className="container mx-auto px-6">
       <div className="text-center mb-16">
-        <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">Perfect for Every Industry</h2>
+        <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-4">
+          Perfect for <span className="text-blue-600">Every Industry</span>
+        </h2>
         <p className="text-xl text-slate-600 max-w-3xl mx-auto">
-          From education to healthcare, our platform serves diverse industries with tailored certification
-          solutions.
+          From education to healthcare, our platform serves diverse industries with tailored certification solutions.
         </p>
       </div>
       <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
@@ -54,4 +55,4 @@ export const SolutionsSection: React.FC = () => (
   </section>
 );
 
-export default SolutionsSection; 
+export default SolutionsSection;
