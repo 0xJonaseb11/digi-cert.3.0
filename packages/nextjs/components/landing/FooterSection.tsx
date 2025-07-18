@@ -1,7 +1,7 @@
-import { Input } from "../ui/input";
 import { Button } from "../ui/button";
+import { Input } from "../ui/input";
 import { Separator } from "../ui/separator";
-import { Shield, Eye } from "lucide-react";
+import { Shield } from "lucide-react";
 
 export const FooterSection: React.FC = () => (
   <footer className="py-16 bg-slate-900 text-white">
@@ -142,4 +142,4 @@ export const FooterSection: React.FC = () => (
   </footer>
 );
 
-export default FooterSection; 
+export default FooterSection;
