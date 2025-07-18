@@ -20,7 +20,6 @@ const deployInspectorManager: DeployFunction = async function (hre: HardhatRunti
   const inspectorManager = await hre.ethers.getContract<Contract>("InspectionManager", deployer);
 
   console.log("✅ InspectionManager contract deployed successfully!!");
-
 };
 
 export default deployInspectorManager;

@@ -20,7 +20,6 @@ const deployCertificationAuthority: DeployFunction = async function (hre: Hardha
   const certificationAuthority = await hre.ethers.getContract<Contract>("CertificationAuthority", deployer);
 
   console.log("✅ CertificationAuthority contract deployed successfully!!");
-
 };
 
 export default deployCertificationAuthority;

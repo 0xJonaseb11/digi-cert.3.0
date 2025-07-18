@@ -6,3 +6,8 @@ export const replacer = (_key: string, value: unknown) => (typeof value === "big
 export const ZERO_ADDRESS = "0x0000000000000000000000000000000000000000";
 
 export const isZeroAddress = (address: string) => address === ZERO_ADDRESS;
+
+// Utility for conditional className joining
+export function cn(...args: (string | undefined | false | null)[]) {
+  return args.filter(Boolean).join(" ");
+}
