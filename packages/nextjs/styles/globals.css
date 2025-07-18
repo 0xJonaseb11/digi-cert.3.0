@@ -2,6 +2,89 @@
 @tailwind components;
 @tailwind utilities;
 
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700;900&display=swap');
+
+html, body {
+  font-family: 'Montserrat', system-ui, sans-serif;
+  background: var(--background, #f8fafc);
+  color: var(--foreground, #1e293b);
+  transition: background 0.3s, color 0.3s;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-family: 'Montserrat', system-ui, sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.01em;
+}
+
+button, .btn, .connect-wallet-button {
+  font-family: 'Montserrat', system-ui, sans-serif;
+  font-weight: 600;
+  border-radius: 0.75rem;
+  transition: background 0.2s, color 0.2s, box-shadow 0.2s;
+  position: relative;
+  overflow: hidden;
+}
+button:active::after, .btn:active::after, .connect-wallet-button:active::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  width: 120%;
+  height: 120%;
+  background: rgba(59, 130, 246, 0.15);
+  border-radius: 50%;
+  transform: translate(-50%, -50%) scale(0);
+  animation: ripple 0.4s linear;
+  pointer-events: none;
+}
+@keyframes ripple {
+  to {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 0;
+  }
+}
+
+.card, .bg-white, .bg-white\/80, .backdrop-blur {
+  border-radius: 1.25rem;
+  box-shadow: 0 4px 24px 0 rgba(59, 130, 246, 0.08), 0 1.5px 6px 0 rgba(139, 92, 246, 0.04);
+  background: linear-gradient(135deg, #f8fafc 60%, #f1f5ff 100%);
+  transition: box-shadow 0.2s, background 0.2s, transform 0.2s;
+}
+.card:hover, .bg-white:hover, .bg-white\/80:hover {
+  transform: translateY(-4px) scale(1.02);
+  box-shadow: 0 8px 32px 0 rgba(59, 130, 246, 0.16), 0 3px 12px 0 rgba(139, 92, 246, 0.08);
+  background: linear-gradient(135deg, #f0f4ff 40%, #e0e7ff 100%);
+}
+
+.dark html, .dark body {
+  --background: #181926;
+  --foreground: #f3f4f6;
+  background: var(--background);
+  color: var(--foreground);
+}
+
+.dark .card, .dark .bg-white, .dark .bg-white\/80, .dark .backdrop-blur {
+  background: linear-gradient(135deg, #23263a 60%, #2d314d 100%);
+  box-shadow: 0 4px 24px 0 rgba(139, 92, 246, 0.10), 0 1.5px 6px 0 rgba(59, 130, 246, 0.06);
+}
+
+.dark .card:hover, .dark .bg-white:hover, .dark .bg-white\/80:hover {
+  background: linear-gradient(135deg, #23263a 40%, #3b3f5c 100%);
+  box-shadow: 0 8px 32px 0 rgba(139, 92, 246, 0.18), 0 3px 12px 0 rgba(59, 130, 246, 0.10);
+}
+
+section {
+  margin-bottom: 4rem;
+  margin-top: 4rem;
+}
+
+svg, .icon {
+  vertical-align: middle;
+  width: 1.25em;
+  height: 1.25em;
+}
+
 @layer base {
   :root {
     --font-size: 14px;
