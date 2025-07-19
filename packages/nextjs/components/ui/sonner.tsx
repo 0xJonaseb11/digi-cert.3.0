@@ -1,14 +1,14 @@
 "use client";
 
-import { Toaster as Sonner, ToasterProps } from "./sonner";
+import { Toaster as Sonner } from "./sonner";
 import { useTheme } from "next-themes";
 
-const Toaster = ({ ...props }: ToasterProps) => {
+const Toaster = (props: any) => {
   const { theme = "system" } = useTheme();
 
   return (
     <Sonner
-      theme={theme as ToasterProps["theme"]}
+      theme={theme}
       className="toaster group"
       style={
         {
@@ -22,4 +22,4 @@ const Toaster = ({ ...props }: ToasterProps) => {
   );
 };
 
-export { Toaster, ToasterProps };
+export { Toaster };

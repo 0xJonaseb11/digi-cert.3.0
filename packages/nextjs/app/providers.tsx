@@ -16,7 +16,6 @@ if (!walletConnectProjectId) {
 const { connectors } = getDefaultWallets({
   appName: "DIGICERT",
   projectId: walletConnectProjectId,
-  chains: [mainnet, polygon, optimism, arbitrum],
 });
 
 const wagmiConfig = createConfig({
