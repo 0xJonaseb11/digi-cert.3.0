@@ -42,14 +42,7 @@ function CommandEmpty({ className, ...props }: React.ComponentProps<"div">) {
 // Simple command group component
 function CommandGroup({ className, children, ...props }: React.ComponentProps<"div">) {
   return (
-    <div
-      data-slot="command-group"
-      className={cn(
-        "text-foreground overflow-hidden p-1",
-        className,
-      )}
-      {...props}
-    >
+    <div data-slot="command-group" className={cn("text-foreground overflow-hidden p-1", className)} {...props}>
       {children}
     </div>
   );
@@ -57,13 +50,7 @@ function CommandGroup({ className, children, ...props }: React.ComponentProps<"d
 
 // Simple command separator component
 function CommandSeparator({ className, ...props }: React.ComponentProps<"div">) {
-  return (
-    <div
-      data-slot="command-separator"
-      className={cn("bg-border -mx-1 h-px", className)}
-      {...props}
-    />
-  );
+  return <div data-slot="command-separator" className={cn("bg-border -mx-1 h-px", className)} {...props} />;
 }
 
 // Simple command item component
@@ -91,12 +78,4 @@ function CommandShortcut({ className, ...props }: React.ComponentProps<"span">) 
   );
 }
 
-export {
-  CommandInput,
-  CommandList,
-  CommandEmpty,
-  CommandGroup,
-  CommandItem,
-  CommandShortcut,
-  CommandSeparator,
-};
+export { CommandInput, CommandList, CommandEmpty, CommandGroup, CommandItem, CommandShortcut, CommandSeparator };

@@ -22,9 +22,9 @@ export default function DebugWallets() {
       }
 
       // Phantom specific detection
-      if (window.phantom?.ethereum) {
+      if ((window as any).phantom?.ethereum) {
         console.log("Phantom EVM Detected");
-        window.ethereum = window.phantom.ethereum;
+        window.ethereum = (window as any).phantom.ethereum;
       }
 
       console.groupEnd();
