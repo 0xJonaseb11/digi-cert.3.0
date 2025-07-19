@@ -12,7 +12,9 @@ export const NFTCertificatesSection: React.FC = () => (
             <Gem className="w-4 h-4 mr-2" />
             NFT Technology
           </Badge>
-          <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-6">Next-Generation <span className="text-blue-600">NFT Certificates</span></h2>
+          <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-6">
+            Next-Generation <span className="text-blue-600">NFT Certificates</span>
+          </h2>
           <p className="text-xl text-slate-600 mb-8">
             Transform your certificates into unique, collectible NFTs with built-in verification, ownership tracking,
             and marketplace integration.

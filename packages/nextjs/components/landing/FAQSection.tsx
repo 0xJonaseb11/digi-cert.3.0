@@ -54,7 +54,9 @@ export const FAQSection: React.FC = () => (
             priority
           />
         </div>
-        <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-2">Frequently Asked Questions</h2>
+        <h2 className="text-3xl lg:text-4xl font-bold text-slate-900 mb-2">
+          Frequently <span className="text-blue-600">Asked Questions</span>
+        </h2>
         <p className="text-xl text-slate-600 max-w-3xl mx-auto text-center">
           Get answers to common questions about our blockchain certification platform.
         </p>

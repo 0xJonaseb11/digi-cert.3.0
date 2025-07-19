@@ -1,7 +1,8 @@
+/* eslint-disable @next/next/no-img-element */
+import React from "react";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { Loader2 } from "lucide-react";
 import { FaWallet } from "react-icons/fa";
-import React from "react";
 
 const customStyles = `
   .connect-wallet-button {
@@ -162,4 +163,4 @@ const ConnectWalletButton: React.FC = () => {
   );
 };
 
-export default ConnectWalletButton; 
+export default ConnectWalletButton;

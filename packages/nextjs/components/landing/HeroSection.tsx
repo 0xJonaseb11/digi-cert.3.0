@@ -1,8 +1,8 @@
+import { ImageWithFallback } from "../figma/ImageWithFallback";
 import { Badge } from "../ui/badge";
 import { Button } from "../ui/button";
-import { ImageWithFallback } from "../figma/ImageWithFallback";
-import { Blocks, Star, Activity, Shield, QrCode } from "lucide-react";
 import ConnectWalletButton from "./ConnectWalletButton";
+import { Activity, Blocks, QrCode, Shield, Star } from "lucide-react";
 
 export const HeroSection: React.FC = () => (
   <section id="home" className="py-20 lg:py-32 relative overflow-hidden">
@@ -21,8 +21,8 @@ export const HeroSection: React.FC = () => (
             </span>
           </h1>
           <p className="text-xl text-slate-600 mb-8 leading-relaxed">
-            Transform your certification process with tamper-proof, instantly verifiable digital certificates.
-            Built on blockchain technology with NFT integration and smart contract automation.
+            Transform your certification process with tamper-proof, instantly verifiable digital certificates. Built on
+            blockchain technology with NFT integration and smart contract automation.
           </p>
           <div className="flex flex-col sm:flex-row gap-4 mb-12">
             <ConnectWalletButton />
@@ -63,4 +63,4 @@ export const HeroSection: React.FC = () => (
   </section>
 );
 
-export default HeroSection; 
+export default HeroSection;
