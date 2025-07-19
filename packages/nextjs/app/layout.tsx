@@ -9,6 +9,7 @@ const montserrat = Montserrat({
 });
 
 export const metadata: Metadata = {
+  metadataBase: new URL(process.env.NEXT_PUBLIC_SITE_URL || "http://localhost:3000"),
   title: "DIGICERT - Blockchain Certificates",
   description: "Secure digital certificates powered by blockchain technology",
   keywords: "blockchain, certificates, digital credentials, certification, verification",
