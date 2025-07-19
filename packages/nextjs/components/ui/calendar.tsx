@@ -1,10 +1,22 @@
 "use client";
 
 import * as React from "react";
-import { buttonVariants } from "./button";
-import { cn } from "./utils";
-import { ChevronLeft, ChevronRight } from "lucide-react";
+import { cn } from "../../utils/scaffold-eth/common";
 import { DayPicker } from "react-day-picker";
+
+// Simple button variant function
+const buttonVariants = (options: { variant?: "outline" | "ghost" }) => {
+  const base =
+    "inline-flex items-center justify-center rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 disabled:opacity-50 disabled:pointer-events-none ring-offset-background";
+
+  if (options.variant === "outline") {
+    return cn(base, "border border-input bg-background hover:bg-accent hover:text-accent-foreground");
+  }
+  if (options.variant === "ghost") {
+    return cn(base, "hover:bg-accent hover:text-accent-foreground");
+  }
+  return base;
+};
 
 function Calendar({ className, classNames, showOutsideDays = true, ...props }: React.ComponentProps<typeof DayPicker>) {
   return (
@@ -44,10 +56,6 @@ function Calendar({ className, classNames, showOutsideDays = true, ...props }: R
         day_range_middle: "aria-selected:bg-accent aria-selected:text-accent-foreground",
         day_hidden: "invisible",
         ...classNames,
-      }}
-      components={{
-        IconLeft: ({ className, ...props }) => <ChevronLeft className={cn("size-4", className)} {...props} />,
-        IconRight: ({ className, ...props }) => <ChevronRight className={cn("size-4", className)} {...props} />,
       }}
       {...props}
     />

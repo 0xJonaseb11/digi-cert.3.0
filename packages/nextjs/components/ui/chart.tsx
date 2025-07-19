@@ -1,8 +1,8 @@
 "use client";
 
 import * as React from "react";
-import { cn } from "./utils";
-import * as RechartsPrimitive from "recharts@2.15.2";
+import { cn } from "../../utils/scaffold-eth/common";
+import * as RechartsPrimitive from "recharts";
 
 // Format: { THEME_NAME: CSS_SELECTOR }
 const THEMES = { light: "", dark: ".dark" } as const;
@@ -153,7 +153,7 @@ function ChartTooltipContent({
     >
       {!nestLabel ? tooltipLabel : null}
       <div className="grid gap-1.5">
-        {payload.map((item, index) => {
+        {payload.map((item: any, index: any) => {
           const key = `${nameKey || item.name || item.dataKey || "value"}`;
           const itemConfig = getPayloadConfigFromPayload(config, item, key);
           const indicatorColor = color || item.payload.fill || item.color;
@@ -175,12 +175,13 @@ function ChartTooltipContent({
                   ) : (
                     !hideIndicator && (
                       <div
-                        className={cn("shrink-0 rounded-[2px] border-(--color-border) bg-(--color-bg)", {
-                          "h-2.5 w-2.5": indicator === "dot",
-                          "w-1": indicator === "line",
-                          "w-0 border-[1.5px] border-dashed bg-transparent": indicator === "dashed",
-                          "my-0.5": nestLabel && indicator === "dashed",
-                        })}
+                        className={cn(
+                          "shrink-0 rounded-[2px] border-(--color-border) bg-(--color-bg)" +
+                            (indicator === "dot" ? " h-2.5 w-2.5" : "") +
+                            (indicator === "line" ? " w-1" : "") +
+                            (indicator === "dashed" ? " w-0 border-[1.5px] border-dashed bg-transparent" : "") +
+                            (nestLabel && indicator === "dashed" ? " my-0.5" : ""),
+                        )}
                         style={
                           {
                             "--color-bg": indicatorColor,
@@ -221,11 +222,12 @@ function ChartLegendContent({
   payload,
   verticalAlign = "bottom",
   nameKey,
-}: React.ComponentProps<"div"> &
-  Pick<RechartsPrimitive.LegendProps, "payload" | "verticalAlign"> & {
-    hideIcon?: boolean;
-    nameKey?: string;
-  }) {
+}: React.ComponentProps<"div"> & {
+  payload?: any[];
+  verticalAlign?: string;
+  hideIcon?: boolean;
+  nameKey?: string;
+}) {
   const { config } = useChart();
 
   if (!payload?.length) {
@@ -234,7 +236,7 @@ function ChartLegendContent({
 
   return (
     <div className={cn("flex items-center justify-center gap-4", verticalAlign === "top" ? "pb-3" : "pt-3", className)}>
-      {payload.map(item => {
+      {payload.map((item: any) => {
         const key = `${nameKey || item.dataKey || "value"}`;
         const itemConfig = getPayloadConfigFromPayload(config, item, key);
 

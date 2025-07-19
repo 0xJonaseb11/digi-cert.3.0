@@ -3620,7 +3620,7 @@ __metadata:
   languageName: node
   linkType: hard
 
-"@radix-ui/react-dialog@npm:1.1.14":
+"@radix-ui/react-dialog@npm:1.1.14, @radix-ui/react-dialog@npm:^1.1.1":
   version: 1.1.14
   resolution: "@radix-ui/react-dialog@npm:1.1.14"
   dependencies:
@@ -16915,6 +16915,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"react-hook-form@npm:^7.60.0":
+  version: 7.60.0
+  resolution: "react-hook-form@npm:7.60.0"
+  peerDependencies:
+    react: ^16.8.0 || ^17 || ^18 || ^19
+  checksum: 8700c2932604fe2b3fbdd47a459bec58fb5a2003a336b418b98d8771d1a6ec472531c6758188e23329f86413f736cc5a1c1a84a59341f5b3b9dd4f9fd704fb18
+  languageName: node
+  linkType: hard
+
 "react-hot-toast@npm:~2.4.0":
   version: 2.4.1
   resolution: "react-hot-toast@npm:2.4.1"
@@ -17563,8 +17572,10 @@ __metadata:
     prettier-plugin-solidity: ^2.1.0
     radix-ui: ^1.4.2
     react-day-picker: ^9.8.0
+    react-hook-form: ^7.60.0
     react-icons: ^5.5.0
     tailwind-merge: ^3.3.1
+    vaul: ^1.1.2
     viem: ^2.21.1
     wagmi: 2.15.7
   languageName: unknown
@@ -19799,6 +19810,18 @@ __metadata:
   version: 6.0.0
   resolution: "varint@npm:6.0.0"
   checksum: 7684113c9d497c01e40396e50169c502eb2176203219b96e1c5ac965a3e15b4892bd22b7e48d87148e10fffe638130516b6dbeedd0efde2b2d0395aa1772eea7
+  languageName: node
+  linkType: hard
+
+"vaul@npm:^1.1.2":
+  version: 1.1.2
+  resolution: "vaul@npm:1.1.2"
+  dependencies:
+    "@radix-ui/react-dialog": ^1.1.1
+  peerDependencies:
+    react: ^16.8 || ^17.0 || ^18.0 || ^19.0.0 || ^19.0.0-rc
+    react-dom: ^16.8 || ^17.0 || ^18.0 || ^19.0.0 || ^19.0.0-rc
+  checksum: e8f72775f066318daab44701e77c88c99f2b179f196093a32a57cf91e39b1fc3258e608c92359eee39ce47604298c1da68db1d11e19cb485507c28138d9f27ea
   languageName: node
   linkType: hard
 

@@ -55,10 +55,7 @@ export const NFTCertificatesSection: React.FC = () => (
               <p className="text-slate-400 text-sm">Compatible with major NFT marketplaces for trading and showcase.</p>
             </div>
           </div>
-          <Button
-            size="lg"
-            className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700"
-          >
+          <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700">
             <Gem className="mr-2 w-5 h-5" />
             Mint NFT Certificate
           </Button>
