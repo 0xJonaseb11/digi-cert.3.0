@@ -1,58 +1,93 @@
 "use client";
 
 import * as React from "react";
-import { cn } from "./utils";
-import { OTPInput, OTPInputContext } from "input-otp";
+import { cn } from "../../utils/scaffold-eth/common";
 import { MinusIcon } from "lucide-react";
 
 function InputOTP({
   className,
   containerClassName,
+  length = 6,
+  value,
+  onChange,
   ...props
-}: React.ComponentProps<typeof OTPInput> & {
+}: React.ComponentProps<"div"> & {
   containerClassName?: string;
+  length?: number;
+  value?: string;
+  onChange?: (value: string) => void;
 }) {
+  const [otp, setOtp] = React.useState<string[]>(new Array(length).fill(""));
+  const inputRefs = React.useRef<(HTMLInputElement | null)[]>([]);
+
+  React.useEffect(() => {
+    if (value) {
+      setOtp(value.split("").slice(0, length));
+    }
+  }, [value, length]);
+
+  const handleChange = (index: number, value: string) => {
+    const newOtp = [...otp];
+    newOtp[index] = value;
+    setOtp(newOtp);
+    onChange?.(newOtp.join(""));
+
+    if (value && index < length - 1) {
+      inputRefs.current[index + 1]?.focus();
+    }
+  };
+
+  const handleKeyDown = (index: number, e: React.KeyboardEvent<HTMLInputElement>) => {
+    if (e.key === "Backspace" && !otp[index] && index > 0) {
+      inputRefs.current[index - 1]?.focus();
+    }
+  };
+
   return (
-    <OTPInput
-      data-slot="input-otp"
-      containerClassName={cn("flex items-center gap-2 has-disabled:opacity-50", containerClassName)}
-      className={cn("disabled:cursor-not-allowed", className)}
-      {...props}
-    />
+    <div data-slot="input-otp" className={cn("flex items-center gap-2", containerClassName)} {...props}>
+      {otp.map((digit, index) => (
+        <input
+          key={index}
+          ref={el => {
+            inputRefs.current[index] = el;
+          }}
+          type="text"
+          maxLength={1}
+          value={digit}
+          onChange={e => handleChange(index, e.target.value)}
+          onKeyDown={e => handleKeyDown(index, e)}
+          aria-label={`OTP digit ${index + 1}`}
+          placeholder="•"
+          className={cn(
+            "h-9 w-9 text-center border border-input bg-background text-sm transition-all outline-none focus:ring-2 focus:ring-ring focus:border-ring",
+            index === 0 ? "rounded-l-md" : "",
+            index === length - 1 ? "rounded-r-md" : "",
+            className,
+          )}
+        />
+      ))}
+    </div>
   );
 }
 
-function InputOTPGroup({ className, ...props }: React.ComponentProps<"div">) {
-  return <div data-slot="input-otp-group" className={cn("flex items-center gap-1", className)} {...props} />;
+function InputOTPGroup({ className, children, ...props }: React.ComponentProps<"div">) {
+  return (
+    <div data-slot="input-otp-group" className={cn("flex items-center gap-1", className)} {...props}>
+      {children}
+    </div>
+  );
 }
 
-function InputOTPSlot({
-  index,
-  className,
-  ...props
-}: React.ComponentProps<"div"> & {
-  index: number;
-}) {
-  const inputOTPContext = React.useContext(OTPInputContext);
-  const { char, hasFakeCaret, isActive } = inputOTPContext?.slots[index] ?? {};
-
+function InputOTPSlot({ className, ...props }: React.ComponentProps<"div">) {
   return (
     <div
       data-slot="input-otp-slot"
-      data-active={isActive}
       className={cn(
-        "data-[active=true]:border-ring data-[active=true]:ring-ring/50 data-[active=true]:aria-invalid:ring-destructive/20 dark:data-[active=true]:aria-invalid:ring-destructive/40 aria-invalid:border-destructive data-[active=true]:aria-invalid:border-destructive dark:bg-input/30 border-input relative flex h-9 w-9 items-center justify-center border-y border-r text-sm bg-input-background transition-all outline-none first:rounded-l-md first:border-l last:rounded-r-md data-[active=true]:z-10 data-[active=true]:ring-[3px]",
+        "relative flex h-9 w-9 items-center justify-center border border-input bg-background text-sm transition-all outline-none focus:ring-2 focus:ring-ring focus:border-ring",
         className,
       )}
       {...props}
-    >
-      {char}
-      {hasFakeCaret && (
-        <div className="pointer-events-none absolute inset-0 flex items-center justify-center">
-          <div className="animate-caret-blink bg-foreground h-4 w-px duration-1000" />
-        </div>
-      )}
-    </div>
+    />
   );
 }
 

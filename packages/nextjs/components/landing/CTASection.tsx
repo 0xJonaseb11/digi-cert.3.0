@@ -13,7 +13,7 @@ export const CTASection: React.FC = () => (
       </p>
       <div className="flex flex-col sm:flex-row gap-4 justify-center items-center mb-8">
         <ConnectWalletButton />
-        <Button size="lg" className="bg-white text-blue-600 hover:bg-gray-100">
+        <Button className="bg-white text-blue-600 hover:bg-gray-100 px-6 py-3 text-lg font-semibold">
           <QrCode className="mr-2 w-5 h-5" />
           Verify Certificate
         </Button>

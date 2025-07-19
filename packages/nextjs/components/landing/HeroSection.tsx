@@ -26,7 +26,7 @@ export const HeroSection: React.FC = () => (
           </p>
           <div className="flex flex-col sm:flex-row gap-4 mb-12">
             <ConnectWalletButton />
-            <Button size="lg" variant="outline" className="border-slate-300">
+            <Button variant="outline" className="border-slate-300">
               <QrCode className="mr-2 w-5 h-5" />
               Verify Certificate
             </Button>

@@ -1,9 +1,8 @@
 import * as React from "react";
 import { cn } from "../../utils/scaffold-eth/common";
 
-export interface BadgeProps extends React.HTMLAttributes<HTMLDivElement> {}
-
-const Badge = React.forwardRef<HTMLDivElement, BadgeProps>(({ className, ...props }, ref) => (
+// BadgeProps extends HTMLDivElement attributes
+const Badge = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivElement>>(({ className, ...props }, ref) => (
   <div
     ref={ref}
     className={cn(
